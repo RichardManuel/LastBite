@@ -101,7 +101,7 @@
 <div class="container form-section">
     <h1 class="text-center mb-5">Restaurant Profile</h1>
 
-    <form action="{{ route('resto.resto.profile.update') }}" method="POST" enctype="multipart/form-data">
+    <form action="{{ route('resto.profile.update') }}" method="POST" enctype="multipart/form-data">
         @csrf
         @method('PUT')
 

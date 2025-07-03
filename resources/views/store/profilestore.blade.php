@@ -171,7 +171,7 @@
     <nav class="navbar navbar-expand-sm navbar-custom">
         <div class="container">
             <a class="navbar-brand" href="{{ url('/') }}">
-                <img src="{{ asset('img/lastbite_logo_eatery_navbar.png') }}" alt="LastBite Logo">
+                <img src="{{ asset('img/logo lastbite putih 1.png') }}" alt="LastBite Logo">
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavMain" aria-controls="navbarNavMain" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
@@ -279,7 +279,7 @@
 
                     <div class="text-end mt-4">
                         @if(Auth::guard('resto')->check())
-                            <a href="{{ route('resto.resto.profile.edit') }}" class="btn btn-edit-custom">
+                            <a href="{{ route('resto.profile.edit') }}" class="btn btn-edit-custom">
                                 <i class="bi bi-pencil-square"></i> Edit
                             </a>
                         @endif

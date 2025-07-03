@@ -243,7 +243,7 @@
     <nav class="navbar navbar-expand-sm navbar-eatery"> 
         <div class="container">
             <a class="navbar-brand" href="/">
-                <img src="img/logo lastbite putih 1.png" alt="LastBite Logo"> 
+                <img src="{{ asset('img/logo lastbite putih 1.png') }}" alt="LastBite Logo"> 
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavEatery" aria-controls="navbarNavEatery" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
@@ -266,7 +266,7 @@
 
     <div class="register-full-page-layout">
         <div class="register-image-column">
-            <img src="img/signin store.png" alt="Sign In Illustration" class="illustration"> 
+            <img src="{{ asset('img/signin store.png') }}" alt="Sign In Illustration" class="illustration"> 
         </div>
         <div class="register-form-column">
             <div class="register-form-wrapper">
@@ -278,7 +278,7 @@
                     we’re ready to support your culinary journey.
                 </p>
 
-                <form action="{{-- url('/login') --}}" method="POST"> 
+                <form action="{{-- url('/store/signin') --}}" method="POST"> 
                     @csrf
                     <div class="mb-3">
                         <input type="email" class="form-control" name="email" id="email" placeholder="Email" required value="{{ old('email') }}">

@@ -20,7 +20,7 @@ class RoleMiddleware // Pastikan nama class ini
         // 1. Cek apakah user sudah login. Jika belum, biarkan middleware 'auth' yang menangani
         //    atau arahkan ke halaman login.
         if (!Auth::check()) {
-            return redirect()->route('login'); // Pastikan route 'login' sudah ada
+            return redirect()->route('/store/signin'); // Pastikan route 'login' sudah ada
         }
 
         $user = Auth::user(); // Dapatkan user yang sedang login

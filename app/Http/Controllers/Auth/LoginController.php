@@ -67,11 +67,14 @@ class LoginController extends Controller
     /**
      * Menangani permintaan logout untuk Resto.
      */
-    public function restoLogout(Request $request) // Akan dipanggil oleh route POST /store/logout
+   public function restoLogout(Request $request)
     {
         Auth::guard('resto')->logout();
         $request->session()->invalidate();
         $request->session()->regenerateToken();
-        return redirect('/store/signin'); // Arahkan ke halaman login resto
+
+        return redirect('/store/signin');
+
     }
+
 }
