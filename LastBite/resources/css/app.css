@@ -1,0 +1,26 @@
+body{
+    scrollbar-width: hidden; /* Firefox */
+    -ms-overflow-style: none; /* Internet Explorer and Edge */
+}
+
+h2.text-warning {
+    font-family: 'Playfair Display', serif;
+    font-weight: bold;
+}
+
+.btn-warning {
+    background-color: #ffc107;
+    border: none;
+    color: #000;
+}
+
+.btn-success {
+    background-color: #2d6a4f;
+    border: none;
+}
+
+footer {
+    background-color: #2d6a4f;
+    color: white;
+    padding: 2rem 0;
+}

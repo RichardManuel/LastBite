@@ -1,0 +1,301 @@
+:root {
+    --primary-green: #327959; /* Digunakan juga oleh bg-success Bootstrap, tapi bisa di-override jika perlu */
+    --light-green-bg: #F7FFF9;
+    --text-orange: #F39C12;
+    --progress-active-color: #327959;
+    --progress-inactive-color: #e0e0e0;
+    --progress-inactive-text-color: #000000;
+    -progress-inactive-bg: #ffffff; /* Warna latar belakang untuk langkah yang tidak aktif */
+    /* --footer-bg: #2c5b3c;  Mungkin tidak terpakai jika footer layout baru digunakan */
+}
+
+
+html, body {
+    font-family: "Instrument Sans", sans-serif;
+    background-color: #f0f2f5;
+    overflow: auto;
+    scrollbar-width: none; /* Firefox */
+}
+
+html::-webkit-scrollbar,
+body::-webkit-scrollbar {
+    display: none; /* Chrome, Safari, Opera */
+}
+
+
+/* Main Content Area (checkout-container dan isinya HARUS TETAP ADA) */
+.checkout-container {
+    background-color: white;
+    margin-top: 30px;
+    margin-bottom: 30px;
+    padding: 20px 30px 40px 30px;
+    border: 3px solid var(--border-blue);
+    border-radius: 8px;
+}
+
+/* Checkout Progress */
+.checkout-progress-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 40px;
+    position: relative;
+    padding: 0 20%;
+    z-index: 2;
+}
+    .checkout-progress-bar::before {
+        content: '';
+        position: absolute;
+        top: 17px;
+        height: 2px;
+        background-color: var(--progress-inactive-color);
+        z-index: 2;
+        left: calc(25% + 17.5px); /* Mulai dari kanan circle step 1 (25% adalah pusat, 17.5px setengah lebar circle) */
+        width: calc(50% - 25% - 35px);
+    }
+
+    .checkout-progress-bar::after {
+        content: '';
+        position: absolute;
+        top: 17px;
+        height: 2px;
+        background-color: var(--progress-inactive-color);
+        z-index: 2;
+        right: calc(25% + 17.5px); /* Mulai dari kanan circle step 1 (25% adalah pusat, 17.5px setengah lebar circle) */
+        width: calc(50% - 25% - 35px);
+    }
+
+.checkout-progress-bar .step {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    position: relative;
+    background-color: white;
+    padding: 0 10px;
+    z-index: 3;
+}
+.checkout-progress-bar .step .circle {
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    background-color: var(--progress-inactive-bg);
+    color: var(--progress-inactive-text-color);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 500;
+    margin-bottom: 8px;
+    border: 2px solid var(--progress-inactive-color);
+}
+.checkout-progress-bar .step.active .circle {
+    background-color: white;
+    border-color: var(--progress-active-color);
+    color: black;
+    font-weight: 500;
+}
+.checkout-progress-bar .step .label {
+    font-size: 0.9em;
+    color: #555;
+}
+.checkout-progress-bar .step.active .label {
+    color: var(--progress-active-color);
+    font-weight: bold;
+}
+
+/* Checkout Title ("Checkout") */
+.checkout-title-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 30px;
+}
+.checkout-title-container hr {
+    flex-grow: 1;
+    border: none;
+    border-top: 2px solid var(--text-orange);
+    margin: 0 15px;
+}
+.checkout-title-text {
+    font-size: 3.125em;
+    font-weight: normal;
+    color: var(--text-orange);
+    font-family: Instrument Serif, serif;
+    white-space: nowrap;
+}
+
+.row{
+    justify-content: center;
+}
+
+/* Reserved Information Section */
+.reserved-info-title {
+    font-size: 2.813em;
+    font-weight: normal;
+    color: var(--text-orange);
+    margin-bottom: 25px;
+    font-family: instrument serif, serif;
+    justify-content: center;
+    margin-left: 7vw;
+    margin-right: 7vw;
+
+}
+.checkout-form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    justify-content: center;
+}
+.eatery-detail{
+    display: block;
+    margin-left: 1em;
+    margin-right: 1em;
+}
+/* Eatery Detail Card */
+.eatery-detail-card {
+    background-color: var(--light-green-bg);
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    height: 100%;
+    /* margin: 1vw; */
+}
+.eatery-detail-card h3 {
+    font-family: instrument serif, serif;
+    font-size: 2.813em;
+    font-weight: normal;
+    color: var(--primary-green); /* Bisa gunakan var(--bs-success) jika Bootstrap mendefinisikannya */
+}
+.eatery-detail-card h4 {
+    font-size: 1.3em;
+    font-weight: bold;
+    color: #333;
+    margin-top: 1em;
+    margin-bottom: 5px;
+}
+.eatery-detail-card p {
+    font-size: 0.95em;
+    color: #555;
+    margin-bottom: 10px;
+}
+.eatery-detail-card .pick-up-time strong {
+    display: block;
+    font-size: 1.1em;
+    color: #333;
+    margin-bottom: 5px;
+}
+.eatery-detail-card .phone-info {
+    display: flex;
+    align-items: center;
+    font-size: 0.95em;
+    color: #555;
+    margin-top: 15px;
+}
+.eatery-detail-card .phone-info i { /* Sesuaikan ikon jika perlu */
+    margin-right: 8px;
+    color: var(--primary-green);
+}
+.btn-show-location {
+    background-color: var(--text-orange);
+    border-color: var(--text-orange);
+    color: white;
+    font-weight: bold;
+    padding: 10px 20px;
+    width: 70%;
+}
+.btn-show-location:hover {
+    background-color: #e08e0b;
+    border-color: #e08e0b;
+    color: white;
+}
+
+.user-info-section h3 {
+    font-size: 2.188em;
+    font-weight: normal;
+    color: var(--primary-green);
+    margin-bottom: 20px;
+    font-family: instrument serif, serif;
+    position: relative; /* diperlukan agar ::after bisa ditempatkan relatif terhadap h3 */
+}
+
+.user-info-section h3::after {
+    content: '';
+    position: absolute;
+    top: 100%; /* di bawah teks */
+    left: 0%;
+    right: 0%;
+    height: 2px;
+    background-color: var(--progress-inactive-color);
+    display: block; /* memastikan tampil */
+}
+
+.user-info-section .info-item {
+    margin-bottom: 15px;
+}
+.user-info-section .info-item strong {
+       display: inline-block; /* Agar width bisa diterapkan dan tetap sebaris */
+        color: #777;
+        font-size: 0.9em;
+        /* margin-bottom: 3px; */ /* Mungkin tidak diperlukan jika sebaris */
+        width: 70px; /* Sesuaikan lebar ini agar cukup untuk "Pick up " */
+        vertical-align: top; /* Untuk alignment vertikal jika font size berbeda */
+        margin-right: 10px; /* Opsional: jarak antara label dan nilai */
+        text-wrap: nowrap;
+}
+
+.user-info-section .info-item .custom-text{
+    color: var(--primary-green);
+    font-size: 20px;
+    font-weight: normal;
+}
+.custom-text {
+    color: #1F7054;
+    font-weight: 600;
+    font-size: 16px;
+    font-family: 'Roboto', sans-serif;
+}
+
+.btn-pickup {
+    padding: 8px 20px;
+    border-radius: 999px;
+    font-weight: bold;
+    color: white;
+    background-color: var(--text-orange);
+    border: none;
+}
+
+.btn-check:not(:checked) + .btn-pickup {
+    background-color: #dcdcdc;
+    color: white;
+}
+
+.btn-check:checked + .btn-pickup {
+    background-color: var(--text-orange);
+    color: white;
+}
+
+
+.user-info-section .info-item span {
+    display: inline-block;
+    margin-left: 1em;
+    font-size: 1em;
+    color: #333;
+    font-weight: 500;
+}
+.user-info-section textarea.form-control {
+    min-height: 100px;
+    border-color: var(--text-orange);
+}
+.btn-confirm {
+    background-color: var(--primary-green); /* Bisa gunakan var(--bs-success) */
+    border-color: var(--primary-green); /* Bisa gunakan var(--bs-success) */
+    color: white;
+    font-weight: bold;
+    padding: 12px 20px;
+    font-size: 1.1em;
+}
+.btn-confirm:hover {
+    background-color: #2c5b3c; /* Warna hover yang lebih gelap */
+    border-color: #2c5b3c;
+    color: white;
+}
