@@ -4,7 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Forgot Password - LastBite</title>
-    <link href="{{ asset('bootstrap-5.3.6-dist/css/bootstrap.min.css') }}" rel="stylesheet">
+    {{-- <link href="{{ asset('bootstrap-5.3.6-dist/css/bootstrap.min.css') }}" rel="stylesheet"> --}}
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+
     <style>
         :root {
             --brand-green: #3A6B50;
@@ -145,14 +147,24 @@
             <p class="sub-heading">
                 Please kindly set your new password.
             </p>
-
-            <form action="{{-- url('/forgot-password') --}}" method="POST">
+            @if ($errors->any())
+                <div class="alert alert-danger">
+                    <ul class="mb-0">
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
+            <form action="{{ route('password.update') }}" method="POST">
                 @csrf
+                <input type="hidden" name="token" value="{{ $token }}">
+                <input type="hidden" name="email" value="{{ $email }}">
                 <div class="mb-3">
-                    <input type="new" class="form-control" name="New Password" id="email" placeholder="New Password" required value="{{ old('email') }}">
+                    <input type="password" class="form-control" name="password" id="password" placeholder="New Password" required>
                 </div>
                 <div class="mb-3">
-                    <input type="confirm" class="form-control" name="Confirm Password" id="email" placeholder="Confirm Password" required value="{{ old('email') }}">
+                    <input type="password" class="form-control" name="password_confirmation" id="password_confirmation" placeholder="Confirm Password" required>
                 </div>
                 <button type="submit" class="btn btn-reset-custom w-100">Reset Password</button>
             </form>

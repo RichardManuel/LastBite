@@ -33,7 +33,8 @@ class RegisterController extends Controller
             'city' => $request->city,
             'phone' => $request->phone,
             'password' => Hash::make($request->password),
-            'notes'=>null,
+            'notes'=>'No Description yet... :(',
+            'roles'=>'user',
         ]);
 
         return redirect('/login')->with('success', 'Account created successfully!');

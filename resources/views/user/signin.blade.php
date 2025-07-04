@@ -247,28 +247,12 @@
                     <div class="form-check mb-4 text-end">
                         
                         <label class="form-check-label" for="terms">
-                            Forgot password? 
+                            <a href="{{route('password.request')}}">Forgot password?</a> 
                         
                     </div>
                     <button type="submit" class="btn btn-submit-custom w-100">Let's start!</button>
                 </form>
 
-                <div class="social-divider">Or register with</div>
-
-                <div class="row g-2">
-                    <div class="col">
-                        <a href="{{-- url('/auth/google') --}}#" class="btn btn-social w-100">
-                            <img src="https://upload.wikimedia.org/wikipedia/commons/c/c1/Google_%22G%22_logo.svg" alt="Google logo">
-                            Google
-                        </a>
-                    </div>
-                    <div class="col">
-                        <a href="{{-- url('/auth/facebook') --}}#" class="btn btn-social w-100">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="#1877F2"><path d="M22.676 0H1.324C.593 0 0 .593 0 1.324v21.352C0 23.407.593 24 1.324 24h11.494v-9.294H9.689v-3.621h3.129V8.41c0-3.1 1.893-4.785 4.659-4.785 1.325 0 2.463.099 2.795.142v3.24h-1.918c-1.504 0-1.795.715-1.795 1.763v2.309h3.587l-.467 3.622h-3.12V24h6.116c.73 0 1.323-.593 1.323-1.324V1.324C24 .593 23.407 0 22.676 0z"/></svg>
-                            Facebook
-                        </a>
-                    </div>
-                </div>
             </div>
         </div>
     </div>

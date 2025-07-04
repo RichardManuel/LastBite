@@ -221,7 +221,7 @@
             <div class="register-form-wrapper">
                 <h1>Create an account</h1>
                 <p class="sub-heading">
-                    Already have an account? <a href="{{route('login.form')}}">Sign in</a>
+                    Already have an account? <a href="{{route('login')}}">Sign in</a>
                 </p>
 
                 @if ($errors->any())
