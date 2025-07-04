@@ -1,77 +1,53 @@
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    {{-- Judul halaman akan dinamis --}}
-    <title>@yield('title') | Last Bite</title>
-    
-    <!-- Bootstrap CSS CDN -->
+    <title>@yield('title', 'Last Bite')</title> {{-- Menambahkan title dinamis --}}
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:ital,wght@0,400..700;1,400..700&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+     {{-- ... meta tags, title, link ke app.css, Bootstrap, dll. ... --}}
+    <link rel="stylesheet" href="{{ asset('css/layout.css') }}"> {{-- CSS global --}}
 
-    <!-- Google Fonts (tetap sama) -->
+    @stack('styles') {{-- Tempat CSS spesifik halaman dimasukkan --}}
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:ital,wght@0,400..700;1,400..700&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:ital,wght@0,400..700;1,400..700&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" integrity="sha512-..." crossorigin="anonymous" referrerpolicy="no-referrer" />
 
 
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    
-    <!-- Custom Styles (menggunakan helper asset()) -->
-    <link rel="stylesheet" href="{{ asset('css/style.css') }}">
-    <!-- <link rel="stylesheet" href="{{ asset('css/styledetail.css') }}"> -->
-
-    {{-- Untuk CSS spesifik per halaman (opsional) --}}
-    @stack('styles')
 </head>
 <body>
 
-    <!-- Header / Navbar -->
-    <nav class="navbar navbar-expand-lg navbar-dark shadow-sm py-3 navbar-custom
-        @if(Route::is('home.index'))
-            navbar-transparent
-        @else
-            bg-custom-green
-        @endif
-    ">
-        <div class="container">
-            <!-- Left Nav Items -->
-            <div class="navbar-nav me-auto">
-                {{-- Gunakan helper url() atau route() untuk link --}}
-                <a class="nav-link" href="{{ route('home.index') }}">Home</a>
-                <a class="nav-link mx-lg-3 mx-2" href="{{ route('user.eatery') }}">Eatery</a>
-                <a class="nav-link" href="{{ url('/order') }}">Order</a>
-            </div>
-
-            <!-- Center Section: Logo -->
-            <a class="navbar-brand mx-auto" href="{{ route('home.index') }}">
-                {{-- Gunakan helper asset() untuk gambar --}}
-                <img src="{{ asset('images/LastBite.png') }}" alt="LastBite Logo">
-            </a>
-
-            <!-- Right Section: Auth Links -->
-            <div class="navbar-nav ms-auto">
-                <a class="nav-link me-2 me-sm-3" href="#">Login</a>
-                <a href="#" class="btn btn-sm btn-signup rounded-md fw-medium text-nowrap">Restaurant Sign Up</a>
-            </div>
+    <!-- Navbar -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-custom-green shadow-sm py-3 navbar-custom">
+    <div class="container position-relative">
+        <!-- Left Nav Items -->
+        <div class="navbar-nav me-auto">
+            <a class="nav-link" href="#">Home</a>
+            <a class="nav-link mx-lg-3 mx-2" href="#">Eatery</a>
+            <a class="nav-link" href="#">Order</a>
         </div>
-    </nav>
 
-    {{-- "Slot" untuk konten utama dari setiap halaman --}}
-    <main>
-        @yield('content')
-    </main>
+        <!-- Center Logo -->
+        <a class="navbar-brand position-absolute start-50 translate-middle-x" href="/">
+            <img src="{{ asset('image/logo lastbite putih 1.svg') }}" alt="LastBite Logo">
+        </a>
 
-    <!-- Footer -->
-    <<footer class="footer-section text-white pt-5 pb-4">
+        <!-- Right Auth Links -->
+        <div class="navbar-nav ms-auto">
+            <img src="{{ asset('image/akun.svg') }}" alt="akun">
+        </div>
+    </div>
+</nav>
+
+
+    @yield('content') {{-- Konten utama halaman akan dimuat di sini --}}
+
+   <footer class="footer-section text-white pt-5 pb-4">
         <div class="container">
             <div class="row align-items-center mb-4">
                 <div class="col-lg-3 col-md-4 text-center text-md-start mb-3 mb-md-0">
-                    <img src="{{ asset('images/LastBite.png') }}" alt="LastBite Logo White" class="footer-logo-main img-fluid">
+                    <img src="{{ asset('image/logo lastbite putih 1.png') }}" alt="LastBite Logo"  class="footer-logo-main img-fluid">
                 </div>
 
               
@@ -114,50 +90,5 @@
             <div class="footer-logo-large-bg">LastBite.</div>
         </div>
     </footer>
-    {{-- ========================================================= --}}
-
-
-    <!-- Bootstrap JS Bundle -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
-    
-    <!-- Custom Script (menggunakan helper asset()) -->
-    <script src="{{ asset('js/script.js') }}"></script>
-
-    {{-- Untuk script spesifik per halaman (opsional) --}}
-    @stack('scripts')
-
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const clearSearchButton = document.getElementById('clearSearchButton');
-            const searchInput = document.getElementById('searchInput');
-
-            // Cek apakah tombol dan inputnya ada di halaman ini
-            if (clearSearchButton && searchInput) {
-                
-                // Hanya tampilkan tombol clear jika ada isinya
-                if (searchInput.value === '') {
-                    clearSearchButton.style.display = 'none';
-                }
-                searchInput.addEventListener('input', function() {
-                    clearSearchButton.style.display = this.value ? 'block' : 'none';
-                });
-
-                // Tambahkan event listener untuk klik
-                clearSearchButton.addEventListener('click', function(event) {
-                    // Mencegah perilaku default (reset) dari tombol
-                    event.preventDefault();
-
-                    // Buat objek URL dari alamat saat ini
-                    const currentUrl = new URL(window.location.href);
-
-                    // Hapus parameter 'query' dari URL
-                    currentUrl.searchParams.delete('query');
-                    
-                    // Arahkan browser ke URL baru yang sudah bersih
-                    window.location.href = currentUrl.toString();
-                });
-            }
-        });
-    </script>
 </body>
 </html>

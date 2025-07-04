@@ -1,17 +1,22 @@
 <?php
-
 use Illuminate\Support\Facades\Route;
-// Import controller yang benar di bagian atas
-use App\Http\Controllers\EateryController; 
-use App\Http\Controllers\HomeController;
+use App\Http\Controllers\StripeController;
+use App\Models\Customer;
+use App\Models\Store;
+use App\Models\Pickup;
 
-Route::get('/', [HomeController::class, 'index'])->name('home.index');
+Route::get('/checkout/reserved', function () {
+    $customer = Customer::first();
+    $store = Store::first();
+    $pickup = Pickup::first();
 
-// Route untuk halaman utama eatery
-Route::get('/eatery', [EateryController::class, 'showPage'])
-         ->name('user.eatery');
+    return view('checkout.reserved', compact('customer', 'store', 'pickup'));
+})->name('checkout.reserved');
 
-// Route BARU untuk halaman detail dengan parameter {restaurant}
-// Nama 'restaurant' harus sama dengan nama variabel di method controller
-Route::get('/eatery/{restaurant}', [EateryController::class, 'showDetail'])
-         ->name('eatery.detail');
+Route::post('/checkout/reserved', [StripeController::class, 'processReservedInfo'])->name('checkout.processReservedInfo');
+
+Route::get('/checkout/review', [StripeController::class, 'review'])->name('checkout.review');
+
+Route::post('/checkout/stripe', [StripeController::class, 'checkout'])->name('checkout.stripe');
+
+Route::get('/checkout/success', [StripeController::class, 'success'])->name('checkout.success');
