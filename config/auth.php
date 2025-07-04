@@ -13,9 +13,10 @@ return [
     |
     */
 
+    // config/auth.php
     'defaults' => [
-        'guard' => env('AUTH_GUARD', 'web'),
-        'passwords' => env('AUTH_PASSWORD_BROKER', 'users'),
+        'guard' => 'web', // Default guard tetap 'web' untuk user biasa (pelanggan)
+        'passwords' => 'users',
     ],
 
     /*
@@ -38,8 +39,13 @@ return [
     'guards' => [
         'web' => [
             'driver' => 'session',
-            'provider' => 'users',
+            'provider' => 'users', // Provider untuk user biasa (pelanggan)
         ],
+        'resto' => [ // GUARD BARU UNTUK RESTO
+            'driver' => 'session',
+            'provider' => 'restaurants', // Menggunakan provider 'restaurants'
+        ],
+        // ... (guard api jika ada)
     ],
 
     /*
@@ -60,15 +66,14 @@ return [
     */
 
     'providers' => [
-        'users' => [
+        'users' => [ // Provider untuk tabel 'users' (pelanggan)
             'driver' => 'eloquent',
-            'model' => env('AUTH_MODEL', App\Models\User::class),
+            'model' => App\Models\User::class,
         ],
-
-        // 'users' => [
-        //     'driver' => 'database',
-        //     'table' => 'users',
-        // ],
+        'restaurants' => [ // PROVIDER BARU UNTUK TABEL 'restaurants'
+            'driver' => 'eloquent',
+            'model' => App\Models\Restaurant::class, // Model yang digunakan adalah Restaurant
+        ],
     ],
 
     /*
@@ -91,9 +96,10 @@ return [
     */
 
     'passwords' => [
-        'users' => [
-            'provider' => 'users',
-            'table' => env('AUTH_PASSWORD_RESET_TOKEN_TABLE', 'password_reset_tokens'),
+        'users' => [ /* ... (konfigurasi reset password user biasa) ... */ ],
+        'restaurants' => [ // Jika resto punya fitur reset password sendiri
+            'provider' => 'restaurants',
+            'table' => 'password_reset_tokens', // Bisa pakai tabel yang sama atau beda
             'expire' => 60,
             'throttle' => 60,
         ],
@@ -104,7 +110,7 @@ return [
     | Password Confirmation Timeout
     |--------------------------------------------------------------------------
     |
-    | Here you may define the number of seconds before a password confirmation
+    | Here you may define the amount of seconds before a password confirmation
     | window expires and users are asked to re-enter their password via the
     | confirmation screen. By default, the timeout lasts for three hours.
     |
