@@ -5,9 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>User Profile - LastBite</title>
     <!-- Bootstrap CSS -->
-    <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous"> -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
     <!-- Bootstrap CSS (Lokal) -->
-    <link href="{{ asset('bootstrap-5.3.6-dist/css/bootstrap.min.css') }}" rel="stylesheet">
+    {{-- <link href="{{ asset('bootstrap-5.3.6-dist/css/bootstrap.min.css') }}" rel="stylesheet"> --}}
     <style>
         body {
             font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
@@ -133,23 +133,6 @@
 </head>
 <body class="bg-custom-beige text-custom-dark-text">
 
-    <!-- Navbar (dari kode Order yang sudah di-Bootstrap-kan) -->
-    <!-- <nav class="navbar navbar-expand-lg navbar-dark bg-custom-green shadow-sm py-3 navbar-custom">
-        <div class="container">
-            <div class="navbar-nav me-auto">
-                <a class="nav-link" href="#">Home</a>
-                <a class="nav-link mx-lg-3 mx-2" href="#">Eatery</a>
-                <a class="nav-link" href="#">Order</a>
-            </div>
-            <a class="navbar-brand mx-auto" href="/">
-                <img src="{{ asset('img/logo lastbite putih 1.png') }}" alt="LastBite Logo">
-            </a>
-            <div class="navbar-nav ms-auto">
-                <a class="nav-link me-2 me-sm-3" href="#">Login</a>
-                <a href="#" class="btn btn-sm btn-signup rounded-md fw-medium text-nowrap">Restaurant Sign Up</a>
-            </div>
-        </div>
-    </nav> -->
     @include('partials.navbar')
 
     <!-- Main Content -->
@@ -159,53 +142,68 @@
             <h1 class="display-5 display-md-4 font-serif-display text-dark ">Edit Profile.</h1>
         </div>
 
-        <div class="row g-md-5 g-4"> 
+        <form action="{{ route('profile.update') }}" method="POST" enctype="multipart/form-data">
+        @csrf
+        <div class="row g-md-5 g-4">
 
-            <!-- Left Column: Profile Image (Tidak Diubah) -->
-            <div class="col-md-3 d-flex flex-column align-items-center align-items-md-start"> 
+            <!-- Left Column: Profile Image & Upload -->
+            <div class="col-md-3 d-flex flex-column align-items-center align-items-md-start">
                 <div class="position-relative mb-3 profile-image">
-                    <img src="{{ asset('img/Rectangle 23.png') }}" alt="User Profile Image" class="rounded w-100 h-100 object-fit-cover border border-4 border-custom-green shadow-lg">
+                    @if($user->img_path)
+                    <img src="{{ asset('storage/uploads/' . ($user->img_path)) }}" 
+                        alt="User Profile Image" 
+                        class="rounded w-100 h-100 object-fit-cover border border-4 border-custom-green shadow-lg">
+                    @else
+                        <img src="{{ asset('img/defaultprofile.jpg') }}" alt="Default Profile Image" class="rounded w-100 h-100 object-fit-cover border border-4 border-custom-green shadow-lg">
+                    @endif
                 </div>
-                <button class="btn bg-custom-yellow-button text-dark px-3 py-2 rounded-md small fw-medium d-flex align-items-center">
+
+                <!-- Custom styled label that acts as upload button -->
+                <label class="btn bg-custom-yellow-button text-dark px-3 py-2 rounded-md small fw-medium d-flex align-items-center" for="img_path">
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-image me-2" viewBox="0 0 16 16">
                         <path d="M6.002 5.5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0z"/>
                         <path d="M2.002 1a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V3a2 2 0 0 0-2-2h-12zm12 1a1 1 0 0 1 1 1v6.5l-3.777-1.947a.5.5 0 0 0-.577.093l-3.71 3.71-2.66-1.772a.5.5 0 0 0-.63.062L1.002 12V3a1 1 0 0 1 1-1h12z"/>
                     </svg>
                     <span>Change Profile Image</span>
-                </button>
+                </label>
+                <input type="file" name="img_path" id="img_path" class="form-control d-none">
             </div>
 
-            <!-- Right Column: Edit User Details Form -->
+            <!-- Right Column: Edit User Details -->
             <div class="col-md-7"> 
-                <form>
-                    <div class="mb-3">
-                        <label for="name" class="form-label text-custom-dark-text fw-medium">Name</label>
-                        <input type="text" class="form-control form-control-lg" id="name" value="Iven Marchellia">
+                <div class="mb-3">
+                    <label for="name" class="form-label fw-medium">Name</label>
+                    <input type="text" class="form-control form-control-lg" name="name" id="name" value="{{ old('name', $user->name) }}">
+                </div>
+
+                <div class="mb-3">
+                    <label for="email" class="form-label fw-medium">Email</label>
+                    <input type="email" class="form-control form-control-lg" name="email" id="email" value="{{ old('email', $user->email) }}">
+                </div>
+
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <label for="city" class="form-label fw-medium">City</label>
+                        <input type="text" class="form-control form-control-lg" name="city" id="city" value="{{ old('city', $user->city) }}">
                     </div>
-                    <div class="mb-3">
-                        <label for="email" class="form-label text-custom-dark-text fw-medium">Email</label>
-                        <input type="email" class="form-control form-control-lg" id="email" value="ivencantikbingtsszz21@gmail.com">
+                    <div class="col-md-6">
+                        <label for="phone" class="form-label fw-medium">Phone</label>
+                        <input type="tel" class="form-control form-control-lg" name="phone" id="phone" value="{{ old('phone', $user->phone) }}">
                     </div>
-                    <div class="row mb-3">
-                        <div class="col-md-6">
-                            <label for="city" class="form-label text-custom-dark-text fw-medium">City</label>
-                            <input type="text" class="form-control form-control-lg" id="city" value="Bogor">
-                        </div>
-                        <div class="col-md-6">
-                            <label for="phone" class="form-label text-custom-dark-text fw-medium">Phone</label>
-                            <input type="tel" class="form-control form-control-lg" id="phone" value="0898234778111">
-                        </div>
-                    </div>
-                    <div class="mb-4"> 
-                        <label for="notes" class="form-label text-custom-dark-text fw-medium">Notes</label>
-                        <textarea class="form-control form-control-lg" id="notes" rows="3">Always smile :) even though webprog attacks</textarea>
-                    </div>
-                    <div class="d-flex justify-content-end">
-                        <button type="submit" class="btn bg-custom-green text-white px-4 py-2">Save</button>
-                    </div>
-                </form>
+                </div>
+
+                <div class="mb-4">
+                    <label for="notes" class="form-label fw-medium">Notes</label>
+                    <textarea class="form-control form-control-lg" name="notes" id="notes" rows="3">{{ old('notes', $user->notes) }}</textarea>
+                </div>
+
+                <div class="d-flex justify-content-end">
+                    <button type="submit" class="btn bg-custom-green text-white px-4 py-2">Save</button>
+                </div>
             </div>
         </div>
+    </form>
+
     </main>
 
     <!-- Footer Placeholder (dari kode Order yang sudah di-Bootstrap-kan) -->
@@ -251,8 +249,16 @@
             </div>
         </div>
     </footer>
-    <!-- Bootstrap Bundle cdn -->
-    <!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script> -->
     <script src="{{ asset('bootstrap-5.3.6-dist/js/bootstrap.bundle.min.js') }}"></script>
+    <script>
+        document.getElementById('img_path').addEventListener('change', function (e) {
+            const [file] = e.target.files;
+            if (file) {
+                const img = document.querySelector('.profile-image img');
+                img.src = URL.createObjectURL(file);
+            }
+        });
+    </script>
+
 </body>
 </html>

@@ -4,7 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Create an Account - LastBite</title>
-    <link href="{{ asset('bootstrap-5.3.6-dist/css/bootstrap.min.css') }}" rel="stylesheet">
+    {{-- <link href="{{ asset('bootstrap-5.3.6-dist/css/bootstrap.min.css') }}" rel="stylesheet"> --}}
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+
     <style>
         :root {
             --brand-green: #3A6B50;
@@ -219,10 +221,20 @@
             <div class="register-form-wrapper">
                 <h1>Create an account</h1>
                 <p class="sub-heading">
-                    Don't have an account? <a href="{{-- url('/login') --}}#">Sign in</a>
+                    Already have an account? <a href="{{route('login')}}">Sign in</a>
                 </p>
 
-                <form action="{{-- url('/register') --}}" method="POST">
+                @if ($errors->any())
+                    <div class="alert alert-danger">
+                        <ul class="mb-0">
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif
+
+                <form action="{{ route('register.submit') }}" method="POST">
                     @csrf
                     <div class="mb-3">
                         <input type="text" class="form-control" name="name" id="name" placeholder="Name" required value="{{ old('name') }}">
@@ -245,11 +257,12 @@
                         <input type="password" class="form-control" name="password_confirmation" id="confirm_password" placeholder="Confirm password" required>
                     </div>
                     <div class="form-check mb-4">
-                        <input class="form-check-input" type="checkbox" name="terms" value="agree" id="terms" required>
+                        <input class="form-check-input" type="checkbox" name="terms" value="1" id="terms">
                         <label class="form-check-label" for="terms">
-                            I agree to the <a href="#">Term & Conditions</a>
+                            I agree to the <a href="#">Terms & Conditions</a>
                         </label>
                     </div>
+
                     <button type="submit" class="btn btn-submit-custom w-100">Let's start!</button>
                 </form>
 
@@ -273,6 +286,6 @@
         </div>
     </div>
 
-    <script src="{{ asset('bootstrap-5.3.6-dist/js/bootstrap.bundle.min.js') }}"></script>
+    {{-- <script src="{{ asset('bootstrap-5.3.6-dist/js/bootstrap.bundle.min.js') }}"></script> --}}
 </body>
 </html>

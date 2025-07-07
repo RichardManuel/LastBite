@@ -1,0 +1,69 @@
+body {
+    font-family: 'Segoe UI', sans-serif;
+}
+
+/* Already existing: */
+.stock-form-group {
+    display: flex;
+    align-items: center;
+    margin-bottom: 1rem;
+    gap: 0.5rem;
+}
+
+/* ✅ Modify the label to remove bold and fix width for alignment */
+.stock-form-group label {
+    font-weight: normal; /* <- make it not bold */
+    margin: 0;
+    white-space: nowrap;
+    min-width: 180px; /* same width ensures alignment */
+}
+
+.stock-form-group input {
+    width: 50px;
+    border-radius: 50px;
+    margin-right: 1vw;
+}
+
+.stock-form-group button {
+    width: 6vw;
+    font-size: 1vw;
+    padding: 1px 2px;
+    border-color: #3e3e3e;
+}
+
+.bg-cream {
+    background-color: #F9F1E4; /* Light cream */
+}
+
+.custom-tab-bar {
+    display: flex;
+    border: 2px solid #3e3e3e;
+    border-radius: 12px;
+    background-color: #f9f1e4;
+    gap: 0; /* remove spacing between buttons */
+    overflow: hidden;
+}
+
+.custom-tab-bar .nav-link {
+    background-color: #f9f1e4;
+    color: #3e3e3e;
+    font-weight: 700;
+    text-transform: capitalize;
+    border: none;
+    border-radius: 0;
+    padding: 0.3vh 1.8vh;
+    transition: background-color 0.2s ease, color 0.2s ease;
+    outline: none;
+}
+
+.custom-tab-bar .nav-link.active {
+    background-color: #f3c148;
+    color: white;
+    border-radius: 10px;
+    border: 1px solid #3e3e3e;
+
+}
+
+.custom-tab-bar .nav-link:focus {
+    box-shadow: none;
+}

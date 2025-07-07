@@ -11,12 +11,18 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('orders', function (Blueprint $table) {
-            $table->id('OrderID');
+        Schema::create('order_histories', function (Blueprint $table) {
+            $table->id('HistoryID');
+
             $table->foreignId('UserID')->constrained('users');
+
             $table->foreignId('RestaurantID')
                 ->constrained('restaurants', 'RestaurantID')
-                ->onDelete('cascade'); // Optional: cascading deletes
+                ->onDelete('cascade');
+
+            $table->foreignId('OrderID')
+                ->constrained('orders', 'OrderID')
+                ->onDelete('cascade');
 
             $table->string('ItemName');
             $table->decimal('ItemPrice', 10, 2);
@@ -34,6 +40,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('orders');
+        Schema::dropIfExists('order_histories');
     }
 };

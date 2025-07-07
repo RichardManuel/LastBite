@@ -1,41 +1,29 @@
 <?php
 
-namespace App\Http\Middleware; // Pastikan namespace ini
+namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth; // Untuk mengakses informasi user yang login
+use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpFoundation\Response;
 
-class RoleMiddleware // Pastikan nama class ini
+class RoleMiddleware
 {
     /**
      * Handle an incoming request.
      *
      * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
-     * @param  string  ...$roles  // Ini akan menangkap argumen setelah tanda ':' (misal, 'resto')
      */
-    public function handle(Request $request, Closure $next, ...$roles): Response
+    public function handle(Request $request, Closure $next, string $roles)
     {
-        // 1. Cek apakah user sudah login. Jika belum, biarkan middleware 'auth' yang menangani
-        //    atau arahkan ke halaman login.
         if (!Auth::check()) {
-            return redirect()->route('/store/signin'); // Pastikan route 'login' sudah ada
+            return redirect()->route('login.form');
         }
 
-        $user = Auth::user(); // Dapatkan user yang sedang login
-
-        // 2. Cek apakah user memiliki salah satu peran yang diizinkan
-        foreach ($roles as $role) {
-            // Asumsi: Model User Anda memiliki atribut/kolom bernama 'role'
-            // dan nilainya adalah string seperti 'user', 'resto', 'admin'
-            if (isset($user->role) && $user->role == $role) {
-                return $next($request); // Jika peran cocok, lanjutkan request
-            }
+        if (Auth::user()->roles !== $roles) {
+            abort(403, 'Unauthorized');
         }
 
-        // 3. Jika tidak ada peran yang cocok, kembalikan error atau redirect
-        // abort(403, 'UNAUTHORIZED ACTION.'); // Opsi 1: Halaman error 403
-        return redirect('/')->with('error', 'You do not have permission to access this page.'); // Opsi 2: Redirect ke home dengan pesan
+        return $next($request);
     }
 }

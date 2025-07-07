@@ -6,10 +6,13 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
+    /**
+     * Run the migrations.
+     */
     public function up(): void
     {
-        Schema::create('restaurants', function (Blueprint $table) {
-            $table->id('RestaurantID');
+        Schema::create('restaurant_applications', function (Blueprint $table) {
+            $table->id('RestaurantApplicationID');
             $table->string('Name');
             $table->string('Location');
             $table->string('OperationalHours');
@@ -22,25 +25,22 @@ return new class extends Migration
             $table->string('AccountBank');
             $table->string('BankAccountName');
             $table->string('RestaurantPicture');
-            $table->integer('Ratings')->nullable();
-            $table->integer('ReviewCounts')->nullable();
+            $table->string('ProductSoldPicture');
+            $table->string('IdProofDocument');
+            $table->string('NPWPDocument');
+            $table->string('AuthorizationDocument');
             $table->string('Email');
-
-            // ✅ FIXED: correct column and reference name
-            $table->foreignId('RestaurantApplicantID')
-                ->constrained('restaurant_applications', 'RestaurantApplicationID')
-                ->onDelete('cascade');
-
-            $table->integer('DinnerStock');
-            $table->integer('LunchStock');
-            $table->decimal('Income', 10, 2)->nullable();
+            $table->string('Password');
+            $table->string('StatusApproval');
             $table->timestamps();
         });
     }
 
-
+    /**
+     * Reverse the migrations.
+     */
     public function down(): void
     {
-        Schema::dropIfExists('restaurants');
+        Schema::dropIfExists('restaurant_applications');
     }
 };

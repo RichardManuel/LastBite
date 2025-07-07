@@ -5,9 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>User Profile - LastBite</title>
     <!-- Bootstrap CSS -->
-    <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous"> -->
-     <!-- Bootstrap CSS (Lokal) -->
-    <link href="{{ asset('bootstrap-5.3.6-dist/css/bootstrap.min.css') }}" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+
+    <!-- Bootstrap CSS (Lokal) -->
+    {{-- <link href="{{ asset('bootstrap-5.3.6-dist/css/bootstrap.min.css') }}" rel="stylesheet"> --}}
     <style>
         body {
             font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
@@ -127,28 +128,7 @@
 </head>
 <body class="bg-custom-beige text-custom-dark-text">
 
-    <!-- Navbar (dari kode Order yang sudah di-Bootstrap-kan) -->
-    <!-- <nav class="navbar navbar-expand-lg navbar-dark bg-custom-green shadow-sm py-3 navbar-custom">
-        <div class="container"> -->
-            <!-- Left Nav Items -->
-            <!-- <div class="navbar-nav me-auto">
-                <a class="nav-link" href="#">Home</a>
-                <a class="nav-link mx-lg-3 mx-2" href="#">Eatery</a>
-                <a class="nav-link" href="#">Order</a> 
-            </div> -->
-
-            <!-- Center Section: Logo -->
-            <!-- <a class="navbar-brand mx-auto" href="/">
-                <img src="img/logo lastbite putih 1.png" alt="LastBite Logo"> 
-            </a> -->
-
-            <!-- Right Section: Auth Links -->
-            <!-- <div class="navbar-nav ms-auto">
-                <a class="nav-link me-2 me-sm-3" href="#">Login</a>
-                <a href="#" class="btn btn-sm btn-signup rounded-md fw-medium text-nowrap">Restaurant Sign Up</a>
-            </div> -->
-        <!-- </div>
-    </nav> -->
+    
     @include('partials.navbar')
 
     <!-- Main Content -->
@@ -164,24 +144,21 @@
             <!-- Left Column: Profile Image -->
             <div class="col-md-3 d-flex flex-column align-items-center align-items-md-start"> 
                 <div class="position-relative mb-3 profile-image"> 
-                    <img src="img/Rectangle 23.png" alt="User Profile Image" class="rounded w-100 h-100 object-fit-cover border border-4 border-custom-green shadow-lg">
+                    @if($user->img_path)
+                        <img src="{{ asset('storage/uploads/' . ($user->img_path)) }}" alt="User Profile Image" class="rounded w-100 h-100 object-fit-cover border border-4 border-custom-green shadow-lg">
+                    @else
+                        <img src="{{ asset('img/defaultprofile.jpg') }}" alt="Default Profile Image" class="rounded w-100 h-100 object-fit-cover border border-4 border-custom-green shadow-lg">
+                    @endif
                 </div>
-                <!-- <button class="btn bg-custom-yellow-button text-dark px-3 py-2 rounded-md small fw-medium d-flex align-items-center"> 
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-image me-2" viewBox="0 0 16 16"> 
-                        <path d="M6.002 5.5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0z"/>
-                        <path d="M2.002 1a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V3a2 2 0 0 0-2-2h-12zm12 1a1 1 0 0 1 1 1v6.5l-3.777-1.947a.5.5 0 0 0-.577.093l-3.71 3.71-2.66-1.772a.5.5 0 0 0-.63.062L1.002 12V3a1 1 0 0 1 1-1h12z"/>
-                    </svg>
-                    <span>Change Profile Image</span>
-                </button> -->
             </div>
 
             <!-- Right Column: User Details -->
             <div class="col-md-7"> 
                 <div class="mb-4"> 
-                    <h2 class="h2 font-serif-display text-dark mb-1">Iven Marchellia</h2> 
+                    <h2 class="h2 font-serif-display text-dark mb-1">{{ $user->name }}</h2> 
                     <div class="d-flex align-items-center justify-content-between">
-                        <p class="text-secondary fst-italic small">Always smile :) even though webprog attacks</p> 
-                        <button class="btn btn-sm bg-custom-yellow-button rounded-md ms-3 flex-shrink-0 p-2" aria-label="Edit bio"> 
+                        <p class="text-secondary fst-italic small">{{$user->notes}}</p> 
+                        <button class="btn btn-sm bg-custom-yellow-button rounded-md ms-3 flex-shrink-0 p-2" aria-label="Edit bio" onclick="window.location.href='{{ route('profile.edit') }}'"> 
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-fill text-dark" viewBox="0 0 16 16"> 
                                 <path d="M12.854.146a.5.5 0 0 0-.707 0L10.5 1.793 14.207 5.5l1.647-1.646a.5.5 0 0 0 0-.708l-3-3zm.646 6.061L9.793 2.5 3.293 9H3.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.207l6.5-6.5zm-7.468 7.468A.5.5 0 0 1 6 13.5V13h-.5a.5.5 0 0 1-.5-.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.5-.5V10h-.5a.499.499 0 0 1-.175-.032l-.179.178a.5.5 0 0 0-.11.168l-2 5a.5.5 0 0 0 .65.65l5-2a.5.5 0 0 0 .168-.11l.178-.178z"/>
                             </svg>
@@ -193,15 +170,15 @@
                 <div class="vstack gap-2"> 
                     <div class="row"> 
                         <span class="col-3 col-md-2 fw-medium text-secondary">Email</span> 
-                        <span class="col-9 col-md-10 fw-semibold text-custom-dark-text">ivencantikbingtsszz21@gmail.com</span> 
+                        <span class="col-9 col-md-10 fw-semibold text-custom-dark-text">{{$user->email}}</span> 
                     </div>
                     <div class="row">
                         <span class="col-3 col-md-2 fw-medium text-secondary">City</span>
-                        <span class="col-9 col-md-10 fw-semibold text-custom-dark-text">Bogor</span>
+                        <span class="col-9 col-md-10 fw-semibold text-custom-dark-text">{{$user->city}}</span>
                     </div>
                     <div class="row">
                         <span class="col-3 col-md-2 fw-medium text-secondary">Phone</span>
-                        <span class="col-9 col-md-10 fw-semibold text-custom-dark-text">0898234778111</span>
+                        <span class="col-9 col-md-10 fw-semibold text-custom-dark-text">{{$user->phone}}</span>
                     </div>
                 </div>
             </div>
@@ -254,8 +231,5 @@
         </div>
     </footer>
 
-    <!-- Bootstrap Bundle with Popper -->
-    <!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script> -->
-    <script src="{{ asset('bootstrap-5.3.6-dist/js/bootstrap.bundle.min.js') }}"></script>
 </body>
 </html>
