@@ -1,0 +1,434 @@
+body {
+    font-family: 'Instrument Sans', sans-serif;
+    background-color: #f8f9fa; /* Warna latar belakang umum yang netral */
+}
+
+/* Header */
+.banner-image-container {
+    width: 100%;
+    max-height: 550px; /* Sesuaikan sesuai kebutuhan */
+    overflow: hidden;
+    border-bottom-right-radius: 3rem;
+    border-bottom-left-radius: 3rem; 
+}
+.banner-image {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+}
+.restaurant-info-card-container {
+    position: relative;
+}
+.restaurant-info-card {
+    background-color: white;
+    border-radius: 40px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    padding: 40px;
+    margin-top: -140px; /* Membuat kartu sedikit naik ke atas banner */
+    position: relative;
+    z-index: 10;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 1200px;
+    margin-left: 50px;
+
+}
+.restaurant-logo {
+    margin-left: 3rem;
+    /* margin-right: 3rem; */
+    width: 130px; /* Sesuaikan ukuran logo */
+    height: 130px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+.restaurant-info-card h2 {
+    font-size: 4rem;
+    font-weight: bolder;
+    color: #1F744E; /* Warna hijau dari contoh */
+    margin-bottom: 0.25rem;
+}
+.restaurant-info-card p {
+    font-size: 1.75rem;
+}
+
+.restaurant-info-card img{
+    height: 150px;
+    width: 150px;
+}
+
+.restaurant-info-card .namecat{
+    margin-left: 60px;
+}
+/* .rating-badge {
+    background-color: #4CAF50; 
+    color: white;
+    padding: 8px 15px;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    font-weight: bold;
+} 
+*/
+
+.rating-badge-custom {
+    display: inline-block; /* Agar bisa mengatur width jika perlu dan text-align */
+    border-radius: 25px;   /* Rounded corners untuk keseluruhan badge */
+    overflow: hidden;      /* Untuk memastikan background anak tidak keluar dari rounded corners */
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1); /* Bayangan halus */
+    text-align: center;
+    min-width: 120px; /* Lebar minimal agar terlihat bagus */
+    margin-right: 2rem;
+}
+
+.rating-score {
+    background-color: #1F744E; /* Warna hijau seperti di contoh (bisa disesuaikan) */
+    /* background-color: #4CAF50; Warna hijau yang saya gunakan sebelumnya, pilih salah satu */
+    color: white;
+    padding: 8px 15px;
+    font-size: 1.75rem; /* Sedikit lebih besar untuk skor */
+    font-weight: bold;
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
+.rating-count {
+    background-color: white;
+    color: #333; /* Warna teks gelap */
+    padding: 8px 15px;
+    font-size: 1.75rem;
+    border-top: 1px solid #eee; /* Garis pemisah tipis jika diperlukan, atau bisa dihilangkan jika efeknya sudah cukup dari bg color */
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
+/* Navigation Buttons */
+.nav-buttons-container {
+    margin-top: 20px; /* Jarak dari kartu info */
+}
+
+.nav-button {
+    border: 1px solid #E0E0E0; /* Border tipis abu-abu muda (DEFAULT) */
+    border-radius: 10px;
+    padding: 0;
+    display: flex;
+    align-items: stretch;
+    width: 100%;
+    text-align: left;
+    color: #333;
+    overflow: hidden;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    background-color: transparent;
+    /* Pastikan transisi untuk border-color ada di sini */
+    transition: box-shadow 0.3s ease, border-color 0.3s ease;
+}
+
+.nav-button:hover {
+    box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+}
+
+/* Styling untuk tombol AKTIF (DIKLIK) */
+.nav-button.active {
+    /* PERBAIKAN: Atur border-color menjadi transparan di sini */
+    border-color: transparent;
+    /* Atau, jika ingin lebih eksplisit untuk mempertahankan ruang border: */
+    /* border: 1px solid transparent; */
+
+    /* Jika ingin shadow yang berbeda saat aktif, Anda bisa tambahkan di sini */
+    /* box-shadow: 0 3px 7px rgba(0,0,0,0.12); */
+}
+
+.nav-button-icon-wrapper {
+    padding: 10px 25px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.nav-button-icon-wrapper .icon-fa {
+    font-size: 2rem;
+    color: white;
+}
+
+/* Warna Latar Belakang Spesifik untuk Setiap Blok Ikon */
+#btnWhatYouGet .nav-button-icon-wrapper {
+    background-color: #0069A8;
+}
+#btnPickUpTime .nav-button-icon-wrapper {
+    background-color: #C70036;
+}
+#btnEateryDetail .nav-button-icon-wrapper {
+    background-color: #FFA629;
+}
+
+.nav-button-main-area {
+    flex-grow: 1;
+    display: flex;
+    align-items: center;
+    padding-right: 15px;
+    background-color: #FFFFFF; /* Default putih */
+    transition: background-color 0.3s ease; /* Transisi untuk background */
+}
+
+/* Hover untuk tombol yang TIDAK AKTIF */
+.nav-button:not(.active):hover .nav-button-main-area {
+    background-color: #f0f0f0;
+}
+
+/* Active state untuk area teks */
+.nav-button.active .nav-button-main-area {
+    background-color: #e0e0e0;
+    /* HAPUS border-color: transparent; DARI SINI, karena sudah di .nav-button.active */
+}
+
+.nav-button-text-content {
+    flex-grow: 1; /* Teks mengisi ruang sebelum info-icon */
+    padding: 10px 0 10px 20px; /* Padding vertikal dan kiri untuk teks */
+    display: flex; /* Untuk memastikan line-height/spacing baik */
+    flex-direction: column;
+    justify-content: center;
+}
+
+.nav-button-text-content strong {
+    font-size: 1.2rem; /* Ukuran font judul */
+    font-weight: 600; /* Sedikit tebal */
+    color: #333;
+    line-height: 1.3;
+    margin-bottom: -1.5rem;
+}
+
+.nav-button-text-content small {
+    font-size: 1rem; /* Ukuran font sub-teks */
+    color: #000000;
+    opacity: 75%;
+    line-height: 1.3;
+}
+
+.nav-button .info-icon {
+    /* padding-right: 5px; */
+    font-size: 2rem;
+    color: #333;
+    margin-left: 10px;
+}
+
+/* Hapus styling icon-placeholder lama jika masih ada */
+.nav-button .icon-placeholder {
+   display: none; /* Sembunyikan jika masih ada referensi lama */
+}
+
+/* Dynamic Panel Base Styling */
+.dynamic-panel-container {
+    border-radius: 15px;
+    padding: 30px;
+    color: white; /* Default text color for panels */
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    min-height: 200px; /* Agar panel tidak kolaps saat kosong */
+}
+
+.panel-what-you-get,
+.panel-pick-up-time,
+.panel-eatery-detail {
+    margin-top: 100px;
+    height: 600px; /* CONTOH NILAI: Sesuaikan dengan tinggi yang Anda inginkan */
+                       /* Ini harus cukup untuk mengakomodasi panel dengan konten terbanyak */
+    display: flex; /* Tambahkan display: flex */
+    flex-direction: column; /* Atur arah flex menjadi kolom */
+    justify-content: center;
+    width: auto;
+    margin-left:  0px;
+    border-radius: 0;
+}
+
+
+/* Panel Specific Styles */
+.panel-what-you-get {
+    background-color: #217FB7; /* Warna biru dari contoh */
+}
+.panel-what-you-get .order-now-btn {
+    background-color: #FFC04E; /* Kuning */
+    color: #fff;
+    font-weight: bold;
+    border: none;
+    padding: 10px 30px;
+    border-radius: 15px;
+    font-size: 25px;
+}
+
+.panel-what-you-get col-md-7{
+    margin-left: 200px;
+}
+.panel-what-you-get img {
+    max-width: 700px; /* Sesuaikan */
+    margin-bottom: 20px;
+    border-radius: 10px;
+    margin-left: -50px;
+}
+
+.panel-what-you-get h3{
+    font-size: 60px;
+}
+
+.panel-what-you-get .price{
+    font-size: 35px;
+    font-weight: medium;
+}
+
+.panel-what-you-get .description{
+    font-size: 23px;
+}
+
+.panel-pick-up-time {
+    background-color: #D72A59; /* Warna pink dari contoh */
+}
+.panel-pick-up-time .row > .col-md-5 { /* Target kolom gambar di panel pick-up time */
+    flex-basis: 60% !important; /* Beri 60% dari ruang baris, contoh */
+    max-width: 60% !important;  /* Sesuaikan persentase ini */
+    width: 60% !important;     /* Mungkin diperlukan juga */
+    /* Hati-hati dengan !important, gunakan seminimal mungkin */
+}
+
+.panel-pick-up-time .row > .col-md-7 { /* Target kolom teks */
+    flex-basis: 100% !important; /* Sisa ruang, contoh */
+    max-width: 60% !important;
+    width: 40% !important;
+    margin-left: -300px;
+
+}
+
+.panel-pick-up-time img {
+    width: 100%; /* Buat gambar mengisi kolomnya yang sekarang lebih lebar */
+    max-width: 650px; /* Batas atas absolut untuk gambar jika masih diinginkan */
+    height: auto;
+    margin-bottom: 20px;
+    border-radius: 10px;
+    margin-left: -100px; /* Tinjau kembali ini, mungkin tidak perlu atau perlu disesuaikan */
+}
+.panel-pick-up-time .note {
+    background-color: rgba(0,0,0,0.1);
+    padding: 10px;
+    border-radius: 5px;
+    margin-top: 15px;
+    font-size: 22px;
+}
+
+.panel-pick-up-time .time{
+    font-size: 24px;
+}
+
+.panel-pick-up-time .timeEat{
+    font-size: 33px;
+}
+
+.panel-pick-up-time h3{
+    font-size: 65px;
+    font-weight: bold;
+}
+
+
+
+.panel-eatery-detail {
+    background-color: #FFE9CA; /* Warna krem/kuning muda dari contoh */
+    color: #333; /* Teks gelap agar kontras */
+    padding-left: 150px;
+    padding-right: 150px;
+}
+.panel-eatery-detail .eatery-logo-main {
+    width: 250px; 
+    height: 250px;
+    border-radius: 50%;
+    margin-bottom: 15px;
+    /* margin-top: 15px; */
+}
+.panel-eatery-detail .map-placeholder {
+    width: 100%;
+    height: 280px;
+    background-color: #ccc;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #555;
+    border-radius: 25px;
+    overflow: hidden;
+}
+
+.panel-eatery-detail .map-placeholder iframe {
+    border-radius: 10px; /* Kadang iframe tidak mewarisi border-radius induknya */
+}
+
+.panel-eatery-detail h3{
+    font-size: 56px;
+    font-weight: bold;
+    color: #1F744E;
+    margin-bottom: 50px;
+}
+
+.panel-eatery-detail .eatery-text-details{
+    margin-left: 100px;
+    margin-top: 10px;
+    margin-right: 20px;
+}
+
+.panel-eatery-detail .eatery-name{
+    font-size: 35px;
+    font-weight: bold;
+    color: #000;
+}
+
+.panel-eatery-detail .eatery-address{
+    font-size: 20px;
+}
+
+.panel-eatery-detail .eatery-hours-title{
+    font-size: 35px;
+    color: #000;
+}
+
+.panel-eatery-detail .eatery-hours-time{
+    font-size: 20px;
+}
+
+.panel-eatery-detail .eatery-phone{
+    font-size: 25px;
+}
+
+
+/* Responsive adjustments */
+@media (max-width: 767px) {
+    .restaurant-info-card {
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 15px;
+    }
+    .restaurant-info-card .rating-badge {
+        margin-top: 15px;
+        align-self: flex-start;
+    }
+    .nav-button {
+        font-size: 0.9rem;
+        padding: 10px;
+    }
+    .nav-button .icon-placeholder {
+        font-size: 1.2rem;
+    }
+    .dynamic-panel-container {
+        padding: 20px;
+    }
+    .panel-what-you-get img, .panel-pick-up-time img {
+        max-width: 100%; /* Full width on small screens */
+    }
+}
+
+ /* Sembunyikan semua panel secara default */
+        .dynamic-panel {
+            display: none;
+        }
+        /* Tampilkan hanya panel yang memiliki kelas 'active' */
+        .dynamic-panel.active {
+            display: block;
+        }
+        /* Style untuk tombol navigasi yang aktif */
+        .nav-button.active {
+            border-color: transparent;
+        }
+        .nav-button.active .nav-button-main-area {
+            background-color: #e0e0e0;
+        }

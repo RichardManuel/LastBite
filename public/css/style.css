@@ -1,0 +1,482 @@
+:root {
+    --brand-green: #166534;
+    --brand-orange: #FDA402;
+    --brand-beige: #FFFFFF;
+    --bs-body-font-family: 'Instrument Sans', sans-serif;
+}
+
+body {
+    font-family: 'Instrument Sans', sans-serif;
+    background-color: var(--brand-beige);
+}
+
+html{
+    scroll-behavior: smooth;
+}
+
+.bg-brand-green { background-color: var(--brand-green) !important; }
+.text-brand-green { color: var(--brand-green) !important; }
+.bg-brand-orange { background-color: var(--brand-orange) !important; }
+.text-brand-orange { color: var(--brand-orange) !important; }
+.border-brand-orange { border-color: var(--brand-orange) !important; }
+
+/* --- Custom classes from HTML for precise scaling --- */
+.px-custom-filter-btn { padding-left: 0.8rem !important; padding-right: 0.8rem !important; } /* px-3 (1rem) * 0.8 */
+.py-custom-filter-btn { padding-top: 0.4rem !important; padding-bottom: 0.4rem !important; } /* py-2 (0.5rem) * 0.8 */
+.py-custom-dropdown-item { padding-top: 0.4rem !important; padding-bottom: 0.4rem !important; } /* py-2 (0.5rem) * 0.8 */
+.px-custom-dropdown-item { padding-left: 0.8rem !important; padding-right: 0.8rem !important; } /* px-3 (1rem) * 0.8 */
+.px-custom-filter-main-btn { padding-left: 1.2rem !important; padding-right: 1.2rem !important; } /* px-4 (1.5rem) * 0.8 */
+.py-custom-filter-main-btn { padding-top: 0.4rem !important; padding-bottom: 0.4rem !important; } /* py-2 (0.5rem) * 0.8 */
+.px-custom-loc-btn { padding-left: 0.4rem !important; padding-right: 0.4rem !important; } /* px-2 (0.5rem) * 0.8 */
+.py-custom-loc-btn { padding-top: 0.1rem !important; padding-bottom: 0.1rem !important; } /* py-1 (0.25rem) * 0.8, dibulatkan */
+
+.fs-custom-card-title { font-size: 1.4rem !important; } /* fs-3 (1.75rem) * 0.8 */
+.mb-custom-card-title { margin-bottom: 0.2rem !important; } /* mb-1 (0.25rem) * 0.8 */
+.fs-custom-card-subtitle { font-size: 1.2rem !important; } /* fs-4 (1.5rem) * 0.8 */
+.mb-custom-card-subtitle { margin-bottom: 0.4rem !important; } /* mb-2 (0.5rem) * 0.8 */
+.me-custom-pickup-text { margin-right: 0.4rem !important; } /* me-2 (0.5rem) * 0.8 */
+.fs-custom-card-rating { font-size: 1.2rem !important; } /* fs-4 (1.5rem) * 0.8 */
+.fs-custom-card-price { font-size: 1.2rem !important; } /* fs-4 (1.5rem) * 0.8 */
+
+/* Jika menggunakan g-md-5, ini akan jadi: */
+/* @media (min-width: 768px) {
+    .g-md-custom-grid {
+        --bs-gutter-x: 2.4rem; /* 3rem * 0.8
+        --bs-gutter-y: 2.4rem; /* 3rem * 0.8
+    }
+} */
+
+
+input[type="search"]::-webkit-search-decoration,
+input[type="search"]::-webkit-search-cancel-button,
+input[type="search"]::-webkit-search-results-button,
+input[type="search"]::-webkit-search-results-decoration {
+    -webkit-appearance: none;
+    appearance: none;
+}
+input[type="search"]::-moz-search-clear-button { display: none; }
+input[type="search"]::-ms-clear { display: none; width: 0; height: 0; }
+input[type="search"]::-ms-reveal { display: none; width: 0; height: 0; }
+
+.hero-section {
+    min-height: 68vh; /* 85vh * 0.8 */
+    background-size: cover;
+    background-position: center;
+    position: relative;
+}
+.hero-section .overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0);
+    z-index: 1;
+}
+.hero-section .content {
+    padding-left: 8rem; /* 10rem * 0.8 */
+    position: relative;
+    z-index: 2;
+    height: 100%;
+    min-height: 85vh; /* 85vh * 0.8 */
+}
+
+.hero-section .content h1 {
+    margin-top: -8rem; /* -10rem * 0.8 */
+    font-size: 5rem !important; /* 5rem * 0.8. display-1 adalah 5rem. Jika ingin override */
+}
+
+.hero-section .content p {
+    font-family: 'Instrument Serif', serif;
+    font-weight: 400;
+    font-size: 6.2rem !important; /* 6.5rem * 0.8. display-4 adalah 3.5rem. Jika ingin override */
+    color: #EEF6DF;
+    margin-top: -0.4rem; /* -0.5rem * 0.8 */
+}
+
+.hero-order-button {
+    margin-top: -0.8rem; /* -1rem * 0.8 */
+    margin-left: 3rem; /* 3rem * 0.8 */
+    padding-top: 1.25rem;    /* 1.25rem * 0.8 */
+    padding-bottom: 1.25rem; /* 1.25rem * 0.8 */
+    padding-left: 2rem;   /* 2.5rem * 0.8 */
+    padding-right: 2rem;  /* 2.5rem * 0.8 */
+    line-height: 0.4; /* 0.5 * 0.8 */
+    font-size: 1.4rem; /* 1.39rem * 0.8 */
+}
+
+.hero-order-button:hover {
+    background-color: var(--brand-orange);
+    border-color: var(--brand-orange);
+    color: white;
+}
+
+.btn-transparent-dropdown {
+    background-color: transparent !important;
+    border-color: transparent !important;
+    color: #212529;
+    /* fs-5 (1.25rem) * 0.8 = 1rem (jadi fs-6) */
+    /* px-3 (1rem) * 0.8 = 0.8rem */
+    /* py-2 (0.5rem) * 0.8 = 0.4rem */
+    /* Ini akan diambil dari kelas Bootstrap atau kelas custom di HTML */
+}
+
+.btn-transparent-dropdown:hover,
+.btn-transparent-dropdown:focus,
+.btn-transparent-dropdown:active,
+.btn-transparent-dropdown.show {
+    background-color: rgba(0, 0, 0, 0.05) !important;
+    border-color: transparent !important;
+    color: #212529;
+    box-shadow: none !important;
+}
+
+.search-bar-section {
+    /* margin-top: -2.4rem;  style di HTML yang akan diadjust */
+    position: relative;
+    top: 0;
+    z-index: 30;
+    background-color: transparent;
+}
+
+.search-form .form-control {
+    padding-top: 1.1rem; /* 1.2rem * 0.8 */
+    padding-bottom: 1.1rem; /* 1.2rem * 0.8 */
+    padding-left: 5rem; /* 5rem * 0.8 */
+    font-size: 1.4rem; /* 1.5rem * 0.8 */
+}
+.search-form .input-group-text {
+    /* margin-left: 3.2rem; 4rem * 0.8 (tapi ini posisinya absolut sekarang) */
+    background-color: transparent;
+    border: none;
+    /* font-size: 1.2rem; /* 1.5rem * 0.8 (SVG diatur inline) */
+}
+.search-form .btn-clear-search {
+    /* font-size: 1.2rem; /* 1.5rem * 0.8 (SVG diatur inline) */
+    color: #6c757d;
+}
+
+.container-fluid span{
+    font-size: 18px;
+}
+
+.container-fluid .dropdown-item{
+    font-size: 18px;
+}
+
+.container-fluid .btn{
+    font-size: 18px;
+}
+
+.dropdown .location-item{
+    font-size: 18px;
+}
+
+main.container-fluid{
+    padding-left: 4.8rem; /* 6rem * 0.8 */
+    padding-right: 4.8rem; /* 6rem * 0.8 */
+}
+
+.product-card {
+    border-radius: 0.6rem; /* 0.75rem * 0.8 */
+    box-shadow: 0 8px 12px -2.4px rgba(0,0,0,0.1), 0 3.2px 4.8px -1.6px rgba(0,0,0,0.05); /* nilai shadow dikalikan 0.8 */
+    transition: box-shadow 0.3s ease-in-out;
+    /* height: 240px; /* 300px * 0.8 */ /* Lebih baik tidak set height fixed */
+    overflow: hidden;
+    width: 24.8rem; /* 31rem * 0.8 */ /* Ini akan membuat kartu fixed width, bukan responsif grid */
+}
+.product-card:hover {
+    box-shadow: 0 16px 20px -4px rgba(0,0,0,0.1), 0 8px 8px -4px rgba(0,0,0,0.04); /* nilai shadow dikalikan 0.8 */
+}
+.product-card-img {
+    width: 100%;
+    height: 12.8rem; /* 16rem * 0.8 */
+    object-fit: cover;
+    border-bottom-left-radius: 1.2rem; /* 1.5rem * 0.8 */
+    border-bottom-right-radius: 1.2rem; /* 1.5rem * 0.8 */
+}
+
+.product-card .card-body {
+    padding-top: 0.4rem; /* 0.5rem * 0.8 */
+    padding-bottom: 0.4rem; /* 0.5rem * 0.8 */
+    /* Padding horizontal dari kelas p-2/p-md-4 di HTML akan diadjust di sana atau dengan kelas custom */
+}
+
+.product-card .card-body h3 { /* Jika ini adalah fs-3 Bootstrap (1.75rem) maka akan jadi 1.4rem */
+    margin-top: -0.4rem; /* -0.5rem * 0.8 */
+    margin-bottom: 0rem; /* 0rem * 0.8 */
+}
+
+.product-card .card-body p.fs-5.text-secondary { /* fs-5 (1.25rem) akan jadi 1rem */
+    margin-bottom: 0.4rem; /* 0.5rem * 0.8 */
+}
+
+.product-card .card-body div.mb-4 { /* mb-4 (1.5rem) akan jadi 1.2rem */
+    margin-bottom: 1.2rem !important; /* Menggunakan !important jika kelas mb-4 di HTML masih ada */
+}
+
+.badge-custom-1, .badge-custom-2, .pickup-badge {
+    font-size: 0.8rem; /* 1rem * 0.8 */
+    /* padding: 0.2rem 0.6rem; /* 0.25rem * 0.8, 0.75rem * 0.8 (approx) */
+    /* Padding spesifik untuk tiap badge akan diatur di bawah */
+}
+
+.badge-custom-1 {
+    background-color: #FFEFD5;
+    color: #1F744E;
+    /* font-size: 0.8rem; (sudah di atas) */
+    padding: 0.2rem 0.6rem; /* 0.25rem*0.8, 0.75rem*0.8 */
+    border-radius: 1.2rem; /* 1.5rem * 0.8 */
+}
+.badge-custom-2 {
+    background-color: white;
+    color: black;
+    /* font-size: 0.8rem; */
+    padding: 0.2rem 0.6rem; /* 0.25rem*0.8, 0.75rem*0.8 */
+    border-radius: 1.2rem; /* 1.5rem * 0.8 */
+}
+.pickup-badge {
+    background-color: #FFE2B3;
+    color: #c2410c;
+    /* font-size: 0.8rem; */
+    font-weight: 600;
+    padding: 0.2rem 0.8rem; /* 0.25rem*0.8, 1rem*0.8 */
+}
+.hr-dashed {
+    border-top: 2.4px dashed #000000 !important; /* 3px * 0.8 */
+    border-bottom: none;
+    border-left: none;
+    border-right: none;
+    height: 0;
+    margin-top: -0.4rem; /* -0.5rem * 0.8 */
+    margin-bottom: 0.4rem; /* 0.5rem * 0.8 */
+    margin-left: -1.2rem; /* -1.5rem * 0.8 */
+    margin-right: -1.2rem; /* -1.5rem * 0.8 */
+}
+
+.product-card h3{
+    font-size: 23px;
+}
+
+.product-card p{
+    font-size: 20px;
+}
+
+.product-card span{
+    font-size: 20px;
+}
+
+.product-card .badge{
+    font-size: 15px;
+}
+
+.product-card .text-dark{
+    font-size: 20px;
+}
+
+.product-card .fw-bolder{
+    font-size: 20px;
+}
+
+/* Dari <style> Anda */
+.bg-custom-green {
+    background-color: #3A6B50 !important;
+}
+
+.navbar-custom .nav-link {
+    color: white;
+    font-size: 0.875rem; /* text-sm */
+}
+@media (min-width: 768px) { /* md breakpoint */
+    .navbar-custom .nav-link {
+        font-size: 1rem; /* text-base */
+    }
+}
+.navbar-custom .nav-link:hover {
+    color: #D1D5DB; /* hover:text-gray-300 */
+}
+.navbar-custom .nav-link.fw-semibold {
+    font-weight: 600;
+}
+.navbar-custom .btn-signup {
+    background-color: white;
+    color: #3A6B50;
+    font-size: 0.75rem; /* text-xs */
+    padding: 0.25rem 0.5rem; /* px-2 py-1 */
+}
+@media (min-width: 640px) { /* sm breakpoint */
+    .navbar-custom .btn-signup {
+        font-size: 0.875rem; /* sm:text-sm */
+        padding: 0.375rem 0.75rem; /* sm:px-3 sm:py-1.5 */
+    }
+}
+@media (min-width: 768px) { /* md breakpoint */
+    .navbar-custom .btn-signup {
+        padding: 0.5rem 1rem; /* md:px-4 md:py-2 */
+    }
+}
+.navbar-custom .btn-signup:hover {
+    background-color: #E5E7EB; /* hover:bg-gray-200 */
+}
+.navbar-custom .navbar-brand img {
+    height: 2rem; /* h-8 */
+}
+@media (min-width: 640px) { /* sm breakpoint */
+    .navbar-custom .navbar-brand img {
+        height: 2.5rem; /* sm:h-10 */
+    }
+}
+/* Anda juga menggunakan shadow-sm dan py-3 pada navbar,
+   Bootstrap menangani ini. Jika teman Anda tidak menggunakan Bootstrap,
+   style ini perlu ditambahkan juga. */
+
+/* Footer Section Styling */
+.footer-section {
+    background-color: #327959; /* Warna hijau tua dari contoh */
+    color: #E0E0E0; /* Warna teks default terang untuk kontras */
+    position: relative; /* Untuk positioning teks background */
+    overflow: hidden; /* Untuk teks background jika keluar batas */
+    font-family: 'Instrument Serif', serif; /* Font Serif seperti di contoh */
+    margin-top: 50px;
+}
+
+.footer-logo-main {
+    width: 180px; /* Sesuaikan ukuran logo */
+    height: auto;
+    margin-left: -20px;
+}
+
+.footer-thank-you-text {
+    font-size: 2.5rem; /* Ukuran teks "Thank you" */
+    color: #EEF6DF;
+    font-weight: 500; /* Sedikit tebal */
+    margin-bottom: 0.75rem !important; /* Override margin Bootstrap jika perlu */
+}
+
+.footer-nav {
+    margin-top: 0.5rem;
+}
+
+.footer-nav-link {
+    color: #D0D0D0; /* Warna link navigasi */
+    text-decoration: none;
+    margin: 0 12px; /* Jarak antar link */
+    font-size: 0.95rem;
+    font-family: 'Instrument Sans', sans-serif; /* Font Sans untuk navigasi */
+    transition: color 0.3s ease;
+}
+
+.footer-nav-link:hover {
+    color: #EEF6DF; /* Warna link saat hover */
+}
+
+.footer-follow-us-title strong {
+    font-size: 1rem;
+    font-weight: bold;
+    color: #EEF6DF;
+    font-family: 'Instrument Sans', sans-serif; /* Font Sans untuk judul */
+    margin-right: -20px;
+}
+
+.footer-social-subtext {
+    font-size: 0.8rem;
+    color: #EEF6DF;
+    font-family: 'Instrument Sans', sans-serif; /* Font Sans untuk subteks */
+    margin-right: -20px;
+}
+
+.social-icons-footer{
+    margin-right: -25px;
+}
+
+.social-icons-footer .social-icon-link {
+    color: #EEF6DF;
+    font-size: 1.5rem; /* Ukuran ikon sosial */
+    margin: 0 8px; /* Jarak antar ikon */
+    transition: color 0.3s ease;
+}
+
+.social-icons-footer .social-icon-link:hover {
+    color: #A0A0A0; /* Warna ikon saat hover */
+}
+
+.footer-divider {
+    border: none; /* Hapus border default lainnya jika ada */
+    border-top-style: solid; /* Pastikan style border diset (solid, dashed, dll.) */
+    border-top-color: #EEF6DF; /* Warna garis pemisah */
+    border-top-width: 1.5px; /* GANTI NILAI INI UNTUK KETEBALAN (misal: 3px, 4px, 5px) */
+    margin-top: 1.5rem;
+    margin-bottom: 1.5rem;
+    margin-left: -50px;
+    margin-right: -50px;
+    /* height: 1px;   */
+    opacity: 0.5;
+}
+
+
+
+.copyright-text-footer {
+    font-size: 0.85rem;
+    color: #EEF6DF;
+    opacity: 0.9;
+    font-family: 'Instrument Sans', sans-serif; /* Font Sans untuk copyright */
+}
+
+/* Teks "LastBite" Besar sebagai Latar Belakang */
+.footer-background-text-container {
+    /* Ini adalah kontainer yang bisa digunakan untuk memposisikan teks besar */
+    /* Jika ingin full width dan di bawah konten lain: */
+    width: 100%;
+    text-align: center; /* Pusatkan teks LastBite */
+    margin-top: -20px; /* Tarik sedikit ke atas agar bisa sedikit di belakang copyright, sesuaikan */
+                     /* Atau atur dengan position absolute jika perlu */
+}
+
+.footer-logo-large-bg {
+    font-family: 'Instrument Serif', serif; /* Font Serif untuk logo besar */
+    font-size: 15rem; /* Ukuran SANGAT BESAR, sesuaikan! */
+    font-weight: 30px; /* Bisa juga normal atau 500 */
+    color: #EEF6DF; /* Warna teks besar (putih kehijauan sangat transparan) */
+    line-height: 0.8; /* Kurangi line-height agar tidak terlalu banyak ruang vertikal */
+    /* Untuk efek agar sedikit di belakang konten: */
+    /* position: relative; */
+    /* z-index: -1; /* Ini mungkin memerlukan z-index lebih tinggi pada konten lain */
+    /* Atau jika footer-background-text-container diposisikan absolut: */
+    /* position: absolute; */
+    /* bottom: 20px; */
+    /* left: 50%; */
+    /* transform: translateX(-50%); */
+    /* width: 100%; */
+    user-select: none; /* Agar teks tidak bisa dipilih */
+    opacity: 73%;
+}
+
+
+/* Hapus atau sesuaikan styling footer lama jika ada bentrokan */
+.footer-logo-small { /* Kelas lama, mungkin tidak dipakai lagi */
+   display: none;
+}
+
+.footer-logo-large { /* Kelas lama, sekarang footer-logo-large-bg */
+   display: none;
+}
+
+
+
+/* Responsivitas Tambahan jika Perlu */
+@media (max-width: 767px) {
+    .footer-thank-you-text {
+        font-size: 1.5rem;
+    }
+    .footer-logo-large-bg {
+        font-size: 6rem; /* Perkecil logo background di layar kecil */
+    }
+    .footer-section .row > div { /* Semua kolom di footer jadi full width dan terpusat di mobile */
+        text-align: center !important;
+    }
+}
+@media (max-width: 575px) {
+    .footer-logo-large-bg {
+        font-size: 4.5rem;
+    }
+}

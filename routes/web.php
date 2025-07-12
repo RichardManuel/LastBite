@@ -2,12 +2,14 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\store\AuthController;
+use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\store\StockController;
 use App\Http\Controllers\user\RegisterController as UserRegisterController;
 use App\Http\Controllers\user\LoginController as UserLoginController;
 use App\Http\Controllers\user\ForgotPasswordController;
 use App\Http\Controllers\user\ResetPasswordController;
 use App\Http\Controllers\user\ProfileController;
+use App\Http\Controllers\user\HomeController;
 use App\Http\Controllers\Auth\LoginController as StoreLoginController;
 use App\Http\Controllers\Auth\RegisterController as StoreRegisterController;
 use App\Http\Controllers\RestaurantProfileController;
@@ -20,9 +22,7 @@ use App\Models\Pickup;
 // 🌐 PUBLIC ROUTES
 // =======================
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', [HomeController::class, 'index'])->name('home.index');
 
 // =======================
 // 👤 USER AUTH ROUTES
@@ -103,3 +103,9 @@ Route::prefix('admin')->middleware(['auth', 'role:admin'])->group(function () {
         return 'Admin Dashboard';
     })->name('admin.dashboard');
 });
+
+
+Route::post('/logout', function () {
+    Auth::logout();
+    return redirect('/'); // arahkan ke home
+})->name('logout');

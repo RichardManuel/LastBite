@@ -42,22 +42,23 @@ class ProfileController extends Controller
         $user->phone = $request->phone;
         $user->notes = $request->notes;
 
-    // Handle image only if uploaded
-    if ($request->hasFile('img_path')) {
-        $filename = time() . '.' . $request->img_path->getClientOriginalExtension();
+        // Handle image only if uploaded
 
-        // Make sure the directory exists
-        if (!Storage::disk('public')->exists('uploads')) {
-            Storage::disk('public')->makeDirectory('uploads');
+        // Handle image only if uploaded
+        if ($request->hasFile('img_path')) {
+            // Hapus file lama jika ada
+            if ($user->img_path && Storage::disk('public')->exists('uploads/' . $user->img_path)) {
+                Storage::disk('public')->delete('uploads/' . $user->img_path);
+            }
+
+            // Simpan file baru
+            $filename = time() . '.' . $request->img_path->getClientOriginalExtension();
+            $path = $request->file('img_path')->storeAs('uploads', $filename, 'public');
+
+            $user->img_path = $filename;
         }
 
-        // Store the image
-        $path = $request->file('img_path')->storeAs('uploads', $filename, 'public');
-
-        // Save the filename (for use in blade: asset('storage/img/'.$filename))
-        $user->img_path = $filename;
-    }
-    $user->save();
+        $user->save();
 
         return redirect()->route('profile.show')->with('success', 'Profile updated successfully.');
     }
