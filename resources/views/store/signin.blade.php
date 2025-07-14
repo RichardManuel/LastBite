@@ -239,34 +239,10 @@
 </head>
 <body>
 
-    <!-- Navbar (Eatery Version) -->
-    <nav class="navbar navbar-expand-sm navbar-eatery"> 
-        <div class="container">
-            <a class="navbar-brand" href="/">
-                <img src="{{ asset('img/logo lastbite putih 1.png') }}" alt="LastBite Logo"> 
-            </a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavEatery" aria-controls="navbarNavEatery" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNavEatery">
-                <ul class="navbar-nav ms-auto">
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Order</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Stocks</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Profile</a>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </nav>
 
     <div class="register-full-page-layout">
         <div class="register-image-column">
-            <img src="{{ asset('img/signin store.png') }}" alt="Sign In Illustration" class="illustration"> 
+            <img src="{{ asset('img/signin store.png') }}" alt="Sign In Illustration" class="illustration">
         </div>
         <div class="register-form-column">
             <div class="register-form-wrapper">
@@ -278,12 +254,12 @@
                     we’re ready to support your culinary journey.
                 </p>
 
-                <form action="{{-- url('/store/signin') --}}" method="POST"> 
+                <form action="{{-- url('/store/signin') --}}" method="POST">
                     @csrf
                     <div class="mb-3">
                         <input type="email" class="form-control" name="email" id="email" placeholder="Email" required value="{{ old('email') }}">
                     </div>
-                    <div class="mb-2"> 
+                    <div class="mb-2">
                         <input type="password" class="form-control" name="password" id="password" placeholder="Password" required>
                     </div>
                     <a href="#" class="forgot-password-link">Forgot password?</a>
@@ -301,7 +277,7 @@
                 </div>
 
                 <p class="account-prompt">
-                    Don't have an account? <a href="#">Sign up</a>
+                    Don't have an account? <a href="{{ route("resto.signup.form")}}">Sign up</a>
                 </p>
 
             </div>

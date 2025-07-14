@@ -1,13 +1,9 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ $restaurant->name ?? 'Restaurant Profile' }} - LastBite Eatery</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
-    <style>
+@extends('store.layouts.app')
+
+@section('title', 'Edit Profile')
+
+@push('styles')
+<style>
         :root {
             --brand-yellow-navbar: #F5C563;
             --brand-orange-accent: #F9A826;
@@ -152,56 +148,11 @@
             background-color: #e0931f;
             color: white;
         }
-
-        /* Footer Styles (Sama seperti halaman lain) */
-        .footer-custom { background-color: var(--footer-bg); color: var(--footer-text); padding: 3rem 0; text-align: center; margin-top: 3rem; /* Beri jarak dari konten */ }
-        .footer-custom .footer-logo img { height: 40px; margin-bottom: 1rem; }
-        .footer-custom h5 { font-family: var(--font-serif-display); font-size: 1.5rem; margin-bottom: 1.5rem; font-weight: 500; }
-        .footer-custom .nav-link { color: var(--footer-text); padding: 0.25rem 0.75rem; font-size: 0.9rem; }
-        .footer-custom .nav-link:hover { opacity: 0.8; }
-        .footer-custom .social-icons a { color: var(--footer-text); font-size: 1.3rem; margin: 0 0.5rem; }
-        .footer-custom .social-icons a:hover { opacity: 0.8; }
-        .footer-custom .copyright { font-size: 0.8rem; margin-top: 2rem; opacity: 0.7; }
-
     </style>
-</head>
-<body>
+@endpush
 
-    <!-- Navbar -->
-    <nav class="navbar navbar-expand-sm navbar-custom">
-        <div class="container">
-            <a class="navbar-brand" href="{{ url('/') }}">
-                <img src="{{ asset('img/logo lastbite putih 1.png') }}" alt="LastBite Logo">
-            </a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavMain" aria-controls="navbarNavMain" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNavMain">
-                <ul class="navbar-nav ms-auto">
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Order</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Stocks</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link active" href="{{ route('resto.profile.show') }}">Profile</a> <!-- Asumsi route ini ada -->
-                    </li>
-                    @auth
-                    <li class="nav-item">
-                        <form method="POST" action="{{ route('resto.logout') }}">
-                            @csrf
-                            <button type="submit" class="nav-link btn btn-link" style="color: var(--brand-text-dark) !important; font-weight: 500; font-size: 0.9rem; padding-left: 1rem; padding-right: 1rem;">Logout</button>
-                        </form>
-                    </li>
-                    @endauth
-                </ul>
-            </div>
-        </div>
-    </nav>
-
-    <!-- Main Content for Restaurant Profile Display -->
-    <main class="main-content mb-5">
+@section('content')
+ <main class="main-content mb-5">
         {{-- Asumsikan $restaurant adalah objek yang dikirim dari controller --}}
         @if(isset($restaurant))
             <div class="profile-banner" style="background-image: url('{{ asset('storage/' . $restaurant->restaurant_picture_path) }}');">
@@ -294,30 +245,6 @@
         @endif
     </main>
 
-    <!-- Footer -->
-    <footer class="footer-custom mt-auto">
-        <div class="container">
-            <div class="footer-logo">
-                <img src="{{ asset('img/lastbite_logo_eatery_navbar.png') }}" alt="LastBite Footer Logo">
-            </div>
-            <h5>Thank you for your curiosity.</h5>
-            <ul class="nav justify-content-center mb-3">
-                <li class="nav-item"><a href="#" class="nav-link">Home</a></li>
-                <li class="nav-item"><a href="#" class="nav-link">Eatery</a></li>
-                <li class="nav-item"><a href="#" class="nav-link">Order</a></li>
-            </ul>
-            <div class="social-icons mb-3">
-                <a href="#"><i class="bi bi-instagram"></i></a>
-                <a href="#"><i class="bi bi-facebook"></i></a>
-                <a href="#"><i class="bi bi-youtube"></i></a>
-                <a href="#"><i class="bi bi-medium"></i></a>
-            </div>
-            <div class="copyright">
-                © {{ date('Y') }} LastBite Inc. All rights reserved.
-            </div>
-        </div>
-    </footer>
+@endsection
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
-</body>
-</html>
+

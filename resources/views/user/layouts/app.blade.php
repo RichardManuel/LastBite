@@ -79,7 +79,7 @@
     @else
         {{-- Jika belum login --}}
         <a class="nav-link me-2 me-sm-3" href="{{ route('login') }}">Login</a>
-        <a href="#" class="btn btn-sm btn-signup rounded-md fw-medium text-nowrap">Restaurant Sign Up</a>
+        <a href="{{ route("resto.login.form")}}" class="btn btn-sm btn-signup rounded-md fw-medium text-nowrap">Restaurant Sign Up</a>
     @endauth
 </div>
 

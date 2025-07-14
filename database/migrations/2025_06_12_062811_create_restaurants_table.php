@@ -25,6 +25,7 @@ return new class extends Migration
             $table->integer('Ratings')->nullable();
             $table->integer('ReviewCounts')->nullable();
             $table->string('Email');
+            $table->string('password');
 
             // ✅ FIXED: correct column and reference name
             $table->foreignId('RestaurantApplicantID')
