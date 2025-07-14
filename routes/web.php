@@ -10,10 +10,12 @@ use App\Http\Controllers\user\ForgotPasswordController;
 use App\Http\Controllers\user\ResetPasswordController;
 use App\Http\Controllers\user\ProfileController;
 use App\Http\Controllers\user\HomeController;
-use App\Http\Controllers\Auth\LoginController as StoreLoginController;
-use App\Http\Controllers\Auth\RegisterController as StoreRegisterController;
-use App\Http\Controllers\RestaurantProfileController;
+use App\Http\Controllers\user\EateryController;
 use App\Http\Controllers\StripeController;
+use App\Http\Controllers\Auth\SignupController;
+use App\Http\Controllers\Auth\RegisterController;
+use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\store\RestaurantProfileController;
 use App\Models\Customer;
 use App\Models\Store;
 use App\Models\Pickup;
@@ -40,6 +42,14 @@ Route::post('/forgot-password', [ForgotPasswordController::class, 'sendResetLink
 Route::get('/reset-password/{token}', [ResetPasswordController::class, 'showResetForm'])->name('password.reset');
 Route::post('/reset-password', [ResetPasswordController::class, 'reset'])->name('password.update');
 
+Route::get('/eatery', [EateryController::class, 'showPage'])
+         ->name('user.eatery');
+
+// Route BARU untuk halaman detail dengan parameter {restaurant}
+// Nama 'restaurant' harus sama dengan nama variabel di method controller
+Route::get('/eatery/{restaurant}', [EateryController::class, 'showDetail'])
+         ->name('eatery.detail');
+
 // =======================
 // 👤 USER PROTECTED ROUTES
 // =======================
@@ -54,19 +64,20 @@ Route::prefix('user')->middleware(['auth', 'role:user'])->group(function () {
 // 🏪 STORE (RESTAURANT) ROUTES
 // =======================
 
-// Pendaftaran restoran
-Route::get('/store/signup', [StoreRegisterController::class, 'showRegistrationForm'])->name('resto.signup.form');
-Route::post('/store/signup', [StoreRegisterController::class, 'processRestoSignup'])->name('resto.signup.submit');
+// --- ALUR PENDAFTARAN RESTO ---
+Route::get('/store/signup', [RegisterController::class, 'showRegistrationForm'])->name('resto.signup.form');
+Route::post('/store/signup', [RegisterController::class, 'processRestoSignup'])->name('resto.signup.submit');
 
-// Login/logout restoran
-Route::get('/store/signin', [StoreLoginController::class, 'showRestoLoginForm'])->name('resto.login.form');
-Route::post('/store/signin', [StoreLoginController::class, 'restoLogin'])->name('resto.login.submit');
-Route::post('/store/logout', [StoreLoginController::class, 'restoLogout'])->name('resto.logout');
+// --- LOGIN & LOGOUT RESTO ---
+Route::get('/store/signin', [LoginController::class, 'showRestoLoginForm'])->name('resto.login.form');
+Route::post('/store/signin', [LoginController::class, 'restoLogin'])->name('resto.login.submit');
+Route::post('/store/logout', [LoginController::class, 'restoLogout'])->name('resto.logout');
 
-// Rute yang membutuhkan guard 'resto'
+// --- RUTE YANG MEMBUTUHKAN LOGIN GUARD 'resto' ---
 Route::middleware('auth:resto')->prefix('store')->name('resto.')->group(function () {
-    // Detail lanjutan pendaftaran
-    Route::get('/register-details', [StoreRegisterController::class, 'showEateryDetailsForm'])->name('register.details.form');
+
+    // Detail restoran (lanjutan pendaftaran)
+    Route::get('/register-details', [RegisterController::class, 'showEateryDetailsForm'])->name('register.details.form');
     Route::post('/register-details', [RestaurantProfileController::class, 'storeOrUpdateDetails'])->name('register.details.submit');
 
     // Profil restoran
@@ -74,10 +85,10 @@ Route::middleware('auth:resto')->prefix('store')->name('resto.')->group(function
     Route::get('/restaurant/profile/edit', [RestaurantProfileController::class, 'edit'])->name('profile.edit');
     Route::put('/restaurant/profile/update', [RestaurantProfileController::class, 'update'])->name('profile.update');
 
-    // Stok makanan
-    Route::get('/stocks', [StockController::class, 'index'])->name('stocks.index');
-    Route::post('/stocks/update', [StockController::class, 'update'])->name('stocks.update');
+    // Logout
+    // Route::post('/logout', [LoginController::class, 'restoLogout'])->name('logout');
 });
+
 
 // =======================
 // 💳 CHECKOUT & PAYMENT

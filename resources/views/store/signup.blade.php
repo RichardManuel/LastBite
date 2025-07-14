@@ -27,24 +27,26 @@
             flex-direction: column;
         }
 
-        /* Navbar Styles */
-        .navbar-custom {
-            background-color: var(--brand-yellow-navbar);
-            padding-top: 0.8rem;
-            padding-bottom: 0.8rem;
+
+        /* Navbar My Eatery Styles */
+        .navbar-eatery {
+            background-color: #F3C148;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1); /* shadow-md */
         }
-        .navbar-custom .navbar-brand img {
-            height: 28px; /* Sesuaikan tinggi logo */
+        .navbar-eatery .navbar-brand img {
+            height: 50px; /* Sesuaikan dengan tinggi logo LastBite di navbar Eatery */
+
         }
-        .navbar-custom .nav-link {
-            color: var(--brand-text-dark) !important;
-            font-weight: 500;
-            font-size: 0.9rem;
-            padding-left: 1rem;
-            padding-right: 1rem;
+        .navbar-eatery .nav-link {
+            color: #F9F1E4 !important; /* Teks navbar berwarna gelap */
+            font-family: 'Instrument Sans';
+            font-weight: 600;
+            padding-left: 4rem;
+            padding-right: 2rem;
         }
-        .navbar-custom .nav-link:hover {
-            opacity: 0.8;
+        .navbar-eatery .nav-link:hover,
+        .navbar-eatery .nav-link.active {
+            color: var(--brand-green) !important; /* Warna hijau untuk hover/active */
         }
 
         .main-content {
@@ -126,7 +128,7 @@
         }
 
         .btn-submit-custom {
-            background-color: var(--brand-orange-accent);
+            background-color: #F3C148;
             color: white;
             font-weight: 500;
             padding: 0.75rem 0;
@@ -189,7 +191,7 @@
 <body>
 
     <!-- Navbar -->
-    <nav class="navbar navbar-expand-sm navbar-custom">
+    <nav class="navbar navbar-expand-sm navbar-eatery">
         <div class="container">
             <a class="navbar-brand" href="/">
                 <img src="{{ asset('img/logo lastbite putih 1.png') }}" alt="LastBite Logo"> <!-- Ganti dengan path logo Anda -->
@@ -199,13 +201,13 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarNavMain">
                 <ul class="navbar-nav ms-auto">
-                    <li class="nav-item">
+                    <li class="nav-item me-4">
                         <a class="nav-link" href="#">Order</a>
                     </li>
-                    <li class="nav-item">
+                    <li class="nav-item me-4">
                         <a class="nav-link" href="#">Stocks</a>
                     </li>
-                    <li class="nav-item">
+                    <li class="nav-item me-4">
                         <a class="nav-link" href="#">Profile</a>
                     </li>
                 </ul>
@@ -269,7 +271,7 @@
                 </div>
             </form>
 
-            <div class="divider-custom">Or register with</div>
+            <!-- <div class="divider-custom">Or register with</div>
 
             <div class="row g-2">
                 <div class="col">
@@ -279,10 +281,10 @@
                 </div>
                 <div class="col">
                     <a href="#" class="btn btn-social-custom w-100 d-flex align-items-center justify-content-center">
-                        <img src="{{ asset('img/facebook_logo_icon.png') }}" alt="Facebook logo"> Facebook <!-- Pastikan Anda punya ikon FB -->
+                        <img src="{{ asset('img/facebook_logo_icon.png') }}" alt="Facebook logo"> Facebook
                     </a>
                 </div>
-            </div>
+            </div> -->
 
             <!-- Jika perlu, tambahkan link ke halaman Login -->
             <!--

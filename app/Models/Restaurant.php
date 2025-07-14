@@ -11,10 +11,10 @@ class Restaurant extends Authenticatable
     use HasFactory, Notifiable;
 
     protected $table = 'restaurants';
-    protected $primaryKey = 'RestaurantID';
-    public $incrementing = true;
-    protected $keyType = 'int';
-    public $timestamps = true; // Atur true jika kamu pakai created_at dan updated_at
+    protected $primaryKey = 'restaurant_id';
+    public $incrementing = false;
+    protected $keyType = 'string';
+    public $timestamps = false; // Atur true jika kamu pakai created_at dan updated_at
 
     protected $fillable = [
         'email',
@@ -58,9 +58,9 @@ class Restaurant extends Authenticatable
         parent::boot();
 
         static::creating(function ($restaurant) {
-            $lastId = self::orderBy('RestaurantID', 'desc')->first();
-            $newNumber = $lastId ? $lastId->RestaurantID + 1 : 1;
-            $restaurant->RestaurantID = $newNumber;
+            $lastId = self::orderBy('restaurant_id', 'desc')->first();
+            $newNumber = $lastId ? ((int)substr($lastId->restaurant_id, 2)) + 1 : 1;
+            $restaurant->restaurant_id = 'ST' . str_pad($newNumber, 3, '0', STR_PAD_LEFT);
         });
     }
 }

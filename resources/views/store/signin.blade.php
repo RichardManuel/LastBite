@@ -21,7 +21,7 @@
         html, body {
             height: 100%; /* Menggunakan height 100% agar .register-full-page-layout bisa mengisi sisa viewport */
             margin: 0;
-            font-family: 'Instrument Serif', serif;
+            font-family: 'Instrument Serif';
             overflow-x: hidden;
             display: flex; /* Menggunakan flexbox pada body */
             flex-direction: column; /* Agar navbar dan konten utama tersusun vertikal */
@@ -29,17 +29,19 @@
 
         /* Navbar My Eatery Styles */
         .navbar-eatery {
-            background-color: var(--brand-yellow-navbar);
+            background-color: #F3C148;
             box-shadow: 0 2px 4px rgba(0,0,0,0.1); /* shadow-md */
         }
         .navbar-eatery .navbar-brand img {
-            height: 30px; /* Sesuaikan dengan tinggi logo LastBite di navbar Eatery */
+            height: 50px; /* Sesuaikan dengan tinggi logo LastBite di navbar Eatery */
+
         }
         .navbar-eatery .nav-link {
-            color: var(--text-dark) !important; /* Teks navbar berwarna gelap */
-            font-weight: 500;
-            padding-left: 1rem;
-            padding-right: 1rem;
+            color: #F9F1E4 !important; /* Teks navbar berwarna gelap */
+            font-family: 'Instrument Sans';
+            font-weight: 600;
+            padding-left: 4rem;
+            padding-right: 2rem;
         }
         .navbar-eatery .nav-link:hover,
         .navbar-eatery .nav-link.active {
@@ -150,7 +152,7 @@
 
 
         .btn-submit-custom {
-            background-color: var(--brand-orange-text); /* Tombol "Let's start!" oranye */
+            background-color: #F3C148; /* Tombol "Let's start!" oranye */
             color: white;
             font-weight: 600;
             padding: 0.75rem 0; /* py-3 */
@@ -239,6 +241,30 @@
 </head>
 <body>
 
+    <!-- Navbar (Eatery Version) -->
+    <nav class="navbar navbar-expand-sm navbar-eatery">
+        <div class="container">
+            <a class="navbar-brand" href="/">
+                <img src="{{ asset('img/logo lastbite putih 1.png') }}" alt="LastBite Logo">
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavEatery" aria-controls="navbarNavEatery" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse " id="navbarNavEatery">
+                <ul class="navbar-nav ms-auto ">
+                    <li class="nav-item me-4">
+                        <a class="nav-link" href="#">Order</a>
+                    </li>
+                    <li class="nav-item me-4">
+                        <a class="nav-link" href="#">Stocks</a>
+                    </li>
+                    <li class="nav-item me-4">
+                        <a class="nav-link" href="#">Profile</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
 
     <div class="register-full-page-layout">
         <div class="register-image-column">
@@ -267,17 +293,17 @@
                     <button type="submit" class="btn btn-submit-custom w-100">Let's start!</button>
                 </form>
 
-                <div class="social-icons-container">
+                <!-- <div class="social-icons-container">
                     <a href="{{-- url('/auth/facebook') --}}#" class="social-icon facebook-icon" aria-label="Login with Facebook">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M22.676 0H1.324C.593 0 0 .593 0 1.324v21.352C0 23.407.593 24 1.324 24h11.494v-9.294H9.689v-3.621h3.129V8.41c0-3.1 1.893-4.785 4.659-4.785 1.325 0 2.463.099 2.795.142v3.24h-1.918c-1.504 0-1.795.715-1.795 1.763v2.309h3.587l-.467 3.622h-3.12V24h6.116c.73 0 1.323-.593 1.323-1.324V1.324C24 .593 23.407 0 22.676 0z"/></svg>
                     </a>
                     <a href="{{-- url('/auth/google') --}}#" class="social-icon" aria-label="Login with Google">
                         <img src="https://upload.wikimedia.org/wikipedia/commons/c/c1/Google_%22G%22_logo.svg" alt="Google logo">
                     </a>
-                </div>
+                </div> -->
 
-                <p class="account-prompt">
-                    Don't have an account? <a href="{{ route("resto.signup.form")}}">Sign up</a>
+                <p class="account-prompt mt-4">
+                    Don't have an account? <a href="{{ route('resto.signup.form') }}">Sign up</a>
                 </p>
 
             </div>
