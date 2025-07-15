@@ -1,0 +1,381 @@
+body {
+    font-family: 'Instrument Sans', sans-serif;
+    background-color: #FFFFFF;
+}
+
+.navbar {
+    background-color: #474747 !important;
+    padding: 20px;
+}
+
+.navbar .nav-link {
+    font-family: 'Instrument Sans', sans-serif;
+    font-weight: 500;
+    font-size: 15px;
+}
+.navbar .nav-link.active {
+    text-decoration: underline;
+    text-underline-offset: 4px;
+}
+
+.navbar-brand img {
+    width: 100px;
+    height: auto;
+}
+
+.main-title {
+    font-family: 'Instrument Serif', serif;
+    font-size: 7rem;
+    color: #474747;
+    margin-top: 2rem;
+    margin-bottom: 0.5rem;
+}
+
+.sub-title {
+    font-family: 'Instrument Sans', sans-serif;
+    font-size: 1.5rem;
+    color: #474747;
+    margin-bottom: 1.5rem;
+}
+
+.line {
+    margin-top: 1.5rem;
+    margin-bottom: 2.5rem;
+    height: 2px;
+    background-color: #474747;
+    border: none;
+    opacity: 1;
+}
+
+.application-card {
+    background-color: #C1C1C1;
+    border-radius: 20px;
+    padding-left: 20px; 
+    padding-right: 20px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    margin-bottom: 2rem;
+    box-shadow: 0 3px 6px rgba(0,0,0,0.08);
+    border: 2px solid #474747;
+}
+
+/* --- ATURAN FONT UNTUK LABEL DAN VALUE --- */
+
+.application-details-content .detail-label {
+    font-family: 'Instrument Serif', serif;
+    font-size: 1.5rem; 
+    font-weight: 200;
+    color: #404040;
+    margin-bottom: 0.3rem;
+}
+
+.application-details-content .detail-value {
+    font-family: 'Instrument Sans', sans-serif;
+    font-size: 1.3rem;
+    font-weight: bold;
+    color: #474747;
+    margin-bottom: 0;
+}
+
+.application-summary-row .detail-label {
+    font-family: 'Instrument Sans', sans-serif;
+    font-size: 1rem;
+    color: #505050;
+    margin-bottom: 0.2rem;
+    font-weight: 200;
+}
+
+.application-summary-row .detail-value {
+    font-family: 'Instrument Sans', sans-serif;
+    font-weight: bold; 
+    font-size: 1.4rem; 
+    color: #212529;
+    margin-bottom: 0;
+}
+
+.detail-value.description-text {
+    font-family: 'Instrument Sans', sans-serif;
+    font-weight: normal;
+    font-size: 1.1rem;
+    line-height: 1.7;
+    color: #333;
+}
+
+.btn-see-details {
+    background-color: #F9F1E4;
+    border: 1px solid #E0E0D1;
+    color: #333;
+    font-family: 'Instrument Sans', sans-serif;
+    font-size: 1.1rem;
+    font-weight: 500;
+    padding: 0.6rem 1.2rem;
+    transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out, border-color 0.2s ease-in-out;
+}
+
+.btn-see-details:hover {
+    background-color: #E9E9CC;
+    border-color: #D0D0B1;
+    color: #333;
+}
+
+.btn-see-details[aria-expanded="true"] {
+    background-color: #474747;
+    color: #FFFFFF;
+    border-color: #4A4A4A;
+}
+
+.btn-see-details[aria-expanded="true"]:hover {
+    background-color: #3A3A3A;
+    color: #FFFFFF;
+    border-color: #3A3A3A;
+}
+
+.navbar-custom-logo {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+@media (max-width: 991.98px) {
+    .navbar-custom-logo {
+        position: static;
+        transform: none;
+        margin-left: auto !important;
+        margin-right: auto !important;
+    }
+    .navbar-nav.me-auto { margin-right: 0 !important; }
+    .navbar-nav.ms-auto { margin-left: 0 !important; }
+
+    .main-title { font-size: 5rem; }
+    .sub-title { font-size: 1.3rem; }
+}
+
+.application-summary-row {
+    min-height: 6rem;
+}
+
+@media (max-width: 767.98px) {
+    .application-summary-row { min-height: auto; }
+}
+
+/* ============================================= */
+/* DIUBAH: ATURAN UNTUK DETAIL ITEM CELL         */
+/* ============================================= */
+
+/* Memberikan tinggi tetap 100px pada setiap sel detail */
+.application-details-content .row > .detail-item-cell {
+    height: auto; /* Atur tinggi tetap */
+    padding-top: 0.75rem;
+    padding-bottom: 0.75rem;
+    overflow: hidden; /* Sembunyikan konten yang meluap jika ada */
+    display: flex; /* Menggunakan flexbox untuk alignment internal */
+    flex-direction: column; /* Menumpuk label dan value secara vertikal */
+}
+
+.detail-item-cell > p {
+    margin-bottom: 0.3rem;
+}
+.detail-item-cell > p:last-child {
+    margin-bottom: 0;
+}
+
+
+.image-placeholder-lg,
+.image-placeholder-sm {
+    width: 100%;
+    background-color: #E7E7E7;
+    border: 1px solid #CFCFCF;
+    border-radius: 10px;
+    color: #999;
+    font-size: 1rem;
+}
+
+.image-placeholder-lg {
+    min-height: 150px;
+}
+
+/* DIUBAH: Menyesuaikan placeholder gambar kecil agar muat di dalam sel 100px */
+.image-placeholder-sm {
+    height: 100%;  /* Buat placeholder mengisi sisa ruang di dalam sel */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Agar label gambar berada di atas gambar di dalam sel */
+.detail-item-cell .image-placeholder-sm {
+    flex-grow: 1; /* Biarkan placeholder gambar mengambil sisa ruang vertikal */
+}
+
+.application-details-content .document-cell {
+    height: auto; 
+}
+
+/* 
+ * Aturan tambahan untuk memastikan gambar di dalam sel dokumen
+ * tidak terlalu besar dan tetap proporsional.
+*/
+.document-cell img {
+    max-height: 500px; /* Batas tinggi maksimum yang lebih masuk akal */
+    width: 100%;       /* Buat gambar mengisi lebar sel */
+    object-fit: contain; /* Pastikan gambar tidak terdistorsi */
+}
+
+.action-button {
+    font-family: 'Instrument Sans', sans-serif;
+    font-weight: 600;
+    font-size: 1rem;
+    padding: 0.5rem 1.2rem;
+    border-radius: 8px; /* Membuat sudut sedikit membulat */
+    transition: all 0.2s ease-in-out;
+}
+
+.action-button:hover {
+    transform: translateY(-2px); /* Efek sedikit terangkat saat disentuh mouse */
+    box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+}
+
+/* Footer Section Styling */
+.footer-section {
+    background-color: #484848; /* Warna hijau tua dari contoh */
+    color: #E0E0E0; /* Warna teks default terang untuk kontras */
+    position: relative; /* Untuk positioning teks background */
+    overflow: hidden; /* Untuk teks background jika keluar batas */
+    font-family: 'Instrument Serif', serif; /* Font Serif seperti di contoh */
+}
+
+.footer-logo-main {
+    width: 180px; /* Sesuaikan ukuran logo */
+    height: auto;
+    margin-left: -20px;
+}
+
+.footer-thank-you-text {
+    font-size: 2.5rem; /* Ukuran teks "Thank you" */
+    color: #EEF6DF;
+    font-weight: 500; /* Sedikit tebal */
+    margin-bottom: 0.75rem !important; /* Override margin Bootstrap jika perlu */
+}
+
+.footer-nav {
+    margin-top: 0.5rem;
+}
+
+.footer-nav-link {
+    color: #D0D0D0; /* Warna link navigasi */
+    text-decoration: none;
+    margin: 0 12px; /* Jarak antar link */
+    font-size: 0.95rem;
+    font-family: 'Instrument Sans', sans-serif; /* Font Sans untuk navigasi */
+    transition: color 0.3s ease;
+}
+
+.footer-nav-link:hover {
+    color: #EEF6DF; /* Warna link saat hover */
+}
+
+.footer-follow-us-title strong {
+    font-size: 1rem;
+    font-weight: bold;
+    color: #EEF6DF;
+    font-family: 'Instrument Sans', sans-serif; /* Font Sans untuk judul */
+    margin-right: -20px;
+}
+
+.footer-social-subtext {
+    font-size: 0.8rem;
+    color: #EEF6DF;
+    font-family: 'Instrument Sans', sans-serif; /* Font Sans untuk subteks */
+    margin-right: -20px;
+}
+
+.social-icons-footer{
+    margin-right: -25px;
+}
+
+.social-icons-footer .social-icon-link {
+    color: #EEF6DF;
+    font-size: 1.5rem; /* Ukuran ikon sosial */
+    margin: 0 8px; /* Jarak antar ikon */
+    transition: color 0.3s ease;
+}
+
+.social-icons-footer .social-icon-link:hover {
+    color: #A0A0A0; /* Warna ikon saat hover */
+}
+
+.footer-divider {
+    border: none; /* Hapus border default lainnya jika ada */
+    border-top-style: solid; /* Pastikan style border diset (solid, dashed, dll.) */
+    border-top-color: #EEF6DF; /* Warna garis pemisah */
+    border-top-width: 2px; /* GANTI NILAI INI UNTUK KETEBALAN (misal: 3px, 4px, 5px) */
+    margin-top: 1.5rem;
+    margin-bottom: 1.5rem;
+    margin-left: -50px;
+    margin-right: -50px;
+    /* height: 0;  Anda bisa menghapus height atau set ke 0 jika menggunakan border */
+}
+
+.copyright-text-footer {
+    font-size: 0.85rem;
+    color: #EEF6DF;
+    opacity: 0.9;
+    font-family: 'Instrument Sans', sans-serif; /* Font Sans untuk copyright */
+}
+
+/* Teks "LastBite" Besar sebagai Latar Belakang */
+.footer-background-text-container {
+    /* Ini adalah kontainer yang bisa digunakan untuk memposisikan teks besar */
+    /* Jika ingin full width dan di bawah konten lain: */
+    width: 100%;
+    text-align: center; /* Pusatkan teks LastBite */
+    margin-top: -20px; /* Tarik sedikit ke atas agar bisa sedikit di belakang copyright, sesuaikan */
+                     /* Atau atur dengan position absolute jika perlu */
+}
+
+.footer-logo-large-bg {
+    font-family: 'Instrument Serif', serif; /* Font Serif untuk logo besar */
+    font-size: 15rem; /* Ukuran SANGAT BESAR, sesuaikan! */
+    font-weight: 30px; /* Bisa juga normal atau 500 */
+    color: #EEF6DF; /* Warna teks besar (putih kehijauan sangat transparan) */
+    line-height: 0.8; /* Kurangi line-height agar tidak terlalu banyak ruang vertikal */
+    /* Untuk efek agar sedikit di belakang konten: */
+    /* position: relative; */
+    /* z-index: -1; /* Ini mungkin memerlukan z-index lebih tinggi pada konten lain */
+    /* Atau jika footer-background-text-container diposisikan absolut: */
+    /* position: absolute; */
+    /* bottom: 20px; */
+    /* left: 50%; */
+    /* transform: translateX(-50%); */
+    /* width: 100%; */
+    user-select: none; /* Agar teks tidak bisa dipilih */
+    opacity: 73%;
+}
+
+
+/* Hapus atau sesuaikan styling footer lama jika ada bentrokan */
+.footer-logo-small { /* Kelas lama, mungkin tidak dipakai lagi */
+   display: none;
+}
+
+.footer-logo-large { /* Kelas lama, sekarang footer-logo-large-bg */
+   display: none;
+}
+
+/* Responsivitas Tambahan jika Perlu */
+@media (max-width: 767px) {
+    .footer-thank-you-text {
+        font-size: 1.5rem;
+    }
+    .footer-logo-large-bg {
+        font-size: 6rem; /* Perkecil logo background di layar kecil */
+    }
+    .footer-section .row > div { /* Semua kolom di footer jadi full width dan terpusat di mobile */
+        text-align: center !important;
+    }
+}
+@media (max-width: 575px) {
+    .footer-logo-large-bg {
+        font-size: 4.5rem;
+    }
+}

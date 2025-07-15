@@ -1,0 +1,130 @@
+/* RestoManagementStyle.css */
+
+/* Management Card Styling (similar to application-card but can be distinct if needed) */
+.management-card {
+    background-color: #C1C1C1; /* Light grey, as in image */
+    border-radius: 20px;
+    padding: 20px;
+    margin-bottom: 1.5rem;
+    box-shadow: 0 3px 6px rgba(0,0,0,0.08);
+    border: 2px solid #474747; /* Dark grey border */
+}
+
+/* Use existing .detail-label and .detail-value from RestoApplicationStyle.css for consistency */
+/* If you need overrides, define them here: */
+.management-card .detail-label {
+    font-family: 'Instrument Serif', sans-serif;
+    font-size: 1.3rem; /* Slightly smaller for management view */
+    color: #474747;
+    margin-bottom: 0.1rem;
+    font-weight: 400;
+}
+
+.management-card .detail-value {
+    font-family: 'Instrument Sans', sans-serif;
+    font-weight: bold;
+    font-size: 1.2rem; /* Slightly smaller */
+    color: #474747;
+    margin-bottom: 0;
+}
+
+/* Button Styling */
+.btn-manage, .btn-action {
+    background-color: #F9F1E4; /* Beige color from image */
+    border: 1px solid #E0E0D1;
+    color: #333;
+    font-family: 'Instrument Sans', sans-serif;
+    font-size: 1rem;
+    font-weight: 500;
+    padding: 0.5rem 1rem; /* Adjust padding to fine-tune width */
+    /* width: 100%; */ /* <-- REMOVE THIS LINE or comment it out */
+    min-width: 100px;    /* <-- ADJUST as needed, e.g., 100px or 120px if they look too narrow */
+    transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out, border-color 0.2s ease-in-out;
+    display: inline-block; /* <-- ADD THIS LINE */
+}
+
+.btn-manage:hover, .btn-action:hover {
+    background-color: #E9E9CC;
+    border-color: #D0D0B1;
+}
+
+
+
+/* Ensure buttons in actions row are reasonably sized on small screens */
+.actions-row .btn-action {
+    font-size: 0.9rem;
+    padding: 0.4rem 0.5rem; /* Smaller padding for smaller buttons */
+}
+
+
+/* Contact Modal Styling */
+.contact-modal-content {
+    background-color: #F9F1E4; /* Beige background */
+    border: 2px solid #474747; /* Dark grey border */
+    border-radius: 15px;
+    font-family: 'Instrument Sans', sans-serif;
+}
+
+.contact-modal-header {
+    border-bottom: 1px solid #474747; /* Dark grey separator */
+    padding: 1rem 1.5rem;
+}
+
+.contact-modal-header .modal-title {
+    font-family: 'Instrument Serif', serif;
+    font-size: 1.8rem;
+    color: #474747;
+}
+
+.btn-close-white {
+    filter: invert(40%) sepia(0%) saturate(300%) hue-rotate(0deg) brightness(70%) contrast(100%); /* Make X darker */
+}
+
+
+.contact-modal-body {
+    padding: 1.5rem;
+    color: #474747;
+}
+
+.contact-modal-body .contact-label {
+    font-family: 'Instrument Serif', serif;
+    font-size: 1.3rem;
+    margin-bottom: 0.2rem;
+    color: #404040;
+}
+
+.contact-modal-body .contact-value {
+    font-family: 'Instrument Sans', sans-serif;
+    font-size: 1.2rem;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+
+
+
+@media (max-width: 767.98px) {
+    .management-card .detail-label {
+        font-size: 0.8rem;
+    }
+    .management-card .detail-value {
+        font-size: 1rem;
+    }
+    .btn-manage, .actions-row .btn-action {
+        font-size: 0.9rem;
+        padding: 0.4rem 0.8rem;
+    }
+    .action-buttons-container {
+        text-align: center !important; /* Center Manage button on mobile */
+    }
+    .actions-row > div { /* Make action buttons stack better on mobile if needed */
+        margin-bottom: 0.5rem;
+    }
+     .actions-row .col-4 { /* Make sure buttons have enough space */
+        flex: 0 0 auto;
+        width: 32%; /* Approximately 1/3rd with small gap */
+    }
+    .actions-row .offset-md-3 {
+        margin-left: 0; /* Remove offset on mobile */
+    }
+}
