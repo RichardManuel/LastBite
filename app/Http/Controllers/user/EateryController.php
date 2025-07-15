@@ -77,6 +77,7 @@ class EateryController extends Controller
         // ===========================================
 
         $eateries = $query->get();
+        // $eateries = Restaurant::all();
 
         // dd($query->toSql(), $query->getBindings());
 

@@ -1,4 +1,4 @@
-@extends('store.layouts.app')
+@extends('user.layouts.app')
 
 @section('title', $eatery->name)
 

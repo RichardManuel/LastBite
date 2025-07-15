@@ -81,7 +81,8 @@ class RestaurantProfileController extends Controller
             'bank_account_name' => $request->account_name,
             'pricing_tier' => $request->pricing,
             'best_before' => $request->best_before,
-            'status_approval' => 'approved', // AUTO-APPROVE SEMENTARA
+            'status_approval' => 'pending_review
+            ', // AUTO-APPROVE SEMENTARA
         ];
 
 
@@ -199,8 +200,6 @@ class RestaurantProfileController extends Controller
         $restaurant->bank_account_name = $validated['bank_account_name'] ?? null;
 
         $restaurant->save(); // Save update
-
         return redirect()->route('resto.profile.show')->with('success', 'Profile updated.');
-        $restaurant->save();
     }
 }

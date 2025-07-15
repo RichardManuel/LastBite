@@ -46,7 +46,7 @@
             <!-- Left Nav Items -->
             <div class="navbar-nav me-auto">
                 {{-- Gunakan helper url() atau route() untuk link --}}
-                <a class="nav-link" href="{{ route('user.eatery') }}">Home</a>
+                <a class="nav-link" href="{{ route('home.index') }}">Home</a>
                 <a class="nav-link mx-lg-3 mx-2" href="{{ route('user.eatery') }}">Eatery</a>
                 <a class="nav-link" href="">Order</a>
             </div>

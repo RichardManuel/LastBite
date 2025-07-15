@@ -9,9 +9,9 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('restaurants', function (Blueprint $table) {
-            $table->string('restaurant_id', 5)->primary(); // Nanti diisi manual lewat model
+            $table->string('restaurant_id', 5)->primary(); // ID manual
 
-            // Kolom-kolom lainnya
+            // Kolom utama
             $table->string('name', 100)->nullable();
             $table->string('location', 255)->nullable();
             $table->string('operational_hours', 100)->nullable();
@@ -23,7 +23,10 @@ return new class extends Migration
             $table->string('account_bank', 50)->nullable();
             $table->string('bank_account_name', 100)->nullable();
             $table->string('name_accountable', 100)->nullable();
-            $table->string('pricing_tier', 50)->nullable();
+
+            // Kolom harga (diubah dari string ke decimal)
+            $table->decimal('pricing_tier', 10, 2)->nullable();
+
             $table->string('best_before')->nullable();
             $table->string('restaurant_picture_path')->nullable();
             $table->string('product_sold_picture_path')->nullable();
@@ -33,9 +36,12 @@ return new class extends Migration
             $table->string('email', 255)->unique();
             $table->string('password', 255)->nullable();
 
-            $table->enum('status_approval', ['pending_details', 'pending_review', 'approved', 'rejected', 'inactive'])->default('pending_details');
+            $table->enum('status_approval', ['pending_details', 'pending_review', 'approved', 'rejected', 'inactive'])
+                ->default('pending_details');
+
             $table->timestamps();
 
+            // Index untuk pencarian cepat
             $table->index('name');
             $table->index('food_type');
         });

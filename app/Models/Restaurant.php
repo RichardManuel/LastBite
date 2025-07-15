@@ -63,4 +63,9 @@ class Restaurant extends Authenticatable
             $restaurant->restaurant_id = 'ST' . str_pad($newNumber, 3, '0', STR_PAD_LEFT);
         });
     }
+
+    public function isNew()
+    {
+        return $this->created_at && $this->created_at->gt(now()->subDays(7));
+    }
 }
