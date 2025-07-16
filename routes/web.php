@@ -1,8 +1,12 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\store\AuthController;
 use Illuminate\Support\Facades\Auth;
+use App\Models\Customer;
+use App\Models\Store;
+use App\Models\Pickup;
+
+use App\Http\Controllers\store\AuthController;
 use App\Http\Controllers\store\StockController;
 use App\Http\Controllers\user\RegisterController as UserRegisterController;
 use App\Http\Controllers\user\LoginController as UserLoginController;
@@ -16,23 +20,17 @@ use App\Http\Controllers\Auth\SignupController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\store\RestaurantProfileController;
-use App\Http\Controllers\admin\RestaurantApplicationController; // Pastikan ini di-import
-use App\Http\Controllers\admin\RestaurantManagementController;
-
-use App\Models\Customer;
-use App\Models\Store;
-use App\Models\Pickup;
+use App\Http\Controllers\store\RegisterRestaurantController;
+use App\Http\Controllers\admin\RestaurantManagementController; // Pakai hanya ini
 
 // =======================
 // 🌐 PUBLIC ROUTES
 // =======================
-
 Route::get('/', [HomeController::class, 'index'])->name('home.index');
 
 // =======================
 // 👤 USER AUTH ROUTES
 // =======================
-
 Route::get('/register', [UserRegisterController::class, 'showForm'])->name('register.form');
 Route::post('/register', [UserRegisterController::class, 'register'])->name('register.submit');
 
@@ -45,31 +43,21 @@ Route::post('/forgot-password', [ForgotPasswordController::class, 'sendResetLink
 Route::get('/reset-password/{token}', [ResetPasswordController::class, 'showResetForm'])->name('password.reset');
 Route::post('/reset-password', [ResetPasswordController::class, 'reset'])->name('password.update');
 
-Route::get('/eatery', [EateryController::class, 'showPage'])
-         ->name('user.eatery');
-
-// Route BARU untuk halaman detail dengan parameter {restaurant}
-// Nama 'restaurant' harus sama dengan nama variabel di method controller
-Route::get('/eatery/{restaurant}', [EateryController::class, 'showDetail'])
-         ->name('eatery.detail');
+Route::get('/eatery', [EateryController::class, 'showPage'])->name('user.eatery');
+Route::get('/eatery/{restaurant}', [EateryController::class, 'showDetail'])->name('eatery.detail');
 
 // =======================
 // 👤 USER PROTECTED ROUTES
 // =======================
-
 Route::prefix('user')->middleware(['auth', 'role:user'])->group(function () {
     Route::get('/profile', [ProfileController::class, 'showProfile'])->name('profile.show');
     Route::get('/profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::post('/profile/update', [ProfileController::class, 'update'])->name('profile.update');
 });
 
-// =======================
-// 🏪 STORE (RESTAURANT) ROUTES
-// =======================
-
 // --- ALUR PENDAFTARAN RESTO ---
-Route::get('/store/signup', [RegisterController::class, 'showRegistrationForm'])->name('resto.signup.form');
-Route::post('/store/signup', [RegisterController::class, 'processRestoSignup'])->name('resto.signup.submit');
+Route::get('/store/signup', [RegisterRestaurantController::class, 'showRegistrationForm'])->name('resto.signup.form');
+Route::post('/store/signup', [RegisterRestaurantController::class, 'processRestoSignup'])->name('resto.signup.submit');
 
 // --- LOGIN & LOGOUT RESTO ---
 Route::get('/store/signin', [LoginController::class, 'showRestoLoginForm'])->name('resto.login.form');
@@ -77,26 +65,33 @@ Route::post('/store/signin', [LoginController::class, 'restoLogin'])->name('rest
 Route::post('/store/logout', [LoginController::class, 'restoLogout'])->name('resto.logout');
 
 // --- RUTE YANG MEMBUTUHKAN LOGIN GUARD 'resto' ---
-Route::middleware('auth:resto')->prefix('store')->name('resto.')->group(function () {
+Route::prefix('store')
+    ->name('resto.')
+    ->middleware(['auth:resto'])
+    ->group(function () {
+        // Form lanjutan pendaftaran
+        Route::get('/register-details', [RegisterRestaurantController::class, 'showEateryDetailsForm'])
+            ->name('register.details.form');
+        Route::post('/register-details', [RestaurantProfileController::class, 'storeOrUpdateDetails'])
+            ->name('register.details.submit');
 
-    // Detail restoran (lanjutan pendaftaran)
-    Route::get('/register-details', [RegisterController::class, 'showEateryDetailsForm'])->name('register.details.form');
-    Route::post('/register-details', [RestaurantProfileController::class, 'storeOrUpdateDetails'])->name('register.details.submit');
+        // Halaman status
+        Route::get('/pending', fn() => view('store.application_pending'))->name('pending');
+        Route::get('/rejected', fn() => view('store.application_rejected'))->name('rejected');
+    });
 
-    // Profil restoran
-    Route::get('/profile', [RestaurantProfileController::class, 'show'])->name('profile.show');
-    Route::get('/restaurant/profile/edit', [RestaurantProfileController::class, 'edit'])->name('profile.edit');
-    Route::put('/restaurant/profile/update', [RestaurantProfileController::class, 'update'])->name('profile.update');
-
-    // Logout
-    // Route::post('/logout', [LoginController::class, 'restoLogout'])->name('logout');
-});
-
+Route::prefix('store')
+    ->name('resto.')
+    ->middleware(['auth:resto', 'resto.status'])
+    ->group(function () {
+        Route::get('/profile', [RestaurantProfileController::class, 'show'])->name('profile.show');
+        Route::get('/restaurant/profile/edit', [RestaurantProfileController::class, 'edit'])->name('profile.edit');
+        Route::put('/restaurant/profile/update', [RestaurantProfileController::class, 'update'])->name('profile.update');
+    });
 
 // =======================
 // 💳 CHECKOUT & PAYMENT
 // =======================
-
 Route::get('/checkout/reserved', function () {
     $customer = Customer::first();
     $store = Store::first();
@@ -110,45 +105,23 @@ Route::post('/checkout/stripe', [StripeController::class, 'checkout'])->name('ch
 Route::get('/checkout/success', [StripeController::class, 'success'])->name('checkout.success');
 
 // =======================
-// 🔐 ADMIN ROUTES (optional)
+// 🔐 ADMIN ROUTES
 // =======================
-Route::prefix('admin')->middleware(['auth', 'role:admin'])->group(function () {
+Route::prefix('admin')->middleware(['auth', 'role:admin'])->name('admin.')->group(function () {
     Route::get('/dashboard', function () {
         return 'Admin Dashboard';
-    })->name('admin.dashboard');
+    })->name('dashboard');
+
+    // Daftar resto pending approval
+    Route::get('/restaurants', [RestaurantManagementController::class, 'showPage'])->name('restaurants.index');
+
+    // Accept / Decline
+    Route::post('/restaurants/{restaurant}/accept', [RestaurantManagementController::class, 'accept'])->name('restaurants.accept');
+    Route::post('/restaurants/{restaurant}/decline', [RestaurantManagementController::class, 'decline'])->name('restaurants.decline');
 });
 
-
+// Route logout user/admin
 Route::post('/logout', function () {
     Auth::logout();
-    return redirect('/'); // arahkan ke home
+    return redirect('/');
 })->name('logout');
-
-// ADMIN
-// Rute utama, arahkan ke halaman admin
-Route::get('/', function () {
-    return redirect()->route('admin.applications.index');
-});
-
-// Grup untuk semua rute admin
-Route::prefix('admin')->group(function () {
-
-    // --- RUTE HALAMAN (yang diketik di browser) ---
-
-    // URL: /admin/applications -> memanggil metode showPage()
-    Route::get('/applications', [RestaurantApplicationController::class, 'showPage'])
-         ->name('admin.applications.index');
-
-    // URL: /admin/management -> menampilkan view langsung
-   Route::get('/management', [RestaurantManagementController::class, 'showPage'])
-         ->name('admin.management.index');
-
-    Route::post('/applications/{application}/accept', [RestaurantApplicationController::class, 'accept'])
-     ->name('admin.applications.accept');
-
-    Route::delete('/applications/{application}/decline', [RestaurantApplicationController::class, 'decline'])
-        ->name('admin.applications.decline');
-
-    Route::delete('/restaurants/{restaurant}', [RestaurantManagementController::class, 'destroy'])
-         ->name('admin.restaurants.destroy');
-});

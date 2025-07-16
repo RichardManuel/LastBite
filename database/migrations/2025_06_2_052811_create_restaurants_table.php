@@ -22,9 +22,7 @@ return new class extends Migration
             $table->string('telephone', 20)->nullable();
             $table->string('account_bank', 50)->nullable();
             $table->string('bank_account_name', 100)->nullable();
-            $table->string('name_accountable', 100)->nullable();
-
-            // Kolom harga (diubah dari string ke decimal)
+            // Kolom harga
             $table->decimal('pricing_tier', 10, 2)->nullable();
 
             $table->string('best_before')->nullable();
@@ -36,8 +34,8 @@ return new class extends Migration
             $table->string('email', 255)->unique();
             $table->string('password', 255)->nullable();
 
-            $table->enum('status_approval', ['pending_details', 'pending_review', 'approved', 'rejected', 'inactive'])
-                ->default('pending_details');
+            // GANTI status_approval menjadi status
+            $table->enum('status', ['pending_details', 'pending_approval', 'accepted', 'declined'])->default('pending_details');
 
             $table->timestamps();
 

@@ -12,9 +12,8 @@ return Application::configure(basePath: dirname(__DIR__))
     )
     ->withMiddleware(function (Middleware $middleware): void {
         $middleware->alias([
-            // 'auth' => \App\Http\Middleware\Authenticate::class,
-            // 'guest' => \App\Http\Middleware\RedirectIfAuthenticated::class,
-            'role' => \App\Http\Middleware\RoleMiddleware::class, // ← ✅ Add this
+            'role' => \App\Http\Middleware\RoleMiddleware::class,
+            'resto.status' => \App\Http\Middleware\RedirectRestoByStatus::class, // << ini WAJIB ditambah
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {
