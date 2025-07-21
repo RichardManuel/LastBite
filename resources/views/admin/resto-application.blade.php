@@ -10,39 +10,39 @@
         <p class="sub-title">Please check the following restaurant applications</p>
         <hr class="line">
 
-        <!-- {{ $applications }} -->
-        @foreach ($applications as $applicant)
-            <div class="application-card" id="card-{{ $applicant->id }}">
+        <!-- {{ $restaurants }} -->
+        @foreach ($restaurants as $restaurant)
+            <div class="application-card" id="card-{{ $restaurant->id }}">
                 <div class="row align-items-center application-summary-row">
                     <div class="col-md-3 mb-3 mb-md-0">
-                        <p class="detail-label">Application ID</p>
-                        <p class="detail-value">#{{ $applicant->id }}</p>
+                        <p class="detail-label">Restaurant ID</p>
+                        <p class="detail-value">#{{ $restaurant->restaurant_id }}</p>
                     </div>
                     <div class="col-md-3 mb-3 mb-md-0">
                         <p class="detail-label">Restaurant</p>
-                        <p class="detail-value">{{ $applicant->restaurant_name }}</p>
+                        <p class="detail-value">{{ $restaurant->name }}</p>
                     </div>
                     <div class="col-md-4 mb-3 mb-md-0">
                         <p class="detail-label">Location</p>
-                        <p class="detail-value">{{ $applicant->location }}</p>
+                        <p class="detail-value">{{ $restaurant->location }}</p>
                     </div>
                     <div class="col-md-2 text-md-end">
                         <button class="btn btn-see-details" type="button" data-bs-toggle="collapse"
-                            data-bs-target="#details{{ $applicant->id }}" aria-expanded="false"
-                            aria-controls="details{{ $applicant->id }}">
+                            data-bs-target="#details{{ $restaurant->restaurant_id }}" aria-expanded="false"
+                            aria-controls="details{{ $restaurant->restaurant_id }}">
                             See Details
                         </button>
                     </div>
                 </div>
 
-                <div class="collapse" id="details{{ $applicant->id }}" data-bs-parent="#applicationAccordion">
+                <div class="collapse" id="details{{ $restaurant->restaurant_id }}" data-bs-parent="#applicationAccordion">
 
                     <div class="application-details-content pb-3">
                         <div class="mb-3">
                             <p class="detail-label">Pictures of Restaurant</p>
-                            @if ($applicant->picture_of_restaurant)
-                                <img src="{{ asset('storage/' . $applicant->picture_of_restaurant) }}"
-                                    alt="Picture of {{ $applicant->restaurant_name }}" class="img-fluid rounded"
+                            @if ($restaurant->restaurant_picture_path)
+                                <img src="{{ asset('storage/' . $restaurant->restaurant_picture_path) }}"
+                                    alt="Picture of {{ $restaurant->name }}" class="img-fluid rounded"
                                     style="max-height: 300px; width: auto;">
                             @else
                                 <div class="image-placeholder-lg d-flex align-items-center justify-content-center">
@@ -56,25 +56,25 @@
                         <div class="row mb-3 d-flex align-items-start">
                             <div class="col-md-3 detail-item-cell">
                                 <p class="detail-label">Applicant Name</p>
-                                <p class="detail-value">{{ $applicant->applicant_name }}</p>
+                                <p class="detail-value">{{ $restaurant->applicant_name }}</p>
                             </div>
                             <div class="col-md-3 detail-item-cell">
                                 <p class="detail-label">Email</p>
-                                <p class="detail-value">{{ $applicant->email }}</p>
+                                <p class="detail-value">{{ $restaurant->email }}</p>
                             </div>
                             <div class="col-md-3 detail-item-cell">
                                 <p class="detail-label">Telephone</p>
-                                <p class="detail-value">{{ $applicant->telephone }}</p>
+                                <p class="detail-value">{{ $restaurant->telephone }}</p>
                             </div>
                             <div class="col-md-3 detail-item-cell">
                                 <p class="detail-label">Operational time</p>
-                                <p class="detail-value">{{ $applicant->operational_time }}</p>
+                                <p class="detail-value">{{ $restaurant->operational_hours }}</p>
                             </div>
                         </div>
 
                         <div class="mb-3">
                             <p class="detail-label">Description</p>
-                            <p class="detail-value description-text">{{ $applicant->description }}</p>
+                            <p class="detail-value description-text">{{ $restaurant->description }}</p>
                         </div>
 
                         <!-- BARIS 2: 3 KOLOM -->
@@ -82,23 +82,23 @@
                         <div class="row mb-3 d-flex align-items-start">
                             <div class="col-md-3 detail-item-cell">
                                 <p class="detail-label">Type of food sold</p>
-                                <p class="detail-value">{{ $applicant->food_type }}</p>
+                                <p class="detail-value">{{ $restaurant->food_type }}</p>
                             </div>
                             <div class="col-md-3 detail-item-cell">
                                 <p class="detail-label">Pricing</p>
-                                <p class="detail-value">{{ $applicant->pricing }}</p>
+                                <p class="detail-value">{{ $restaurant->pricing_tier }}</p>
                             </div>
                             <div class="col-md-3 detail-item-cell">
                                 <p class="detail-label">Best Before</p>
-                                <p class="detail-value">{{ $applicant->best_before }}</p>
+                                <p class="detail-value">{{ $restaurant->best_before }}</p>
                             </div>
                         </div>
 
                         <div class="mb-3">
                             <p class="detail-label">Picture of Products Sold</p>
-                            @if ($applicant->picture_of_products)
-                                <img src="{{ asset('storage/' . $applicant->picture_of_products) }}"
-                                    alt="Picture of {{ $applicant->restaurant_name }}" class="img-fluid rounded"
+                            @if ($restaurant->product_sold_picture_path)
+                                <img src="{{ asset('storage/' . $restaurant->product_sold_picture_path) }}"
+                                    alt="Picture of {{ $restaurant->name }}" class="img-fluid rounded"
                                     style="max-height: 300px; width: auto;">
                             @else
                                 <div class="image-placeholder-lg d-flex align-items-center justify-content-center">
@@ -112,11 +112,11 @@
                         <div class="row mb-3 d-flex align-items-start">
                             <div class="col-md-3 detail-item-cell">
                                 <p class="detail-label">Bank Account</p>
-                                <p class="detail-value">{{ $applicant->bank_account }}</p>
+                                <p class="detail-value">{{ $restaurant->account_bank }}</p>
                             </div>
                             <div class="col-md-3 detail-item-cell">
                                 <p class="detail-label">Account Name</p>
-                                <p class="detail-value">{{ $applicant->account_name }}</p>
+                                <p class="detail-value">{{ $restaurant->bank_account_name }}</p>
                             </div>
                         </div>
 
@@ -125,9 +125,9 @@
                         <div class="row d-flex align-items-start">
                             <div class="col-md-3 detail-item-cell document-cell">
                                 <p class="detail-label">Proof of Identification</p>
-                                @if ($applicant->proof_of_identification)
-                                    <img src="{{ asset('storage/' . $applicant->proof_of_identification) }}"
-                                        alt="Picture of {{ $applicant->restaurant_name }}" class="img-fluid rounded"
+                                @if ($restaurant->id_proof_document_path)
+                                    <img src="{{ asset('storage/' . $restaurant->id_proof_document_path) }}"
+                                        alt="Picture of {{ $restaurant->name }}" class="img-fluid rounded"
                                         style="max-height: 1000px; width: auto;">
                                 @else
                                     <div class="image-placeholder-lg d-flex align-items-center justify-content-center">
@@ -137,9 +137,9 @@
                             </div>
                             <div class="col-md-3 detail-item-cell document-cell">
                                 <p class="detail-label">NPWP</p>
-                                @if ($applicant->npwp)
-                                    <img src="{{ asset('storage/' . $applicant->npwp) }}"
-                                        alt="Picture of {{ $applicant->restaurant_name }}" class="img-fluid rounded"
+                                @if ($restaurant->npwp_document_path)
+                                    <img src="{{ asset('storage/' . $restaurant->npwp_document_path) }}"
+                                        alt="Picture of {{ $restaurant->name }}" class="img-fluid rounded"
                                         style="max-height: 1000px; width: auto;">
                                 @else
                                     <div class="image-placeholder-lg d-flex align-items-center justify-content-center">
@@ -149,9 +149,9 @@
                             </div>
                             <div class="col-md-3 detail-item-cell document-cell">
                                 <p class="detail-label">Letter of authorization</p>
-                                @if ($applicant->letter_of_authorization)
-                                    <img src="{{ asset('storage/' . $applicant->letter_of_authorization) }}"
-                                        alt="Picture of {{ $applicant->restaurant_name }}" class="img-fluid rounded"
+                                @if ($restaurant->authorization_document_path)
+                                    <img src="{{ asset('storage/' . $restaurant->authorization_document_path) }}"
+                                        alt="Picture of {{ $restaurant->restaurant_name }}" class="img-fluid rounded"
                                         style="max-height: 1000px; width: auto;">
                                 @else
                                     <div class="image-placeholder-lg d-flex align-items-center justify-content-center">
@@ -165,11 +165,11 @@
                     <!-- Action Buttons -->
                     <div class="d-flex justify-content-end mt-4">
                         <button type="button" class="btn btn-danger action-button" data-action="decline"
-                            data-id="{{ $applicant->id }}">
+                            data-id="{{ $restaurant->restaurant_id }}">
                             Decline <i class="bi bi-x-circle"></i>
                         </button>
                         <button type="button" class="btn btn-success action-button ms-3" data-action="accept"
-                            data-id="{{ $applicant->id }}">
+                            data-id="{{ $restaurant->restaurant_id }}">
                             Accept <i class="bi bi-check-circle"></i>
                         </button>
                     </div>

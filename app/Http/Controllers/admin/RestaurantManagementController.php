@@ -1,52 +1,49 @@
-<?php
+    <?php
 
-namespace App\Http\Controllers\admin;
+    namespace App\Http\Controllers\admin;
 
-use App\Http\Controllers\Controller;
-use App\Models\Restaurant;
-use Illuminate\Http\Request;
+    use App\Http\Controllers\Controller;
+    use App\Models\Restaurant;
+    use Illuminate\Http\Request;
 
-class RestaurantManagementController extends Controller
-{
-    /**
-     * Menampilkan daftar restoran dengan status 'pending_approval'
-     */
-    public function showPage()
+    class RestaurantManagementController extends Controller
     {
-        $restaurants = Restaurant::where('status', 'pending_approval')
-            ->latest()
-            ->get();
+        /**
+         * Menampilkan daftar restoran dengan status 'pending_approval'
+         */
+        public function showPage()
+        {
+            $restaurants = Restaurant::where('status', 'pending_approval')
+                ->latest()
+                ->get();
 
-        return view('admin.resto-application', [
-            'restaurants' => $restaurants
-        ]);
-    }
-
-    /**
-     * Menerima restoran
-     */
-    public function accept(Restaurant $restaurant)
-    {
-        if ($restaurant->status !== 'pending_approval') {
-            return redirect()->back()->with('error', 'This restaurant has already been processed.');
+            return view('admin.resto-application', [
+                'restaurants' => $restaurants
+            ]);
         }
 
-        $restaurant->update(['status' => 'accepted']);
+        /**
+         * Menerima restoran
+         */
+        public function accept(Restaurant $restaurant)
+        {
+            if ($restaurant->status !== 'pending_approval') {
+                return response()->json(['message' => 'This restaurant has already been processed.'], 409);
+            }
 
-        return redirect()->back()->with('success', 'Restaurant has been accepted.');
-    }
+            $restaurant->update(['status' => 'accepted']);
 
-    /**
-     * Menolak restoran
-     */
-    public function decline(Restaurant $restaurant)
-    {
-        if ($restaurant->status !== 'pending_approval') {
-            return redirect()->back()->with('error', 'This restaurant has already been processed.');
+            return response()->json(['message' => 'Restaurant has been accepted.']);
         }
 
-        $restaurant->update(['status' => 'declined']);
+        public function decline(Restaurant $restaurant)
+        {
+            if ($restaurant->status !== 'pending_approval') {
+                return response()->json(['message' => 'This restaurant has already been processed.'], 409);
+            }
 
-        return redirect()->back()->with('success', 'Restaurant has been declined.');
+            $restaurant->update(['status' => 'declined']);
+
+            return response()->json(['message' => 'Restaurant has been declined.']);
+        }
     }
-}

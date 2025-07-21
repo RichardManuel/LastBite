@@ -5,14 +5,12 @@ namespace App\Http\Controllers\user;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Hash;
-use App\Models\User;
 
 class LoginController extends Controller
 {
     public function showLoginForm()
     {
-        return view('user.signin'); // Adjust to your Blade filename
+        return view('user.signin');
     }
 
     public function login(Request $request)
@@ -26,7 +24,13 @@ class LoginController extends Controller
 
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
-            return redirect()->intended('/'); // change to your dashboard/home route
+
+            $user = Auth::user();
+            if ($user->roles === 'admin') {
+                return redirect()->route('admin.restaurants.index');
+            }
+
+            return redirect()->intended('/'); // untuk user biasa
         }
 
         return back()->withErrors([

@@ -107,18 +107,19 @@ Route::get('/checkout/success', [StripeController::class, 'success'])->name('che
 // =======================
 // 🔐 ADMIN ROUTES
 // =======================
-Route::prefix('admin')->middleware(['auth', 'role:admin'])->name('admin.')->group(function () {
-    Route::get('/dashboard', function () {
-        return 'Admin Dashboard';
-    })->name('dashboard');
+Route::prefix('admin')
+    ->middleware(['auth', 'role:admin'])
+    ->name('admin.')
+    ->group(function () {
+        Route::get('/dashboard', function () {
+            return redirect()->route('admin.restaurants.index');
+        })->name('dashboard');
 
-    // Daftar resto pending approval
-    Route::get('/restaurants', [RestaurantManagementController::class, 'showPage'])->name('restaurants.index');
+        Route::get('/restaurants', [RestaurantManagementController::class, 'showPage'])->name('restaurants.index');
+        Route::post('/restaurants/{restaurant}/accept', [RestaurantManagementController::class, 'accept'])->name('restaurants.accept');
+        Route::delete('/restaurants/{restaurant}/decline', [RestaurantManagementController::class, 'decline'])->name('restaurants.decline');
+    });
 
-    // Accept / Decline
-    Route::post('/restaurants/{restaurant}/accept', [RestaurantManagementController::class, 'accept'])->name('restaurants.accept');
-    Route::post('/restaurants/{restaurant}/decline', [RestaurantManagementController::class, 'decline'])->name('restaurants.decline');
-});
 
 // Route logout user/admin
 Route::post('/logout', function () {

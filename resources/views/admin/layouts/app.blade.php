@@ -28,8 +28,8 @@
         <div class="container-fluid">
             <div class="navbar-nav me-auto">
                 {{-- Gunakan nama rute, bukan URL manual --}}
-                <a class="nav-link {{ request()->is('admin/applications*') ? 'active' : '' }}" href="{{ route('admin.applications.index') }}">Resto Application</a>
-                <a class="nav-link {{ request()->is('admin/management*') ? 'active' : '' }}" href="{{ route('admin.management.index') }}">Resto Management</a>
+                <a class="nav-link {{ request()->is('admin/restaurants*') ? 'active' : '' }}" href="{{ route('admin.restaurants.index') }}">Resto Application</a>
+                {{-- <a class="nav-link {{ request()->is('admin/management*') ? 'active' : '' }}" href="">Resto Management</a> --}}
             </div>
             <a class="navbar-brand navbar-custom-logo" href="#">
                 {{-- Pastikan gambar LastBite.png ada di folder public/images --}}
