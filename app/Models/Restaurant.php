@@ -37,6 +37,8 @@ class Restaurant extends Authenticatable
         'id_proof_document_path',
         'npwp_document_path',
         'authorization_document_path',
+        'rating',
+
     ];
 
     protected $hidden = [
@@ -68,4 +70,13 @@ class Restaurant extends Authenticatable
     {
         return $this->created_at && $this->created_at->gt(now()->subDays(7));
     }
+
+    public function getRouteKeyName()
+    {
+        return 'restaurant_id';
+    }
+
+
+
+
 }

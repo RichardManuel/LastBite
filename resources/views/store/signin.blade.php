@@ -280,7 +280,7 @@
                     we’re ready to support your culinary journey.
                 </p>
 
-                <form action="{{-- url('/store/signin') --}}" method="POST">
+                <form action="{{ url('/store/signin') }}" method="POST">
                     @csrf
                     <div class="mb-3">
                         <input type="email" class="form-control" name="email" id="email" placeholder="Email" required value="{{ old('email') }}">

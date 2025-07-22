@@ -17,6 +17,40 @@
     <link rel="stylesheet" href="{{ asset('css/RestoManagementStyle.css') }}">
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+    <style>
+        .actions-dropdown {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.8s ease-in-out, opacity 0.4s ease-in-out;
+            opacity: 0;
+        }
+
+        .actions-dropdown.show {
+            max-height: 300px; /* cukup tinggi untuk semua isi */
+            opacity: 1;
+        }
+
+        .contact-modal-content {
+            background-color: #222;
+            color: #fff;
+            border-radius: 12px;
+            padding: 20px;
+        }
+
+        .contact-label {
+            font-weight: bold;
+            margin-bottom: 0;
+        }
+
+        .contact-value {
+            font-size: 1.1rem;
+            margin-top: -5px;
+        }
+
+
+
+    </style>
 </head>
 
 <body>
@@ -29,15 +63,15 @@
             <div class="navbar-nav me-auto">
                 {{-- Gunakan nama rute, bukan URL manual --}}
                 <a class="nav-link {{ request()->is('admin/restaurants*') ? 'active' : '' }}" href="{{ route('admin.restaurants.index') }}">Resto Application</a>
-                {{-- <a class="nav-link {{ request()->is('admin/management*') ? 'active' : '' }}" href="">Resto Management</a> --}}
+                <a class="nav-link {{ request()->is('admin/management*') ? 'active' : '' }}" href="{{ route('admin.management.index') }}">Resto Management</a>
             </div>
             <a class="navbar-brand navbar-custom-logo" href="#">
                 {{-- Pastikan gambar LastBite.png ada di folder public/images --}}
-                <img src="{{ asset('images/LastBite.png') }}" alt="Last Bite Logo">
+                <img src="{{ asset('img/LastBite.png') }}" alt="Last Bite Logo">
             </a>
             <div class="navbar-nav ms-auto">
                 <a class="nav-link" href="loginpage.blade.php">Log out <i class="bi bi-box-arrow-right"></i></a>
-            </div>
+            </div>  
         </div>
     </nav>
     {{-- ========================================================= --}}
@@ -49,11 +83,13 @@
     </main>
 
 
-    <footer class="footer-section text-white pt-5 pb-4">
+    <footer class="footer-section text-white pt-5 pb-4 " style="margin-top: 80px;">
+        {{-- ========================================================= --}}
+        {{-- === TEMPELKAN KODE FOOTER ANDA DI SINI === --}}
         <div class="container">
             <div class="row align-items-center mb-4">
                 <div class="col-lg-3 col-md-4 text-center text-md-start mb-3 mb-md-0">
-                    <img src="{{asset('images/LastBite.png')}}" alt="LastBite Logo White" class="footer-logo-main img-fluid">
+                    <img src="{{asset('img/LastBite.png')}}" alt="LastBite Logo White" class="footer-logo-main img-fluid">
                 </div>
 
                 <div class="col-lg-6 col-md-4 text-center mb-3 mb-md-0">

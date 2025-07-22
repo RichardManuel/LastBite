@@ -1,98 +1,98 @@
 @extends('admin.layouts.app')
 
-{{-- Isi judul halaman --}}
 @section('title', 'Restaurant Management')
 
-
 @section('content')
-    <div class="container mt-4">
-        <h1 class="main-title">Resto Management</h1>
-        <p class="sub-title">Please check the following restaurant ratings</p>
-        <hr class="line">
+<div class="container mt-4">
+    <h1 class="main-title">Resto Management</h1>
+    <p class="sub-title">Please check the following restaurant ratings</p>
+    <hr class="line">
 
-        @foreach($restaurants as $restaurant)
-                <div class="management-card" data-id="{{$restaurant->id}}">
-                    <div class="row align-items-center summary-row">
-                        <div class="col-md-2 col-6 mb-2 mb-md-0">
-                            <p class="detail-label">Restaurant ID</p>
-                            <p class="detail-value">#{{$restaurant->id}}</p>
-                        </div>
-                        <div class="col-md-3 col-6 mb-2 mb-md-0">
-                            <p class="detail-label">Restaurant</p>
-                            <p class="detail-value">{{$restaurant->name}}</p>
-                        </div>
-                        <div class="col-md-3 col-12 mb-2 mb-md-0">
-                            <p class="detail-label">Location</p>
-                            <p class="detail-value">{{$restaurant->location}}</p>
-                        </div>
-                        <div class="col-md-1 col-3">
-                            <p class="detail-label">Rating</p>
-                            <p class="detail-value">{{$restaurant->rating}}</p>
-                        </div>
-                        <div class="col-md-1 col-3">
-                            <p class="detail-label">Reviews</p>
-                            <p class="detail-value">{{$restaurant->reviews_count}}</p>
-                        </div>
-                        <div class="col-md-2 col-6 text-md-end mt-2 mt-md-0 action-buttons-container">
-                            <button class="btn btn-manage">Manage</button>
-                        </div>
-                    </div>
-                    <!-- === UPDATED ACTIONS ROW === -->
-                    <div class="row align-items-center actions-row mt-3 justify-content-center" style="display: none;">
-                        <div class="col-auto mx-5">
-                            <button class="btn btn-action btn-suspend" data-id="{{ $restaurant->id }}">Suspend</button>
-                        </div>
-                        <div class="col-auto mx-5">
-                           <button class="btn btn-action btn-contact"
-                                    data-bs-toggle="modal"
-                                    data-bs-target="#contactModal{{ $restaurant->id }}"
-                                    data-name="{{ $restaurant->application?->applicant_name ?? 'Not Available' }}"
-                                    data-phone="{{ $restaurant->application?->telephone ?? 'Not Available' }}"
-                                    data-email="{{ $restaurant->application?->email ?? 'Not Available' }}">
-                                Contact
-                            </button>
-                        </div>
-                        <div class="col-auto mx-5">
-                            <button class="btn btn-action btn-close-actions">Close</button>
-                        </div>
-                    </div>
+    @foreach($restaurants as $restaurant)
+        <div class="management-card" data-id="{{ $restaurant->restaurant_id }}">
+            <div class="row align-items-center summary-row">
+                <div class="col-md-2 col-6 mb-2 mb-md-0">
+                    <p class="detail-label">Restaurant ID</p>
+                    <p class="detail-value">#{{ $restaurant->restaurant_id }}</p>
+                </div>
+                <div class="col-md-3 col-6 mb-2 mb-md-0">
+                    <p class="detail-label">Restaurant</p>
+                    <p class="detail-value">{{ $restaurant->name }}</p>
+                </div>
+                <div class="col-md-3 col-12 mb-2 mb-md-0">
+                    <p class="detail-label">Location</p>
+                    <p class="detail-value">{{ $restaurant->location }}</p>
+                </div>
+                <div class="col-md-1 col-3">
+                    <p class="detail-label">Rating</p>
+                    <p class="detail-value">{{ $restaurant->rating }}</p>
+                </div>
+                <div class="col-md-2 col-6 text-md-end mt-2 mt-md-0 action-buttons-container">
+                    <button class="btn btn-manage toggle-actions-btn" data-id="{{ $restaurant->restaurant_id }}">Manage</button>
 
                 </div>
+            </div>
 
-                <div class="modal fade" id="contactModal{{ $restaurant->id }}" tabindex="-1" aria-labelledby="contactModalLabel" aria-hidden="true">
-                    <div class="modal-dialog modal-dialog-centered">
-                        <div class="modal-content contact-modal-content">
-                            <div class="modal-header contact-modal-header">
-                                <h5 class="modal-title" id="contactModalLabel">Restaurant Contact Information</h5>
-                                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
-                            </div>
-                            <div class="modal-body contact-modal-body">
-                                <div class="contact-info-item">
-                                    <p class="contact-label">Applicator</p>
-                                    <p class="contact-value">{{ $restaurant->application?->applicant_name ?? 'N/A' }}</p>
-                                </div>
-                                <div class="contact-info-item">
-                                    <p class="contact-label">Telephone</p>
-                                    <p class="contact-value">{{ $restaurant->application?->telephone ?? 'N/A' }}</p>
-                                </div>
-                                <div class="contact-info-item">
-                                    <p class="contact-label">Email</p>
-                                    <p class="contact-value" >{{ $restaurant->application?->email ?? 'N/A' }}</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+            <div id="actions-{{ $restaurant->restaurant_id }}" class="row align-items-center actions-dropdown mt-3 justify-content-center">
+                <div class="col-auto mx-5">
+                    @if ($restaurant->status === 'suspended')
+                        <form action="{{ route('admin.management.unsuspend', $restaurant->restaurant_id) }}" method="POST">
+                            @csrf
+                            <button type="submit" class="btn btn-success">Unsuspend</button>
+                        </form>
+                    @elseif ($restaurant->status === 'accepted')
+                        <form action="{{ route('admin.management.suspend', $restaurant->restaurant_id) }}" method="POST">
+                            @csrf
+                            <button type="submit" class="btn btn-warning">Suspend</button>
+                        </form>
+                    @endif
+                </div>
+                <div class="col-auto mx-5">
+                    <button class="btn btn-action btn-contact"
+                        data-bs-toggle="modal"
+                        data-bs-target="#contactModal{{ $restaurant->restaurant_id }}"
+                        data-name="{{ $restaurant->applicant_name ?? 'Not Available' }}"
+                        data-phone="{{ $restaurant->telephone ?? 'Not Available' }}"
+                        data-email="{{ $restaurant->email ?? 'Not Available' }}">
+                        Contact
+                    </button>
                 </div>
 
-        @endforeach
+                <div class="col-auto mx-5">
+                    <button class="btn btn-action btn-close-actions" data-id="{{ $restaurant->restaurant_id }}">Close</button>
+                </div>
+            </div>
+
+<!-- Modal -->
+<div class="modal fade" id="contactModal{{ $restaurant->restaurant_id }}" tabindex="-1" aria-labelledby="contactModalLabel{{ $restaurant->restaurant_id }}" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content contact-modal-content">
+            <div class="modal-header contact-modal-header">
+                <h5 class="modal-title" id="contactModalLabel{{ $restaurant->restaurant_id }}">Restaurant Contact Information</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body contact-modal-body">
+                <div class="contact-info-item">
+                    <p class="contact-label">Contact Person</p>
+                    <p class="contact-value">{{ $restaurant->applicant_name ?? 'N/A' }}</p>
+                </div>
+                <div class="contact-info-item">
+                    <p class="contact-label">Telephone</p>
+                    <p class="contact-value">{{ $restaurant->telephone ?? 'N/A' }}</p>
+                </div>
+                <div class="contact-info-item">
+                    <p class="contact-label">Email</p>
+                    <p class="contact-value">{{ $restaurant->email ?? 'N/A' }}</p>
+                </div>
+            </div>
+        </div>
     </div>
-    <!-- <div id="applicationAccordion">
-        <p class="text-center">Loading...</p>
-    </div> -->
+</div>
 
+    @endforeach
+</div>
 @endsection
 
 @push('scripts')
-    <!-- <script src="{{ asset('js/RestoApplicationScript.js') }}"></script> -->
-    <script src="{{ asset('js/RestoManagementScript.js') }}"></script>
+<script src="{{ asset('js/RestoManagementScript.js') }}"></script>
 @endpush

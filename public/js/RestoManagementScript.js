@@ -1,113 +1,57 @@
-/**
- * =================================================================
- * RestoManagementScript.js
- * 
- * Mengelola semua interaksi di halaman Resto Management.
- * - Menukar visibilitas antara tombol 'Manage' dan baris aksi.
- * - Menangani modal untuk menampilkan info kontak.
- * =================================================================
- */
-
-document.addEventListener('DOMContentLoaded', function() {
-    
-    // --- Logika untuk Tombol "Manage" & "Close" ---
-
+document.addEventListener('DOMContentLoaded', function () {
+    // Tombol "Manage"
     document.querySelectorAll('.btn-manage').forEach(button => {
-        button.addEventListener('click', function() {
+        button.addEventListener('click', function () {
             const card = this.closest('.management-card');
-            
-            // =========================================================
-            // === PERUBAHAN DI SINI (1) ===
-            // =========================================================
-            // BARU: Sembunyikan container dari tombol 'Manage' itu sendiri
             card.querySelector('.action-buttons-container').style.display = 'none';
-
-            // Tampilkan baris aksi
             card.querySelector('.actions-row').style.display = 'flex';
         });
     });
 
+    // Tombol "Close"
     document.querySelectorAll('.btn-close-actions').forEach(button => {
-        button.addEventListener('click', function() {
+        button.addEventListener('click', function () {
             const card = this.closest('.management-card');
-            
-            // =========================================================
-            // === PERUBAHAN DI SINI (2) ===
-            // =========================================================
-            // BARU: Tampilkan kembali container dari tombol 'Manage'
-            // Menggunakan 'block' akan mengembalikannya ke perilaku default sebagai kolom Bootstrap.
             card.querySelector('.action-buttons-container').style.display = 'block';
-
-            // Sembunyikan baris aksi
             card.querySelector('.actions-row').style.display = 'none';
         });
     });
+});
 
+document.addEventListener('DOMContentLoaded', function () {
+    const toggleButtons = document.querySelectorAll('.toggle-actions-btn');
+    const closeButtons = document.querySelectorAll('.btn-close-actions');
 
-    // --- Logika untuk Modal "Contact" (Tetap sama, tidak perlu diubah) ---
-    const contactModalElement = document.getElementById('contactModal');
-
-    if (contactModalElement) {
-        contactModalElement.addEventListener('show.bs.modal', function(event) {
-            const button = event.relatedTarget;
-            const name = button.getAttribute('data-name');
-            const phone = button.getAttribute('data-phone');
-            const email = button.getAttribute('data-email');
-
-            contactModalElement.querySelector('#modalApplicantName').textContent = name;
-            contactModalElement.querySelector('#modalApplicantPhone').textContent = phone;
-            contactModalElement.querySelector('#modalApplicantEmail').textContent = email;
+    toggleButtons.forEach(button => {
+        button.addEventListener('click', function () {
+            const id = this.dataset.id;
+            const actions = document.getElementById(`actions-${id}`);
+            actions.classList.toggle('show');
         });
-    }
+    });
 
-    document.querySelectorAll('.btn-suspend').forEach(button => {
-        button.addEventListener('click', async function() { // Gunakan async karena kita akan fetch
-            const restaurantId = this.dataset.id;
-            
-            // Konfirmasi sebelum melakukan aksi berbahaya
-            if (!confirm(`Are you sure you want to suspend restaurant #${restaurantId}? This action cannot be undone.`)) {
-                return;
-            }
+    closeButtons.forEach(button => {
+        button.addEventListener('click', function () {
+            const id = this.dataset.id;
+            const actions = document.getElementById(`actions-${id}`);
+            actions.classList.remove('show');
+        });
+    });
+});
 
-            const url = `/admin/restaurants/${restaurantId}`;
-            const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
 
-            // Feedback visual untuk pengguna
-            this.disabled = true;
-            this.textContent = 'Suspending...';
 
-            try {
-                const response = await fetch(url, {
-                    method: 'DELETE',
-                    headers: {
-                        'Accept': 'application/json',
-                        'X-CSRF-TOKEN': csrfToken
-                    }
-                });
+document.addEventListener('DOMContentLoaded', function () {
+    document.querySelectorAll('.btn-contact').forEach(button => {
+        button.addEventListener('click', function () {
+            const name = this.dataset.name || 'N/A';
+            const phone = this.dataset.phone || 'N/A';
+            const email = this.dataset.email || 'N/A';
 
-                const result = await response.json();
-
-                if (!response.ok) {
-                    throw new Error(result.message || 'An unknown error occurred.');
-                }
-                
-                alert(result.message); // Pesan sukses
-
-                // Hapus kartu dari UI dengan animasi
-                const cardToRemove = this.closest('.management-card');
-                if (cardToRemove) {
-                    cardToRemove.style.transition = 'opacity 0.5s';
-                    cardToRemove.style.opacity = '0';
-                    setTimeout(() => cardToRemove.remove(), 500);
-                }
-
-            } catch (error) {
-                console.error('Suspend failed:', error);
-                alert(`Error: ${error.message}`);
-                // Kembalikan tombol ke keadaan semula jika gagal
-                this.disabled = false;
-                this.textContent = 'Suspend';
-            }
+            // Pastikan ID-nya sesuai dengan isi modal
+            document.getElementById('contact-name').textContent = name;
+            document.getElementById('contact-phone').textContent = phone;
+            document.getElementById('contact-email').textContent = email;
         });
     });
 });

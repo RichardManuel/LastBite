@@ -21,7 +21,11 @@ use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\store\RestaurantProfileController;
 use App\Http\Controllers\store\RegisterRestaurantController;
-use App\Http\Controllers\admin\RestaurantManagementController; // Pakai hanya ini
+use App\Http\Controllers\Admin\RestaurantApplicationController; // Pakai hanya ini\
+use App\Http\Controllers\Admin\RestaurantManagementController;
+
+
+
 
 // =======================
 // 🌐 PUBLIC ROUTES
@@ -111,14 +115,29 @@ Route::prefix('admin')
     ->middleware(['auth', 'role:admin'])
     ->name('admin.')
     ->group(function () {
+
+        // Redirect admin dashboard ke list restaurant
         Route::get('/dashboard', function () {
             return redirect()->route('admin.restaurants.index');
         })->name('dashboard');
 
-        Route::get('/restaurants', [RestaurantManagementController::class, 'showPage'])->name('restaurants.index');
-        Route::post('/restaurants/{restaurant}/accept', [RestaurantManagementController::class, 'accept'])->name('restaurants.accept');
-        Route::delete('/restaurants/{restaurant}/decline', [RestaurantManagementController::class, 'decline'])->name('restaurants.decline');
+        // === 1. Restaurant Application (pengajuan) ===
+        Route::get('/restaurants', [RestaurantApplicationController::class, 'showPage'])->name('restaurants.index');
+        Route::post('/restaurants/{restaurant}/accept', [RestaurantApplicationController::class, 'accept'])->name('restaurants.accept');
+        Route::delete('/restaurants/{restaurant}/decline', [RestaurantApplicationController::class, 'decline'])->name('restaurants.decline');
+
+        // === 2. Restaurant Management (pengelolaan) ===
+        // Restaurant Management Routes
+         Route::get('/management', [RestaurantManagementController::class, 'showPage'])->name('management.index');
+
+        // Suspend and unsuspend restaurant (using POST)
+        Route::post('/management/suspend/{restaurant_id}', [RestaurantManagementController::class, 'suspend'])->name('management.suspend');
+        Route::post('/management/unsuspend/{restaurant_id}', [RestaurantManagementController::class, 'unsuspend'])->name('management.unsuspend');
+        
+        // Deleting restaurant (optional)
+        Route::delete('/management/{restaurant_id}', [RestaurantManagementController::class, 'destroy'])->name('management.destroy');
     });
+
 
 
 // Route logout user/admin
