@@ -93,6 +93,11 @@ Route::prefix('store')
         Route::put('/restaurant/profile/update', [RestaurantProfileController::class, 'update'])->name('profile.update');
     });
 
+Route::get('/restaurant/{id}/manage-stock', [StockController::class, 'manageStock']);
+Route::get('/restaurant/{id}/stock', [StockController::class, 'fetchStock']);
+Route::post('/restaurant/{id}/stock/update', [StockController::class, 'updateStock']);
+
+
 // =======================
 // 💳 CHECKOUT & PAYMENT
 // =======================

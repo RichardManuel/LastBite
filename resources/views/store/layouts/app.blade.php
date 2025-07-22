@@ -54,7 +54,7 @@
 <nav class="navbar navbar-expand-sm navbar-custom">
     <div class="container">
         <a class="navbar-brand" href="{{ url('/') }}">
-            <img src="{{ asset('img/lastbite_logo_eatery_navbar.png') }}" alt="LastBite Logo" height="28">
+            <img src="{{ asset('img/logo lastbite putih 1.png') }}" alt="LastBite Logo" height="28">
         </a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavMain" aria-controls="navbarNavMain" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -91,7 +91,7 @@
 <footer class="footer-custom mt-auto">
     <div class="container">
         <div class="footer-logo mb-2">
-            <img src="{{ asset('img/lastbite_logo_eatery_navbar.png') }}" alt="LastBite Footer Logo" height="40">
+            <img src="{{ asset('img/logo lastbite putih 1.png') }}" alt="LastBite Footer Logo" height="40">
         </div>
         <h5>Thank you for your curiosity.</h5>
         <ul class="nav justify-content-center mb-3">

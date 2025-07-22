@@ -8,6 +8,7 @@
     <p class="sub-title">Please check the following restaurant ratings</p>
     <hr class="line">
 
+    {{-- LIST RESTO --}}
     @foreach($restaurants as $restaurant)
         <div class="management-card" data-id="{{ $restaurant->restaurant_id }}">
             <div class="row align-items-center summary-row">
@@ -28,11 +29,13 @@
                     <p class="detail-value">{{ $restaurant->rating }}</p>
                 </div>
                 <div class="col-md-2 col-6 text-md-end mt-2 mt-md-0 action-buttons-container">
-                    <button class="btn btn-manage toggle-actions-btn" data-id="{{ $restaurant->restaurant_id }}">Manage</button>
-
+                    <button class="btn btn-manage toggle-actions-btn" data-id="{{ $restaurant->restaurant_id }}">
+                        Manage
+                    </button>
                 </div>
             </div>
 
+            {{-- Dropdown Action --}}
             <div id="actions-{{ $restaurant->restaurant_id }}" class="row align-items-center actions-dropdown mt-3 justify-content-center">
                 <div class="col-auto mx-5">
                     @if ($restaurant->status === 'suspended')
@@ -48,47 +51,51 @@
                     @endif
                 </div>
                 <div class="col-auto mx-5">
+                    {{-- Tombol untuk buka modal --}}
                     <button class="btn btn-action btn-contact"
                         data-bs-toggle="modal"
-                        data-bs-target="#contactModal{{ $restaurant->restaurant_id }}"
-                        data-name="{{ $restaurant->applicant_name ?? 'Not Available' }}"
-                        data-phone="{{ $restaurant->telephone ?? 'Not Available' }}"
-                        data-email="{{ $restaurant->email ?? 'Not Available' }}">
+                        data-bs-target="#contactModal{{ $restaurant->restaurant_id }}">
                         Contact
                     </button>
                 </div>
 
                 <div class="col-auto mx-5">
-                    <button class="btn btn-action btn-close-actions" data-id="{{ $restaurant->restaurant_id }}">Close</button>
-                </div>
-            </div>
-
-<!-- Modal -->
-<div class="modal fade" id="contactModal{{ $restaurant->restaurant_id }}" tabindex="-1" aria-labelledby="contactModalLabel{{ $restaurant->restaurant_id }}" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content contact-modal-content">
-            <div class="modal-header contact-modal-header">
-                <h5 class="modal-title" id="contactModalLabel{{ $restaurant->restaurant_id }}">Restaurant Contact Information</h5>
-                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body contact-modal-body">
-                <div class="contact-info-item">
-                    <p class="contact-label">Contact Person</p>
-                    <p class="contact-value">{{ $restaurant->applicant_name ?? 'N/A' }}</p>
-                </div>
-                <div class="contact-info-item">
-                    <p class="contact-label">Telephone</p>
-                    <p class="contact-value">{{ $restaurant->telephone ?? 'N/A' }}</p>
-                </div>
-                <div class="contact-info-item">
-                    <p class="contact-label">Email</p>
-                    <p class="contact-value">{{ $restaurant->email ?? 'N/A' }}</p>
+                    <button class="btn btn-action btn-close-actions" data-id="{{ $restaurant->restaurant_id }}">
+                        Close
+                    </button>
                 </div>
             </div>
         </div>
-    </div>
-</div>
+    @endforeach
 
+    {{-- SEMUA MODAL DI TARUH DI LUAR LOOP CARD --}}
+    @foreach($restaurants as $restaurant)
+        <div class="modal fade" id="contactModal{{ $restaurant->restaurant_id }}" tabindex="-1" aria-labelledby="contactModalLabel{{ $restaurant->restaurant_id }}" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content contact-modal-content">
+                    <div class="modal-header contact-modal-header">
+                        <h5 class="modal-title" id="contactModalLabel{{ $restaurant->restaurant_id }}">
+                            Restaurant Contact Information
+                        </h5>
+                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body contact-modal-body">
+                        <div class="contact-info-item">
+                            <p class="contact-label">Contact Person</p>
+                            <p class="contact-value">{{ $restaurant->applicant_name ?? 'N/A' }}</p>
+                        </div>
+                        <div class="contact-info-item">
+                            <p class="contact-label">Telephone</p>
+                            <p class="contact-value">{{ $restaurant->telephone ?? 'N/A' }}</p>
+                        </div>
+                        <div class="contact-info-item">
+                            <p class="contact-label">Email</p>
+                            <p class="contact-value">{{ $restaurant->email ?? 'N/A' }}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     @endforeach
 </div>
 @endsection

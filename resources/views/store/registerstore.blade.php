@@ -12,10 +12,9 @@
         href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Roboto:wght@300;400;500;700&display=swap"
         rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
-    <!-- Untuk ikon kamera -->
+
     <style>
         :root {
-            --brand-yellow-navbar: #F5C563;
             --brand-orange-accent: #F9A826;
             --brand-text-dark: #3A2E39;
             --brand-text-muted: #6c757d;
@@ -23,9 +22,7 @@
             --font-serif-display: 'Playfair Display', serif;
             --font-sans-body: 'Roboto', sans-serif;
             --upload-area-bg: #F0F0F0;
-            /* Background area upload gambar */
             --upload-area-border: #E0E0E0;
-            /* Border area upload gambar */
         }
 
         html,
@@ -38,34 +35,6 @@
             flex-direction: column;
         }
 
-        /* Navbar My Eatery Styles */
-        .navbar-eatery {
-            background-color: #F3C148;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-            /* shadow-md */
-        }
-
-        .navbar-eatery .navbar-brand img {
-            height: 50px;
-            /* Sesuaikan dengan tinggi logo LastBite di navbar Eatery */
-
-        }
-
-        .navbar-eatery .nav-link {
-            color: #F9F1E4 !important;
-            /* Teks navbar berwarna gelap */
-            font-family: 'Instrument Sans';
-            font-weight: 600;
-            padding-left: 4rem;
-            padding-right: 2rem;
-        }
-
-        .navbar-eatery .nav-link:hover,
-        .navbar-eatery .nav-link.active {
-            color: var(--brand-green) !important;
-            /* Warna hijau untuk hover/active */
-        }
-
         .main-content {
             flex-grow: 1;
             display: flex;
@@ -76,8 +45,7 @@
         .register-store-container {
             width: 100%;
             max-width: 700px;
-            /* Lebar kontainer form lebih besar */
-            text-align: center;
+            text-align: left;
         }
 
         .register-store-container .eatery-title {
@@ -103,9 +71,7 @@
         }
 
         .form-label-custom {
-            display: block;
-            /* Agar label bisa diatur rata kiri jika diperlukan */
-            text-align: left;
+            text-align: left !important;
             font-size: 0.875rem;
             color: var(--brand-text-dark);
             margin-bottom: 0.3rem;
@@ -117,16 +83,13 @@
             border: none;
             border-radius: 0.375rem;
             padding: 0.75rem 1rem;
-            /* Padding sedikit dikurangi untuk form ini */
             font-size: 0.9rem;
             color: #495057;
             width: 100%;
-            /* Pastikan input mengisi lebar kolomnya */
         }
 
         .form-control-custom::placeholder {
             color: #888;
-            /* Placeholder sedikit lebih terang */
         }
 
         .form-control-custom:focus {
@@ -137,16 +100,12 @@
 
         textarea.form-control-custom {
             min-height: 80px;
-            /* Tinggi minimum untuk textarea deskripsi */
         }
 
         .image-upload-area {
             background-color: var(--upload-area-bg);
             border: 1px dashed var(--upload-area-border);
-            /* Border putus-putus seperti di beberapa desain */
             border-radius: 0.375rem;
-            padding: 0rem;
-            /* Padding lebih besar */
             text-align: center;
             cursor: pointer;
             display: flex;
@@ -155,7 +114,6 @@
             justify-content: center;
             color: var(--brand-text-muted);
             height: 150px;
-            /* Tinggi seragam untuk area upload besar */
             font-size: 0.85rem;
             transition: background-color 0.2s ease;
         }
@@ -165,15 +123,12 @@
         }
 
         .image-upload-area i {
-            /* Untuk ikon kamera */
             font-size: 2rem;
             margin-bottom: 0.5rem;
         }
 
         .image-upload-area.small-upload {
             height: 100px;
-            /* Tinggi lebih kecil untuk upload identifikasi */
-            padding: 0rem;
             font-size: 0.75rem;
         }
 
@@ -181,21 +136,17 @@
             font-size: 1.5rem;
         }
 
-        /* Styling untuk file input yang disembunyikan */
         .image-upload-area input[type="file"] {
             display: none;
         }
-
 
         .btn-apply-custom {
             background-color: #F3C148;
             color: white;
             font-weight: 500;
             padding: 0.8rem 0;
-            /* Padding lebih tebal */
             border-radius: 0.375rem;
             font-size: 1.05rem;
-            /* Font lebih besar */
             border: none;
             transition: background-color 0.2s ease-in-out;
         }
@@ -210,13 +161,11 @@
             padding-left: 1.25rem;
         }
 
-        /* Helper untuk required field */
         .required-asterisk {
             color: red;
             margin-left: 2px;
         }
 
-        /* Penyesuaian margin antar grup field */
         .form-section {
             margin-bottom: 1.8rem;
         }
@@ -227,50 +176,24 @@
             object-fit: cover;
             border-radius: 0.375rem;
             display: none;
-            /* Default sembunyi */
         }
     </style>
 </head>
 
 <body>
 
-    <!-- Navbar -->
-    <nav class="navbar navbar-expand-sm navbar-eatery">
-        <div class="container">
-            <a class="navbar-brand" href="/">
-                <img src="{{ asset('img/logo lastbite putih 1.png') }}" alt="LastBite Logo">
-            </a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavMain"
-                aria-controls="navbarNavMain" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNavMain">
-                <ul class="navbar-nav ms-auto">
-                    <li class="nav-item me-4">
-                        <a class="nav-link" href="#">Order</a>
-                    </li>
-                    <li class="nav-item me-4">
-                        <a class="nav-link" href="#">Stocks</a>
-                    </li>
-                    <li class="nav-item me-4">
-                        <a class="nav-link" href="#">Profile</a>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </nav>
+    <!-- Tanpa Navbar -->
 
     <!-- Main Content for Register Store Form -->
     <main class="main-content">
         <div class="register-store-container">
-            <h2 class="eatery-title">My Eatery</h2>
-            <h1 class="register-title">Register Your Eatery</h1>
-            <p class="sub-heading">
+            <h2 class="eatery-title" style="text-align: center">My Eatery</h2>
+            <h1 class="register-title" style="text-align: center">Register Your Eatery</h1>
+            <p class="sub-heading" style="text-align: center">
                 Got leftovers? Turn them into profits by joining our surprise bag program.
             </p>
 
             @if (session('success'))
-                <!-- Jika ada pesan sukses dari halaman sebelumnya -->
                 <div class="alert alert-success alert-custom mb-3">
                     {{ session('success') }}
                 </div>
@@ -285,11 +208,10 @@
                 </div>
             @endif
 
+            {{-- FORM REGISTRASI (TIDAK BERUBAH) --}}
             <form method="POST" action="{{ route('resto.register.details.submit') }}" enctype="multipart/form-data">
-                <!-- Ganti action dengan route yang sesuai -->
                 @csrf
-
-                <div class="form-section">
+               <div class="form-section">
                     <div class="mb-3">
                         <label for="application_name" class="form-label-custom">Application Name<span
                                 class="required-asterisk">*</span></label>
@@ -523,43 +445,15 @@
                     <button type="submit" class="btn btn-apply-custom w-100">Apply</button>
                 </div>
             </form>
-
         </div>
     </main>
 
+    <!-- Tanpa Footer -->
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous">
-    </script>
+        integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
     <script>
-        // Script sederhana untuk memicu klik pada input file saat area upload diklik/ditekan enter
-        document.querySelectorAll('.image-upload-area').forEach(uploadArea => {
-            const fileInput = uploadArea.querySelector('input[type="file"]');
-            if (fileInput) {
-                uploadArea.addEventListener('keydown', (event) => {
-                    if (event.key === 'Enter' || event.key === ' ') {
-                        fileInput.click();
-                    }
-                });
-
-                // Opsional: Tampilkan nama file yang dipilih
-                fileInput.addEventListener('change', (event) => {
-                    const fileName = event.target.files[0] ? event.target.files[0].name : 'No file chosen';
-                    const textElement = uploadArea.querySelector(
-                        'span'); // Asumsi ada elemen span untuk teks
-                    if (textElement) {
-                        // Simpan teks asli
-                        if (!uploadArea.dataset.originalText) {
-                            uploadArea.dataset.originalText = textElement.textContent;
-                        }
-                        textElement.textContent = fileName;
-                        if (!event.target.files[0]) {
-                            textElement.textContent = uploadArea.dataset.originalText;
-                        }
-                    }
-                });
-            }
-        });
-
+        // Script preview upload gambar tetap dipertahankan
         document.querySelectorAll('.image-upload-area').forEach(uploadArea => {
             const fileInput = uploadArea.querySelector('input[type="file"]');
             const previewImage = uploadArea.querySelector('img.image-preview');
