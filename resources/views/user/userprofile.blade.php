@@ -6,7 +6,7 @@
 @push('styles')
     <style>
         body {
-            font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+            font-family: 'Instrument Sans', sans-serif;
             background-color: #FBF5EC;
             /* custom-beige */
             color: #374151;
@@ -14,7 +14,7 @@
         }
 
         .font-serif-display {
-            font-family: 'Georgia', 'Times New Roman', serif;
+            font-family: 'Instrument Serif', serif;
         }
 
         .bg-custom-green {
@@ -86,7 +86,7 @@
         <main class="container mt-4 mb-4 py-md-5 px-4">
 
             <div class="mb-4 mb-md-5">
-                <h1 class="display-5 display-md-4 font-serif-display text-dark text-md">Profile.</h1>
+                <h1 class="display-5 display-md-4 font-serif-display text-dark text-md" style="font-size: 70px;">Profile.</h1>
                 <h3 class="text-secondary fw-normal fs-6 text-md-start">Manage Your Account and Preferences</h3>
             </div>
 

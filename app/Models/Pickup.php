@@ -8,18 +8,18 @@ class Pickup extends Model
 {
     protected $fillable = ['time_type', 'start_time', 'end_time'];
 
-    public function stores()
+    public function restaurants()
     {
-        return $this->belongsToMany(Store::class, 'pickup_stores');
+        return $this->belongsToMany(Restaurant::class, 'pickup_stores', 'pickup_id', 'restaurant_id');
     }
 
-    public function customers()
+    public function users()
     {
-        return $this->hasMany(Customer::class, 'pickup_id'); // atau 'pickup_time_id' jika itu nama kolom di tabel customers
+        return $this->hasMany(User::class, 'pickup_id'); // pastikan users table punya pickup_id
     }
 
     public function orders()
     {
-        return $this->hasMany(Order::class, 'pickup_id'); // atau 'pickup_time_id' jika itu nama kolom di tabel orders
+        return $this->hasMany(Order::class, 'pickup_id'); // FK di tabel orders
     }
 }

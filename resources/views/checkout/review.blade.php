@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('user.layouts.app')
 
 @section('title', 'Review & Pay - Checkout')
 
@@ -18,7 +18,7 @@
             </div>
 
             {{-- Back Link --}}
-            <a href="{{ route('checkout.reserved') }}" class="back-link">
+            <a href="{{ route('checkout.reserved.store') }}" class="back-link">
                 <i class="bi bi-arrow-left-circle ms-4"></i>Back
             </a>
 
@@ -53,7 +53,7 @@
 
                         <div class="eatery-info">
                             <i class="bi bi-shop"></i>
-                            <span>{{ $order->store->store_name}}</span>
+                            <span>{{ $order->restaurant->name}}</span>
                         </div>
                         <div class="item-info">
                             <i class="bi bi-bag-check"></i>

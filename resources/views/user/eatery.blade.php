@@ -1,12 +1,9 @@
 {{-- Memberitahu Blade untuk menggunakan layout 'app.blade.php' --}}
 @extends('user.layouts.app')
 
-{{-- Mengisi 'title' yang ada di layout --}}
 @section('title', 'Eatery Page')
 
-{{-- Mengisi 'content' yang ada di layout --}}
 @section('content')
-
     <!-- Hero Section -->
     <section class="hero-section text-white" style="background-image: url('{{ asset('img/Eatery Background.svg') }}');">
         <div class="overlay"></div>
@@ -26,15 +23,12 @@
             <form method="GET" action="{{ url('/eatery') }}#interactive-filters"
                 class="search-form position-relative mx-auto bg-white shadow-lg rounded-4 d-flex align-items-center"
                 style="max-width: 45rem;">
-
-                {{-- HIDDEN INPUTS: untuk membawa parameter filter & sort --}}
                 @if (request()->has('filter'))
                     <input type="hidden" name="filter" value="{{ request('filter') }}">
                 @endif
                 @if (request()->has('sort'))
                     <input type="hidden" name="sort" value="{{ request('sort') }}">
                 @endif
-
                 <div class="position-absolute top-50 start-0 translate-middle-y ps-4">
                     <svg style="width: 2.9rem; height: 2.9rem;" class="text-dark" xmlns="http://www.w3.org/2000/svg"
                         viewBox="0 0 20 20" fill="currentColor">
@@ -43,7 +37,6 @@
                             clip-rule="evenodd" />
                     </svg>
                 </div>
-
                 <input type="search" id="searchInput" name="query" value="{{ $searchQuery ?? '' }}"
                     class="form-control form-control-lg border-0 bg-transparent rounded-4"
                     placeholder="What would you like to eat?">
@@ -61,7 +54,6 @@
 
     <!-- Main Content: Filters & Product Grid -->
     <main class="container-fluid pt-4 pb-2">
-
         @php
             $sortQuery = request()->has('sort') ? 'sort=' . request('sort') : '';
             $filterQuery = request()->has('filter') ? 'filter=' . request('filter') : '';
@@ -154,8 +146,9 @@
                         class="text-decoration-none d-block h-100">
                         <div class="card product-card d-flex flex-column h-100">
                             <div class="position-relative">
-                                <img src="{{ asset('storage/' . $eatery->restaurant_picture_path) }}"
-                                    alt="{{ $eatery->name }}" class="product-card-img">
+                                <img src="{{ asset($eatery->restaurant_picture_path) }}" alt="{{ $eatery->name }}"
+                                    class="product-card-img">
+
                                 <span
                                     class="position-absolute top-0 start-0 mt-3 ms-3 badge badge-custom-1 fw-bold shadow-sm">
                                     {{ ($eatery->lunch_stock ?? 0) + ($eatery->dinner_stock ?? 0) }} left
@@ -202,6 +195,5 @@
                 </div>
             @endforeach
         </div>
-
     </main>
 @endsection

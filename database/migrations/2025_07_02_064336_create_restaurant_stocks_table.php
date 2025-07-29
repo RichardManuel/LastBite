@@ -7,22 +7,23 @@ use Illuminate\Support\Facades\Schema;
 return new class extends Migration {
     public function up(): void
     {
-    Schema::create('restaurant_stocks', function (Blueprint $table) {
-    $table->id();
-    $table->string('restaurant_id', 5); // FK ke restoran
-    $table->string('item_name', 100);
-    $table->enum('pickup_time', ['Lunch', 'Dinner']); // stok per pickup time
-    $table->integer('stock')->default(0);
-    $table->timestamps();
+        Schema::create('restaurant_stocks', function (Blueprint $table) {
+            $table->id();
+            $table->string('restaurant_id', 5); // FK ke restoran
+            $table->string('item_name', 100);
+            $table->enum('pickup_time', ['Lunch', 'Dinner']); // stok per pickup time
+            $table->integer('stock')->default(0);
+            $table->time('start_time')->nullable(); // waktu mulai pickup
+            $table->time('end_time')->nullable();   // waktu selesai pickup
+            $table->timestamps();
 
-    $table->foreign('restaurant_id')
-          ->references('restaurant_id')
-          ->on('restaurants')
-          ->onDelete('cascade');
+            $table->foreign('restaurant_id')
+                ->references('restaurant_id')
+                ->on('restaurants')
+                ->onDelete('cascade');
 
-    $table->unique(['restaurant_id', 'item_name', 'pickup_time']); // 1 stok per pickup time
-    });
-
+            $table->unique(['restaurant_id', 'item_name', 'pickup_time']); // 1 stok per pickup time
+        });
     }
 
     public function down(): void

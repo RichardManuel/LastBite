@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Restaurant extends Authenticatable
 {
@@ -14,7 +15,7 @@ class Restaurant extends Authenticatable
     protected $primaryKey = 'restaurant_id';
     public $incrementing = false;
     protected $keyType = 'string';
-    public $timestamps = false; // Atur true jika kamu pakai created_at dan updated_at
+    public $timestamps = false; // Ganti ke true jika pakai created_at dan updated_at
 
     protected $fillable = [
         'email',
@@ -38,7 +39,6 @@ class Restaurant extends Authenticatable
         'npwp_document_path',
         'authorization_document_path',
         'rating',
-
     ];
 
     protected $hidden = [
@@ -48,12 +48,11 @@ class Restaurant extends Authenticatable
 
     protected $casts = [
         'password' => 'hashed',
-        // Tambahkan jika 'best_before' adalah date:
-        // 'best_before' => 'date',
+        // 'best_before' => 'date', // uncomment jika tipe tanggal
     ];
 
     /**
-     * Generate restaurant_id secara otomatis saat create (ST001, ST002, dst)
+     * Auto-generate restaurant_id: ST001, ST002, dst.
      */
     protected static function boot()
     {
@@ -61,10 +60,31 @@ class Restaurant extends Authenticatable
 
         static::creating(function ($restaurant) {
             $lastId = self::orderBy('restaurant_id', 'desc')->first();
-            $newNumber = $lastId ? ((int)substr($lastId->restaurant_id, 2)) + 1 : 1;
+            $newNumber = $lastId ? ((int) substr($lastId->restaurant_id, 2)) + 1 : 1;
             $restaurant->restaurant_id = 'ST' . str_pad($newNumber, 3, '0', STR_PAD_LEFT);
         });
     }
+
+    public function stocks()
+    {
+        return $this->hasMany(\App\Models\RestaurantStock::class, 'restaurant_id', 'restaurant_id');
+    }
+
+    public function pickups(): BelongsToMany
+    {
+        return $this->belongsToMany(Pickup::class, 'pickup_restaurants', 'restaurant_id', 'pickup_id');
+    }
+
+    public function orders()
+    {
+        return $this->hasMany(Order::class, 'restaurant_id', 'restaurant_id');
+    }
+
+    public function users()
+    {
+        return $this->hasMany(User::class, 'restaurant_id', 'restaurant_id');
+    }
+
 
     public function isNew()
     {
@@ -75,8 +95,4 @@ class Restaurant extends Authenticatable
     {
         return 'restaurant_id';
     }
-
-
-
-
 }

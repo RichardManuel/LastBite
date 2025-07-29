@@ -2,9 +2,11 @@
 
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
-use App\Models\Customer;
-use App\Models\Store;
+use Illuminate\Http\Request;
+use App\Models\User;
+use App\Models\Restaurant;
 use App\Models\Pickup;
+use App\Models\Order;   
 
 use App\Http\Controllers\store\AuthController;
 use App\Http\Controllers\store\StockController;
@@ -15,7 +17,6 @@ use App\Http\Controllers\user\ResetPasswordController;
 use App\Http\Controllers\user\ProfileController;
 use App\Http\Controllers\user\HomeController;
 use App\Http\Controllers\user\EateryController;
-use App\Http\Controllers\StripeController;
 use App\Http\Controllers\Auth\SignupController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Auth\LoginController;
@@ -23,6 +24,9 @@ use App\Http\Controllers\store\RestaurantProfileController;
 use App\Http\Controllers\store\RegisterRestaurantController;
 use App\Http\Controllers\Admin\RestaurantApplicationController; // Pakai hanya ini\
 use App\Http\Controllers\Admin\RestaurantManagementController;
+use App\Http\Controllers\user\OrderController;
+use App\Http\Controllers\user\StripeController;
+
 
 
 
@@ -82,6 +86,7 @@ Route::prefix('store')
         // Halaman status
         Route::get('/pending', fn() => view('store.application_pending'))->name('pending');
         Route::get('/rejected', fn() => view('store.application_rejected'))->name('rejected');
+        Route::get('/suspended', fn() => view('store.resto_suspended'))->name('suspended');
     });
 
 Route::prefix('store')
@@ -100,20 +105,33 @@ Route::post('/restaurant/{id}/stock/update', [StockController::class, 'updateSto
 
 // =======================
 // 💳 CHECKOUT & PAYMENT
-// =======================
-Route::get('/checkout/reserved', function () {
-    $customer = Customer::first();
-    $store = Store::first();
-    $pickup = Pickup::first();
-    return view('checkout.reserved', compact('customer', 'store', 'pickup'));
-})->name('checkout.reserved');
+// =======================  
+// Tampilkan Halaman Reserved Checkout
+// Reserved flow
+Route::get('/checkout/reserved', [StripeController::class, 'showReservedPage'])->name('checkout.reserved.show');
+Route::post('/checkout/reserved', [StripeController::class, 'processReservedInfo'])->name('checkout.reserved.store');
+Route::post('/checkout/reserved/update-pickup', [StripeController::class, 'updatePickup'])->name('checkout.pickup.update');
 
-Route::post('/checkout/reserved', [StripeController::class, 'processReservedInfo'])->name('checkout.processReservedInfo');
-Route::get('/checkout/review', [StripeController::class, 'review'])->name('checkout.review');
+// Review before payment
+Route::get('/checkout/review', function () {
+    $orderId = session('current_order_id');
+
+    $order = Order::with(['user', 'restaurant'])
+        ->where('order_id', $orderId)
+        ->where('status', 'Ongoing')
+        ->first();
+
+    return view('checkout.review', compact('order'));
+})->name('checkout.review.show');
+Route::get('/orders/{orderId}/review', [OrderController::class, 'show'])->name('orders.review');
+
+
 Route::post('/checkout/stripe', [StripeController::class, 'checkout'])->name('checkout.stripe');
-Route::get('/checkout/success', [StripeController::class, 'success'])->name('checkout.success');
 
-// =======================
+
+// Confirmation after payment
+Route::get('/checkout/confirmation', [StripeController::class, 'showConfirmationPage'])->name('checkout.confirmation');
+
 // 🔐 ADMIN ROUTES
 // =======================
 Route::prefix('admin')
@@ -133,20 +151,21 @@ Route::prefix('admin')
 
         // === 2. Restaurant Management (pengelolaan) ===
         // Restaurant Management Routes
-         Route::get('/management', [RestaurantManagementController::class, 'showPage'])->name('management.index');
+        Route::get('/management', [RestaurantManagementController::class, 'showPage'])->name('management.index');
 
         // Suspend and unsuspend restaurant (using POST)
         Route::post('/management/suspend/{restaurant_id}', [RestaurantManagementController::class, 'suspend'])->name('management.suspend');
         Route::post('/management/unsuspend/{restaurant_id}', [RestaurantManagementController::class, 'unsuspend'])->name('management.unsuspend');
-        
+
         // Deleting restaurant (optional)
         Route::delete('/management/{restaurant_id}', [RestaurantManagementController::class, 'destroy'])->name('management.destroy');
     });
 
+Route::get('/order', [OrderController::class, 'index'])->name('order');
 
-
-// Route logout user/admin
-Route::post('/logout', function () {
+Route::post('/logout', function (Request $request) {
     Auth::logout();
-    return redirect('/');
+    $request->session()->invalidate();
+    $request->session()->regenerateToken();
+    return redirect()->route('login'); // arahkan ke halaman login user
 })->name('logout');

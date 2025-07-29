@@ -27,7 +27,7 @@
 
     <!-- Custom Styles (menggunakan helper asset()) -->
     <link rel="stylesheet" href="{{ asset('css/style.css') }}">
-    <!-- <link rel="stylesheet" href="{{ asset('css/styledetail.css') }}"> -->
+    <link rel="stylesheet" href="{{ asset('css/styledetail.css') }}">
 
     {{-- Untuk CSS spesifik per halaman (opsional) --}}
     @stack('styles')
@@ -44,11 +44,11 @@
     ">
         <div class="container">
             <!-- Left Nav Items -->
-            <div class="navbar-nav me-auto">
+             <div class="navbar-nav me-auto">
                 {{-- Gunakan helper url() atau route() untuk link --}}
                 <a class="nav-link" href="{{ route('home.index') }}">Home</a>
                 <a class="nav-link mx-lg-3 mx-2" href="{{ route('user.eatery') }}">Eatery</a>
-                <a class="nav-link" href="">Order</a>
+                <a class="nav-link" href="{{ route('order') }}">Order</a>
             </div>
 
             <!-- Center Section: Logo -->

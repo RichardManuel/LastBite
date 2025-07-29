@@ -30,6 +30,9 @@ class RestaurantProfileController extends Controller
         if ($restaurant->status === 'accepted') {
             return view('store.profilestore', compact('restaurant'));
         }
+        if ($restaurant->status === 'suspended') {
+            return redirect()->route('resto.suspended');
+        }
 
         return redirect()->route('resto.register.details.form');
     }

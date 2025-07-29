@@ -2,6 +2,7 @@
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -12,7 +13,9 @@
     {{-- Link CDN dan CSS Kustom (tidak perlu diubah) --}}
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:ital,wght@0,400..700;1,400..700&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Instrument+Sans:ital,wght@0,400..700;1,400..700&family=Instrument+Serif:ital@0;1&display=swap"
+        rel="stylesheet">
     <link rel="stylesheet" href="{{ asset('css/RestoApplicationStyle.css') }}">
     <link rel="stylesheet" href="{{ asset('css/RestoManagementStyle.css') }}">
 
@@ -27,7 +30,8 @@
         }
 
         .actions-dropdown.show {
-            max-height: 300px; /* cukup tinggi untuk semua isi */
+            max-height: 300px;
+            /* cukup tinggi untuk semua isi */
             opacity: 1;
         }
 
@@ -47,9 +51,6 @@
             font-size: 1.1rem;
             margin-top: -5px;
         }
-
-
-
     </style>
 </head>
 
@@ -62,16 +63,21 @@
         <div class="container-fluid">
             <div class="navbar-nav me-auto">
                 {{-- Gunakan nama rute, bukan URL manual --}}
-                <a class="nav-link {{ request()->is('admin/restaurants*') ? 'active' : '' }}" href="{{ route('admin.restaurants.index') }}">Resto Application</a>
-                <a class="nav-link {{ request()->is('admin/management*') ? 'active' : '' }}" href="{{ route('admin.management.index') }}">Resto Management</a>
+                <a class="nav-link {{ request()->is('admin/restaurants*') ? 'active' : '' }}"
+                    href="{{ route('admin.restaurants.index') }}">Resto Application</a>
+                <a class="nav-link {{ request()->is('admin/management*') ? 'active' : '' }}"
+                    href="{{ route('admin.management.index') }}">Resto Management</a>
             </div>
             <a class="navbar-brand navbar-custom-logo" href="#">
                 {{-- Pastikan gambar LastBite.png ada di folder public/images --}}
                 <img src="{{ asset('img/LastBite.png') }}" alt="Last Bite Logo">
             </a>
-            <div class="navbar-nav ms-auto">
-                <a class="nav-link" href="loginpage.blade.php">Log out <i class="bi bi-box-arrow-right"></i></a>
-            </div>  
+            <form method="POST" action="{{ route('logout') }}">
+                @csrf
+                <button type="submit" class="nav-link btn btn-link">Log out <i
+                        class="bi bi-box-arrow-right"></i></button>
+            </form>
+
         </div>
     </nav>
     {{-- ========================================================= --}}
@@ -89,7 +95,8 @@
         <div class="container">
             <div class="row align-items-center mb-4">
                 <div class="col-lg-3 col-md-4 text-center text-md-start mb-3 mb-md-0">
-                    <img src="{{asset('img/LastBite.png')}}" alt="LastBite Logo White" class="footer-logo-main img-fluid">
+                    <img src="{{ asset('img/LastBite.png') }}" alt="LastBite Logo White"
+                        class="footer-logo-main img-fluid">
                 </div>
 
                 <div class="col-lg-6 col-md-4 text-center mb-3 mb-md-0">
@@ -140,4 +147,5 @@
     @stack('scripts')
 
 </body>
+
 </html>
