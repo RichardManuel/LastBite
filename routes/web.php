@@ -113,20 +113,12 @@ Route::post('/checkout/reserved', [StripeController::class, 'processReservedInfo
 Route::post('/checkout/reserved/update-pickup', [StripeController::class, 'updatePickup'])->name('checkout.pickup.update');
 
 // Review before payment
-Route::get('/checkout/review', function () {
-    $orderId = session('current_order_id');
-
-    $order = Order::with(['user', 'restaurant'])
-        ->where('order_id', $orderId)
-        ->where('status', 'Ongoing')
-        ->first();
-
-    return view('checkout.review', compact('order'));
-})->name('checkout.review.show');
-Route::get('/orders/{orderId}/review', [OrderController::class, 'show'])->name('orders.review');
-
+Route::get('/checkout/review', [StripeController::class, 'review'])->name('checkout.review.show');
 
 Route::post('/checkout/stripe', [StripeController::class, 'checkout'])->name('checkout.stripe');
+
+// Success URL (penting!)
+Route::get('/checkout/success', [StripeController::class, 'success'])->name('checkout.success');
 
 
 // Confirmation after payment

@@ -103,40 +103,38 @@ class StripeController extends Controller
 
     public function review()
     {
-        dd(session()->all());
-        // $userId = session('checkout_user_id');
+        $userId = session('checkout_user_id');
 
 
-        // if (!$userId) {
-        //     return redirect()->route('checkout.reserved.store')->with('error', 'Session tidak ditemukan');
-        // }
-        // dd(session()->all());
+        if (!$userId) {
+            return redirect()->route('checkout.reserved.store')->with('error', 'Session tidak ditemukan');
+        }
 
-        // $order = Order::with('restaurant')
-        //     ->where('user_id', session('checkout_user_id'))
-        //     ->where('status', 'Ongoing')
-        //     ->latest()
-        //     ->first();
+        $order = Order::with('restaurant')
+            ->where('user_id', session('checkout_user_id'))
+            ->where('status', 'Ongoing')
+            ->latest()
+            ->first();
 
-        // if (!$order) {
-        //     \Log::error('Order tidak ditemukan untuk user_id: ' . session('checkout_user_id'));
-        //     dd(Order::where('user_id', session('checkout_user_id'))->get()); // Debug
-        //     return redirect()->route('checkout.reserved.show')->with('error', 'Order tidak ditemukan');
-        // }
+        if (!$order) {
+            \Log::error('Order tidak ditemukan untuk user_id: ' . session('checkout_user_id'));
+            dd(Order::where('user_id', session('checkout_user_id'))->get()); // Debug
+            return redirect()->route('checkout.reserved.show')->with('error', 'Order tidak ditemukan');
+        }
 
-        // // Ringkas perhitungan
-        // $taxes = 1000;
-        // $application_taxes = 1000;
-        // $subtotal = (int) $order->order_price ?? 0;
-        // $grand_total = $subtotal + $taxes + $application_taxes;
+        // Ringkas perhitungan
+        $taxes = 1000;
+        $application_taxes = 1000;
+        $subtotal = (int) $order->item_price ?? 0;
+        $grand_total = $subtotal + $taxes + $application_taxes;
 
-        // $summary = (object) [
-        //     'taxes' => $taxes,
-        //     'application_taxes' => $application_taxes,
-        //     'grand_total' => $grand_total,
-        // ];
+        $summary = (object) [
+            'taxes' => $taxes,
+            'application_taxes' => $application_taxes,
+            'grand_total' => $grand_total,
+        ];
 
-        // return view('checkout.review', compact('order', 'summary'));
+        return view('checkout.review', compact('order', 'summary'));
     }
 
 
@@ -147,12 +145,32 @@ class StripeController extends Controller
         try {
             Stripe::setApiKey(config('stripe.secret'));
 
-            $user = User::findOrFail($request->input('user_id'));
-            $restaurant = Restaurant::findOrFail($request->input('restaurant_id'));
-            $pickup = Pickup::find($request->input('pickup_id'));
+            // Ambil user_id dari request, fallback ke user yang sedang login
+            $userId = $request->input('user_id') ?? auth()->id();
+            $user = User::find($userId);
+            if (!$user) {
+                Log::error("User not found with ID: $userId");
+                return redirect()->route('checkout.review.show')->with('error', 'User tidak ditemukan.');
+            }
 
+            $restaurantId = $request->input('restaurant_id');
+            if (!$restaurantId) {
+                Log::error('Restaurant ID is missing from request');
+                return redirect()->route('checkout.review.show')->with('error', 'ID restoran tidak ditemukan.');
+            }
+
+            $restaurant = Restaurant::findOrFail($restaurantId);
+
+            $pickup = Pickup::find($request->input('pickup_id')); // optional
+
+            // Ambil order terakhir dari user
             $order = Order::where('user_id', $user->id)->latest()->first();
+            if (!$order) {
+                Log::error("No recent order found for user ID: $user->id");
+                return redirect()->route('checkout.review.show')->with('error', 'Order tidak ditemukan.');
+            }
 
+            // Perhitungan harga
             $subtotal_idr = (float) ($order->item_price ?? 0);
             $taxes_idr = 1000;
             $app_taxes_idr = 1000;
@@ -168,9 +186,10 @@ class StripeController extends Controller
             ]);
 
             if ($price_in_usd_cents < 50) {
-                return redirect()->route('checkout.review')->with('error', 'Total terlalu kecil untuk diproses.');
+                return redirect()->route('checkout.review.show')->with('error', 'Total terlalu kecil untuk diproses.');
             }
 
+            // Buat Stripe session
             $session = Session::create([
                 'payment_method_types' => ['card'],
                 'line_items' => [
@@ -187,7 +206,7 @@ class StripeController extends Controller
                 ],
                 'mode' => 'payment',
                 'success_url' => route('checkout.success') . '?session_id={CHECKOUT_SESSION_ID}',
-                'cancel_url' => route('checkout.review'),
+                'cancel_url' => route('checkout.review.show'),
                 'metadata' => [
                     'price_in_idr_grand_total' => $grand_total_idr,
                     'user_id' => $user->id,
@@ -201,9 +220,10 @@ class StripeController extends Controller
 
         } catch (\Exception $e) {
             Log::error('Stripe Error: ' . $e->getMessage());
-            return redirect()->route('checkout.review')->with('error', 'Terjadi kesalahan saat pembayaran.');
+            return redirect()->route('checkout.review.show')->with('error', 'Terjadi kesalahan saat pembayaran.');
         }
     }
+
 
     public function success(Request $request)
     {

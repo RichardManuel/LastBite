@@ -50,21 +50,21 @@
                 <div class="col-lg-7 mb-4 mb-lg-0">
                     <div class="order-summary-card">
                         <h3>ORDER SUMMARY</h3>
-
+    
                         <div class="eatery-info">
                             <i class="bi bi-shop"></i>
                             <span>{{ $order->restaurant->name}}</span>
                         </div>
                         <div class="item-info">
                             <i class="bi bi-bag-check"></i>
-                            <span>{{ $order->order_name }}</span>
+                            <span>{{ $order->item_name }}</span>
                         </div>
 
                         <hr class="my-3">
 
                         <div class="summary-item">
                             <span>Subtotal</span>
-                            <span>IDR {{ number_format($order->order_price, 2, ',', '.') }}</span>
+                            <span>IDR {{ number_format($order->item_price, 2, ',', '.') }}</span>
                         </div>
                         <div class="summary-item">
                             <span>Taxes</span>
@@ -88,8 +88,8 @@
                         <form action="{{ route('checkout.stripe') }}" method="POST" id="payment-form">
                             @csrf
                             {{-- Hidden input (gunakan session atau input sebelumnya jika diperlukan) --}}
-                            <input type="hidden" name="customer_id" value="{{ session('checkout_customer_id') }}">
-                            <input type="hidden" name="store_id" value="{{ session('checkout_store_id') }}">
+                            <input type="hidden" name="user_id" value="{{ session('checkout_user_id') }}">
+                            <input type="hidden" name="restaurant_id" value="{{ session('checkout_restaurant_id') }}">
                             <input type="hidden" name="pickup_id" value="{{ session('checkout_pickup_id') }}">
 
                             {{-- Placeholder untuk metode pembayaran --}}
