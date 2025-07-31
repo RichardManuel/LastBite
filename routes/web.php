@@ -20,6 +20,7 @@ use App\Http\Controllers\user\HomeController;
 use App\Http\Controllers\user\EateryController;
 use App\Http\Controllers\user\OrderController;
 use App\Http\Controllers\user\StripeController;
+use App\Http\Controllers\user\RatingController;
 
 // Restaurant Controllers
 use App\Http\Controllers\store\AuthController;
@@ -117,6 +118,7 @@ Route::prefix('store')
         Route::put('/orders/{order_id}', [StoreOrderController::class, 'update'])->name('orders.update');
         Route::put('/orders/{order}/status', [StoreOrderController::class, 'updateStatus'])->name('orders.updateStatus');
     });
+Route::post('/api/ratings', [RatingController::class, 'store']);
 
 
 // =======================

@@ -132,12 +132,16 @@
                     <div class="d-flex justify-content-end align-items-center">
                         {{-- Conditional logic for "Rate Now" button --}}
                         @if ($order->isCompleted() && !$order->isRated())
-                            <button type="button" class="btn btn-success rate-now-btn" data-bs-toggle="modal"
-                                data-bs-target="#ratingModal" data-order-id="{{ $order->order_id }}"
+                            <button type="button" class="btn btn-success rate-now-btn" 
+                                data-bs-toggle="modal"
+                                data-bs-target="#ratingModal"
+                                data-order-id="{{ $order->order_id }}"
                                 data-order-db-id="{{ $order->id }}"
                                 data-restaurant-name="{{ $order->restaurant->name }}">
                                 Rate Now
                             </button>
+
+
                         @elseif($order->isRated())
                             <button type="button" class="btn btn-secondary" disabled>Rated</button>
                         @else
@@ -184,7 +188,7 @@
                 <div class="modal-body">
                     <form id="ratingForm">
                         @csrf
-                        <input type="hidden" id="modalOrderDbId" name="order_id">
+                        <input type="hidden" id="modalOrderDbIdHidden" name="order_id">
                         <input type="hidden" id="modalOrderIdDisplayHidden">
                         <input type="hidden" id="modalRestaurantNameDisplayHidden">
 
@@ -227,159 +231,109 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const ratingModal = document.getElementById('ratingModal');
-            const ratingForm = document.getElementById('ratingForm');
-            const filterButtons = document.querySelectorAll('.order-tabs .btn');
+       document.querySelectorAll('.rate-now-btn').forEach(button => {
+        button.addEventListener('click', function () {
+            const restaurantName = button.dataset.restaurantName;
+            const orderDisplayId = button.dataset.orderId;
+            const orderDbId = button.dataset.orderDbId;
 
-            // Function to update star visuals based on a given rating
-            function updateStarDisplay(container, currentRating) {
-                const labels = container.querySelectorAll('label');
-                labels.forEach(label => {
-                    const starValue = parseInt(label.htmlFor ? label.htmlFor.replace('star', '') : label
-                        .dataset.value || 0);
 
-                    if (starValue <= currentRating) {
-                        label.innerHTML = '★'; // Solid star
-                    } else {
-                        label.innerHTML = '☆'; // Outline star
-                    }
+            document.getElementById('restaurantNameInModal').textContent = restaurantName;
+            document.getElementById('orderIdInModal').textContent = orderDisplayId;
+
+            document.getElementById('modalOrderDbIdHidden').value = orderDisplayId;
+            document.getElementById('modalOrderIdDisplayHidden').value = orderDisplayId;
+            document.getElementById('modalRestaurantNameDisplayHidden').value = restaurantName;
+
+            document.querySelectorAll('input[name="rating"]').forEach(input => input.checked = false);
+            document.getElementById('reviewText').value = '';
+
+            const modal = new bootstrap.Modal(document.getElementById('ratingModal'));
+            modal.show();
+        });
+    });
+
+    const ratingForm = document.getElementById('ratingForm');
+    ratingForm.addEventListener('submit', function (event) {
+        event.preventDefault();
+
+        const rating = document.querySelector('input[name="rating"]:checked');
+        const review = document.getElementById('reviewText').value;
+        const orderId = document.getElementById('modalOrderDbIdHidden').value;
+
+        if (!rating) {
+            alert('Please select a rating.');
+            return;
+        }
+
+        const token = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+
+        fetch('/api/ratings', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': token,
+                'Accept': 'application/json',
+            },
+            body: JSON.stringify({
+                order_id: orderId,
+                rating: rating.value,
+                review: review
+            })
+        })
+        .then(res => {
+            if (!res.ok) {
+                return res.json().then(errorData => {
+                    throw new Error(errorData.message || 'Something went wrong.');
                 });
             }
+            return res.json();
+        })
+        .then(data => {
+            alert(data.message);
+            const modalElement = document.getElementById('ratingModal');
+            const modal = bootstrap.Modal.getInstance(modalElement);
+            modal.hide();
 
-            // Event listener for when the modal is shown
-            ratingModal.addEventListener('show.bs.modal', function(event) {
-                const button = event.relatedTarget;
-                const orderIdDisplay = button.getAttribute('data-order-id');
-                const orderDbId = button.getAttribute('data-order-db-id');
-                const restaurantName = button.getAttribute('data-restaurant-name');
+            document.body.classList.remove('modal-open');
+            document.querySelectorAll('.modal-backdrop').forEach(el => el.remove());
+            document.body.style.overflow = 'auto';
+            document.body.style.paddingRight = '';
 
-                document.getElementById('orderIdInModal').textContent = orderIdDisplay;
-                document.getElementById('restaurantNameInModal').textContent = restaurantName;
-                document.getElementById('modalOrderDbId').value = orderDbId;
-
-                ratingForm.reset();
-                updateStarDisplay(ratingForm.querySelector('.rating-stars'), 0); // Reset to 0 stars
-            });
-
-            // Handle star interaction in the modal (click)
-            ratingForm.querySelectorAll('.rating-stars input[type="radio"]').forEach(radio => {
-                radio.addEventListener('change', function() {
-                    const selectedRating = parseInt(this.value);
-                    updateStarDisplay(this.closest('.rating-stars'), selectedRating);
-                });
-            });
-
-            // Handle star interaction in the modal (hover)
-            ratingForm.querySelectorAll('.rating-stars label').forEach(label => {
-                label.addEventListener('mouseover', function() {
-                    const hoverRating = parseInt(this.previousElementSibling.value);
-                    updateStarDisplay(this.closest('.rating-stars'), hoverRating);
-                });
-
-                label.addEventListener('mouseout', function() {
-                    const currentSelected = ratingForm.querySelector(
-                    'input[name="rating"]:checked');
-                    const currentRating = currentSelected ? parseInt(currentSelected.value) : 0;
-                    updateStarDisplay(this.closest('.rating-stars'), currentRating);
-                });
-            });
-
-            // Submit rating via AJAX
-            ratingForm.addEventListener('submit', function(event) {
-                event.preventDefault();
-
-                const rating = document.querySelector('input[name="rating"]:checked');
-                const review = document.getElementById('reviewText').value;
-                const orderDbId = document.getElementById('modalOrderDbId').value;
-                const orderIdDisplay = document.getElementById('orderIdInModal').textContent;
-                const restaurantName = document.getElementById('restaurantNameInModal').textContent;
-
-                if (!rating) {
-                    alert('Please select a rating.');
-                    return;
-                }
-
-                const token = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
-
-                fetch('/api/ratings', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                            'X-CSRF-TOKEN': token,
-                            'Accept': 'application/json',
-                        },
-                        body: JSON.stringify({
-                            order_id: orderDbId,
-                            rating: rating.value,
-                            review: review
-                        })
-                    })
-                    .then(res => {
-                        if (!res.ok) {
-                            return res.json().then(errorData => {
-                                throw new Error(errorData.message || 'Something went wrong.');
-                            });
-                        }
-                        return res.json();
-                    })
-                    .then(data => {
-                        alert(data.message);
-                        const modal = bootstrap.Modal.getInstance(ratingModal);
-                        modal.hide();
-
-                        const orderCard = document.querySelector('.order-card[data-order-db-id="${orderDbId}"]');
-                        if (orderCard) {
-                            const rateBtn = orderCard.querySelector('.rate-now-btn');
-                            if (rateBtn) {
-                                rateBtn.textContent = 'Rated';
-                                rateBtn.classList.remove('btn-success');
-                                rateBtn.classList.add('btn-secondary');
-                                rateBtn.disabled = true;
-                            }
-
-                            let ratingSection = orderCard.querySelector('.rating-section');
-                            if (!ratingSection) {
-                                ratingSection = document.createElement('div');
-                                ratingSection.classList.add('rating-section', 'text-center');
-                                orderCard.appendChild(ratingSection);
-                            }
-
-                            let starHtml = '';
-                            for (let i = 5; i >= 1; i--) {
-                                starHtml +=
-                                    `<label class="${rating.value >= i ? 'active' : ''}">${rating.value >= i ? '★' : '☆'}</label>`;
-                            }
-
-                            ratingSection.innerHTML = `
-                        <p class="mb-2">Your Rating for ${restaurantName}:</p>
-                        <div class="rating-stars display-only">
-                            ${starHtml}
-                        </div>
-                        ${review ? `<p class="mt-2 text-muted">"${review}"</p>` : ''}
-                    `;
-                        }
-                    })
-                    .catch(err => {
-                        alert('Error: ' + err.message);
-                    });
-            });
-
-            // Filter button click handler
-            filterButtons.forEach(button => {
-                button.addEventListener('click', function() {
-                    const filterType = this.dataset.filter;
-                    const currentUrl = new URL(window.location.href);
-
-                    if (filterType === 'all') {
-                        currentUrl.searchParams.delete('filter');
-                    } else {
-                        currentUrl.searchParams.set('filter', filterType);
-                    }
-
-                    window.location.href = currentUrl.toString();
-                });
-            });
+            setTimeout(() => {
+                location.reload();
+            }, 1000);
+        })
+        .catch(err => {
+            alert('Error: ' + err.message);
         });
+    });
+
+    const ratingModalElement = document.getElementById('ratingModal');
+    ratingModalElement.addEventListener('hidden.bs.modal', () => {
+        document.body.classList.remove('modal-open');
+        document.querySelectorAll('.modal-backdrop').forEach(el => el.remove());
+        document.body.style.overflow = 'auto';
+        document.body.style.paddingRight = '';
+    });
+
+    // Filter button click handler
+    const filterButtons = document.querySelectorAll('.order-tabs button');
+    filterButtons.forEach(button => {
+        button.addEventListener('click', function () {
+            const filterType = this.dataset.filter;
+            const currentUrl = new URL(window.location.href);
+
+            if (filterType === 'all') {
+                currentUrl.searchParams.delete('filter');
+            } else {
+                currentUrl.searchParams.set('filter', filterType);
+            }
+
+            window.location.href = currentUrl.toString();
+        });
+    });
+    
+
     </script>
 @endpush

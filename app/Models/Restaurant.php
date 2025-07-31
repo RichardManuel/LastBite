@@ -87,8 +87,9 @@ class Restaurant extends Authenticatable
 
     public function ratings()
     {
-        return $this->hasMany(Rating::class);
+        return $this->hasMany(Rating::class, 'restaurant_id', 'restaurant_id');
     }
+
 
 
     public function isNew()
