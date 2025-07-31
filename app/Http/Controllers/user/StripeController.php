@@ -242,20 +242,25 @@ class StripeController extends Controller
                     $order = Order::where('order_id', $stripeSession->metadata->order_id)->first();
                     $order_id_from_stripe = $order->order_id ?? $order_id_from_stripe;
 
-                    if (isset($stripeSession->metadata->restaurant_id)) {
-                        $restaurant = Restaurant::find($stripeSession->metadata->restaurant_id);
+                    if ($order) {
+                        // Ambil pickup langsung dari relasi order
+                        if ($order->pickup_id) {
+                            $pickup = Pickup::find($order->pickup_id);
+                            if ($pickup) {
+                                $pickup_time_from_stripe = "{$pickup->time_type}: " . date('H:i', strtotime($pickup->start_time)) . " - " . date('H:i', strtotime($pickup->end_time));
+                            }
+                        }
+
+                        // Ambil user
+                        $user = User::find($order->user_id);
+                        $user_name = $user->name ?? 'Guest';
+
+                        // Ambil restoran
+                        $restaurant = Restaurant::find($order->restaurant_id);
                         $restaurant_name = $restaurant->name ?? 'Unknown';
                     }
-
-                    if (isset($stripeSession->metadata->pickup_time)) {
-                        $pickup_time_from_stripe = $stripeSession->metadata->pickup_time;
-                    }
-
-                    if (isset($stripeSession->metadata->user_id)) {
-                        $user = User::find($stripeSession->metadata->user_id);
-                        $user_name = $user->name ?? 'Guest';
-                    }
                 }
+
 
             } catch (\Exception $e) {
                 Log::error('Stripe success error: ' . $e->getMessage());
@@ -265,8 +270,8 @@ class StripeController extends Controller
         return view('checkout.confirmation', [
             'user' => (object) ['name' => $user_name],
             'order_id' => $order_id_from_stripe,
-            'store' => $restaurant, // for view compatibility
-            'pickup_time' => $pickup_time_from_stripe,
+            'restaurant' => $restaurant, // for view compatibility
+            'pickup' => $pickup_time_from_stripe,
         ]);
     }
 }

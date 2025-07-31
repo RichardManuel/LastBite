@@ -11,7 +11,16 @@ class User extends Authenticatable
     use Notifiable;
 
     protected $fillable = [
-        'name', 'email', 'city', 'password', 'phone', 'notes', 'roles', 'img_path', 'pickup_id', 'restaurant_id'
+        'name',
+        'email',
+        'city',
+        'password',
+        'phone',
+        'notes',
+        'roles',
+        'img_path',
+        'pickup_id',
+        'restaurant_id'
     ];
 
     protected $hidden = [
@@ -32,7 +41,7 @@ class User extends Authenticatable
     public function restaurant()
     {
         return $this->belongsTo(Restaurant::class, 'restaurant_id', 'restaurant_id');
-    }   
+    }
 
     /**
      * Relasi ke pickup time (jika user memilih waktu pengambilan)
@@ -48,5 +57,10 @@ class User extends Authenticatable
     public function orders()
     {
         return $this->hasMany(Order::class);
+    }
+
+    public function ratings()
+    {
+        return $this->hasMany(Rating::class);
     }
 }

@@ -4,61 +4,69 @@ namespace App\Http\Controllers\store;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use App\Models\RestaurantStock;
 use App\Models\Restaurant;
 
 class StockController extends Controller
 {
-    // Halaman Manage Stock
-    public function manageStock($restaurantId)
+    // Menampilkan halaman manage stock untuk restoran yang login
+    public function manageStock()
     {
-        $restaurant = Restaurant::findOrFail($restaurantId);
+        $restaurant = Auth::guard('resto')->user()->load('stocks');
 
-        // default ambil stok Lunch untuk Dunkin Doughnut
-        $itemName = 'Dunkin Doughnut';
-        $stockLunch = RestaurantStock::where('restaurant_id', $restaurantId)
-            ->where('item_name', $itemName)
+        $stockLunch = $restaurant->stocks
             ->where('pickup_time', 'Lunch')
-            ->first();
+            ->first()?->stock ?? 0;
 
-        return view('store.stock', [
-            'restaurant' => $restaurant,
-            'itemName' => $itemName,
-            'stockLunch' => $stockLunch ? $stockLunch->stock : 0,
-        ]);
+        $stockDinner = $restaurant->stocks
+            ->where('pickup_time', 'Dinner')
+            ->first()?->stock ?? 0;
+
+        return view('store.stock', compact('restaurant', 'stockLunch', 'stockDinner'));
     }
 
-    // Ambil stok sesuai pickup_time
-    public function fetchStock(Request $request, $restaurantId)
+    // Ambil stok berdasarkan pickup_time
+    public function fetchStock(Request $request)
     {
+        $restaurant = Auth::guard('resto')->user();
         $pickupTime = $request->query('pickup_time', 'Lunch');
-        $itemName = $request->query('item_name');
 
-        $stock = RestaurantStock::where('restaurant_id', $restaurantId)
-            ->where('item_name', $itemName)
+        $stock = $restaurant->stocks()
+            ->where('item_name', $restaurant->name)
             ->where('pickup_time', $pickupTime)
             ->first();
 
         return response()->json([
-            'stock' => $stock ? $stock->stock : 0
+            'stock' => $stock?->stock ?? 0
         ]);
     }
 
-    // Update stok (add/remove)
-    public function updateStock(Request $request, $restaurantId)
+    // Update stok sesuai aksi add/remove
+    public function updateStock(Request $request)
     {
+        $restaurant = Auth::guard('resto')->user();
+        $itemName = $restaurant->name;
+
         $validated = $request->validate([
-            'item_name' => 'required|string',
             'pickup_time' => 'required|in:Lunch,Dinner',
             'quantity' => 'required|integer|min:1',
             'action' => 'required|in:add,remove'
         ]);
 
-        $stock = RestaurantStock::firstOrCreate([
-            'restaurant_id' => $restaurantId,
-            'item_name' => $validated['item_name'],
-            'pickup_time' => $validated['pickup_time']
-        ]);
+        $stock = $restaurant->stocks()
+            ->where('item_name', $itemName)
+            ->where('pickup_time', $validated['pickup_time'])
+            ->first();
+
+        if (!$stock) {
+            $stock = new RestaurantStock([
+                'restaurant_id' => $restaurant->restaurant_id,
+                'item_name' => $itemName,
+                'pickup_time' => $validated['pickup_time'],
+                'stock' => 0,
+            ]);
+        }
 
         if ($validated['action'] === 'add') {
             $stock->stock += $validated['quantity'];

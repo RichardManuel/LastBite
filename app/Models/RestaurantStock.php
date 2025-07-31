@@ -12,4 +12,9 @@ class RestaurantStock extends Model
         'pickup_time',
         'stock',
     ];
+
+    public function restaurant()
+{
+    return $this->belongsTo(Restaurant::class, 'restaurant_id', 'restaurant_id');
+}
 }

@@ -41,6 +41,10 @@ return [
             'driver' => 'session',
             'provider' => 'users', // Provider untuk user biasa (pelanggan)
         ],
+        'user' => [
+            'driver' => 'session',
+            'provider' => 'users',
+        ],
         'resto' => [ // GUARD BARU UNTUK RESTO
             'driver' => 'session',
             'provider' => 'restaurants', // Menggunakan provider 'restaurants'
@@ -96,7 +100,7 @@ return [
     */
 
     'passwords' => [
-        'users' => [ /* ... (konfigurasi reset password user biasa) ... */ ],
+        'users' => [ /* ... (konfigurasi reset password user biasa) ... */],
         'restaurants' => [ // Jika resto punya fitur reset password sendiri
             'provider' => 'restaurants',
             'table' => 'password_reset_tokens', // Bisa pakai tabel yang sama atau beda

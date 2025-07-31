@@ -50,6 +50,7 @@
 </head>
 <body>
 
+
 <!-- Navbar -->
 <nav class="navbar navbar-expand-sm navbar-custom">
     <div class="container">
@@ -61,8 +62,8 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarNavMain">
             <ul class="navbar-nav ms-auto">
-                <li class="nav-item"><a class="nav-link" href="#">Order</a></li>
-                <li class="nav-item"><a class="nav-link" href="#">Stocks</a></li>
+                <li class="nav-item"><a class="nav-link" href="{{ route('resto.orders.index') }}">Order</a></li>
+                <a class="nav-link" href="{{ route('resto.stock.manage') }}">Stocks</a>
                 <li class="nav-item"><a class="nav-link" href="{{ route('resto.profile.show') }}">Profile</a></li>
                 @auth
                 <li class="nav-item">

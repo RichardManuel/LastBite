@@ -1,0 +1,135 @@
+/* Custom styles for orderuser.blade.php */
+.order-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    border-bottom: 0.8px solid #4d4d4d    ;
+}
+.order-header h1 {
+    font-family: 'Instrument Serif', serif;
+    font-size: 7rem;
+    font-weight: normal;
+    color: #555; /* Corresponds to --text-orange */
+}
+.order-header p {
+    font-family: 'Instrument Sans', sans-serif;
+    font-size: 1.2rem;
+    margin-top: -20px;
+    color: #555;
+}
+.order-tabs .btn {
+    border-radius: 999px; /* Pill shape */
+    padding: 5px 15px;
+    font-weight: 500;
+    margin-right: 10px;
+    margin-top: 70px;
+}
+.order-tabs .btn-outline-secondary {
+    border-color: #e0e0e0;
+    color: #555;
+}
+.order-tabs .btn-outline-secondary.active,
+.order-tabs .btn-outline-secondary:hover {
+    background-color: #327959; /* Corresponds to --text-orange */
+    border-color: #327959;
+    color: white;
+}
+
+.order-card {
+    border-radius: 0.75rem;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+    background-color: white;
+    margin-bottom: 20px;
+    padding: 20px;
+}
+.order-card .order-details-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+}
+.order-card .order-detail-item {
+    flex: 1;
+    min-width: 150px;
+    margin-bottom: 10px;
+}
+.order-card .order-detail-item p {
+    margin-bottom: 0;
+    font-size: 0.9em;
+    color: #666;
+}
+.order-card .order-detail-item strong {
+    display: block;
+    font-size: 1.1em;
+    color: #333;
+}
+.order-card .rating-section {
+    margin-top: 15px;
+    padding-top: 15px;
+    border-top: 1px solid #eee;
+}
+/* Star styling in order cards and modal */
+.rating-stars {
+    display: inline-block;
+    direction: rtl; /* For RTL star order */
+    font-size: 1.8rem; /* Larger stars */
+}
+.rating-stars input[type="radio"] {
+    display: none; /* Hide radio buttons */
+}
+.rating-stars label {
+    color: #ddd; /* Default star color (light gray) */
+    cursor: pointer;
+    padding: 0 3px;
+    transition: color 0.2s ease-in-out;
+}
+/* Styles for checked stars (when selected or already rated) */
+.rating-stars input[type="radio"]:checked ~ label,
+.rating-stars label:hover,
+.rating-stars label:hover ~ label {
+    color: #FFC107; /* Amber color for active stars */
+}
+/* For already rated section (display only, no interaction) */
+.rating-stars.display-only label {
+    cursor: default; /* No pointer for display-only stars */
+}
+.rating-stars.display-only label.active {
+    color: #FFC107; /* Amber for active display stars */
+}
+
+.order-card .btn-rate-now {
+    background-color: #327959; /* Primary Green */
+    border-color: #327959;
+    color: white;
+    font-weight: 500;
+    padding: 8px 15px;
+    border-radius: 5px;
+}
+.order-card .btn-rate-now:hover {
+    background-color: #2c5b3c;
+    border-color: #2c5b3c;
+}
+.order-card .btn-secondary {
+    background-color: #6c757d;
+    border-color: #6c757d;
+}
+
+/* Modal specific styles */
+#ratingModal .modal-header {
+    background-color: #327959; /* Primary Green */
+}
+#ratingModal .modal-title {
+    color: white;
+}
+#ratingModal .btn-close-white {
+    filter: invert(1); /* Makes the close button white */
+}
+#ratingModal .btn-success {
+    background-color: #327959;
+    border-color: #327959;
+}
+#ratingModal .btn-success:hover {
+    background-color: #2c5b3c;
+    border-color: #2c5b3c;
+}
