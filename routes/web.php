@@ -46,3 +46,8 @@ Route::middleware('auth:resto')->prefix('store')->name('resto.')->group(function
     // Logout
     // Route::post('/logout', [LoginController::class, 'restoLogout'])->name('logout');
 });
+
+
+Route::get('/order', function () {
+    return view('store.orderstore');
+});

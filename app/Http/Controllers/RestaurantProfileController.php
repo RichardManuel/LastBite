@@ -119,7 +119,7 @@ class RestaurantProfileController extends Controller
         } catch (\Exception $e) {
             Log::error("Error updating restaurant (ID: {$restaurant->restaurant_id}) details: " . $e->getMessage());
             return redirect()->back()->with('error', 'Failed to submit eatery details. ' . $e->getMessage())->withInput();
-        }
+        } 
 
         
         return redirect()->route('resto.profile.show')->with('success', 'Your eatery has been registered and approved!');
