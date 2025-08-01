@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\RestaurantStock;
 use App\Models\Restaurant;
+use App\Models\Order; // Pastikan model Order diimpor
 
 class StockController extends Controller
 {
@@ -14,7 +15,24 @@ class StockController extends Controller
     public function manageStock()
     {
         $restaurant = Auth::guard('resto')->user()->load('stocks');
+        
+        // --- LOGIKA BARU UNTUK PENDAPATAN ---
+        // Ambil semua order yang berstatus 'Completed' untuk restoran ini
+        $completedOrders = Order::where('restaurant_id', $restaurant->restaurant_id)
+            ->where('status', 'Completed')
+            ->latest() // Urutkan dari yang terbaru
+            ->get();
+            
+        // Hitung total pendapatan
+        $totalIncome = $completedOrders->sum('item_price');
+        
+        // Hitung breakdown pendapatan
+        $dailyIncome = $completedOrders->where('updated_at', '>=', now()->startOfDay())->sum('item_price');
+        $weeklyIncome = $completedOrders->where('updated_at', '>=', now()->subWeek())->sum('item_price');
+        $monthlyIncome = $completedOrders->where('updated_at', '>=', now()->startOfMonth())->sum('item_price');
 
+        // --- END LOGIKA BARU ---
+        
         $stockLunch = $restaurant->stocks
             ->where('pickup_time', 'Lunch')
             ->first()?->stock ?? 0;
@@ -23,10 +41,11 @@ class StockController extends Controller
             ->where('pickup_time', 'Dinner')
             ->first()?->stock ?? 0;
 
-        return view('store.stock', compact('restaurant', 'stockLunch', 'stockDinner'));
+        // Kirim data baru ke view
+        return view('store.stock', compact('restaurant', 'stockLunch', 'stockDinner', 'totalIncome', 'dailyIncome', 'weeklyIncome', 'monthlyIncome', 'completedOrders'));
     }
 
-    // Ambil stok berdasarkan pickup_time
+    // ... (metode fetchStock dan updateStock tidak perlu diubah) ...
     public function fetchStock(Request $request)
     {
         $restaurant = Auth::guard('resto')->user();
@@ -42,7 +61,6 @@ class StockController extends Controller
         ]);
     }
 
-    // Update stok sesuai aksi add/remove
     public function updateStock(Request $request)
     {
         $restaurant = Auth::guard('resto')->user();

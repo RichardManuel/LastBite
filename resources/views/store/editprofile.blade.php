@@ -18,7 +18,18 @@
     }
 
     h1 {
-        font-family: 'Playfair Display', serif;
+        font-family: 'Instrument Serif', serif;
+        font-size: 3rem;
+    }
+
+    form-label {
+        font-family: 'Instrument Serif', serif;
+        color: var(--brand-text-dark);
+    }
+
+    .form-control {
+        font-family: 'Instrument Sans', sans-serif !important;
+        color: var(--brand-text-dark);
     }
 
     .form-section {
@@ -36,6 +47,7 @@
     .btn-warning {
         background-color: #F3C148;
         border: none;
+        font-family: 'Instrument Sans', sans-serif;
     }
 
     .btn-warning:hover {

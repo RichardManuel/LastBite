@@ -46,7 +46,7 @@
     ">
         <div class="container">
             <!-- Left Nav Items -->
-             <div class="navbar-nav me-auto">
+            <div class="navbar-nav me-auto">
                 {{-- Gunakan helper url() atau route() untuk link --}}
                 <a class="nav-link" href="{{ route('home.index') }}">Home</a>
                 <a class="nav-link mx-lg-3 mx-2" href="{{ route('user.eatery') }}">Eatery</a>
@@ -61,29 +61,30 @@
 
             <!-- Right Section: Auth Links -->
             <div class="navbar-nav ms-auto">
-    @auth
-        {{-- Jika sudah login --}}
-        <div class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
-               data-bs-toggle="dropdown" aria-expanded="false">
-                <i class="bi bi-person-circle"></i> {{ Auth::user()->name }}
-            </a>
-            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                <li><a class="dropdown-item" href="{{ url('/user/profile') }}">Profile</a></li>
-                <li>
-                    <form action="{{ route('logout') }}" method="POST" class="d-inline">
-                        @csrf
-                        <button class="dropdown-item" type="submit">Logout</button>
-                    </form>
-                </li>
-            </ul>
-        </div>
-    @else
-        {{-- Jika belum login --}}
-        <a class="nav-link me-2 me-sm-3" href="{{ route('login') }}">Login</a>
-        <a href="{{ route("resto.login.form")}}" class="btn btn-sm btn-signup rounded-md fw-medium text-nowrap">Restaurant Sign Up</a>
-    @endauth
-</div>
+                @auth
+                    {{-- Jika sudah login --}}
+                    <div class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                            data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="bi bi-person-circle"></i> {{ Auth::user()->name }}
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                            <li><a class="dropdown-item" href="{{ url('/user/profile') }}">Profile</a></li>
+                            <li>
+                                <form action="{{ route('logout') }}" method="POST" class="d-inline">
+                                    @csrf
+                                    <button class="dropdown-item" type="submit">Logout</button>
+                                </form>
+                            </li>
+                        </ul>
+                    </div>
+                @else
+                    {{-- Jika belum login --}}
+                    <a class="nav-link me-2 me-sm-3" href="{{ route('login') }}">Login</a>
+                    <a href="{{ route('resto.login.form') }}"
+                        class="btn btn-sm btn-signup rounded-md fw-medium text-nowrap">Restaurant Sign Up</a>
+                @endauth
+            </div>
 
         </div>
     </nav>
@@ -145,10 +146,8 @@
     {{-- ========================================================= --}}
 
 
-    <!-- Bootstrap JS Bundle -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous">
-    </script>
+    <!-- Bootstrap JS Bundle (only one, correct version) -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
     <!-- Custom Script (menggunakan helper asset()) -->
     <script src="{{ asset('js/script.js') }}"></script>
@@ -156,34 +155,23 @@
     {{-- Untuk script spesifik per halaman (opsional) --}}
     @stack('scripts')
 
+    <!-- Clear Search Button Script -->
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const clearSearchButton = document.getElementById('clearSearchButton');
             const searchInput = document.getElementById('searchInput');
 
-            // Cek apakah tombol dan inputnya ada di halaman ini
             if (clearSearchButton && searchInput) {
+                clearSearchButton.style.display = searchInput.value ? 'block' : 'none';
 
-                // Hanya tampilkan tombol clear jika ada isinya
-                if (searchInput.value === '') {
-                    clearSearchButton.style.display = 'none';
-                }
                 searchInput.addEventListener('input', function() {
                     clearSearchButton.style.display = this.value ? 'block' : 'none';
                 });
 
-                // Tambahkan event listener untuk klik
                 clearSearchButton.addEventListener('click', function(event) {
-                    // Mencegah perilaku default (reset) dari tombol
                     event.preventDefault();
-
-                    // Buat objek URL dari alamat saat ini
                     const currentUrl = new URL(window.location.href);
-
-                    // Hapus parameter 'query' dari URL
                     currentUrl.searchParams.delete('query');
-
-                    // Arahkan browser ke URL baru yang sudah bersih
                     window.location.href = currentUrl.toString();
                 });
             }

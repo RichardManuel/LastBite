@@ -51,6 +51,10 @@
             font-size: 1.1rem;
             margin-top: -5px;
         }
+
+        .navbar .nav-link {
+        color: white;
+        }
     </style>
 </head>
 

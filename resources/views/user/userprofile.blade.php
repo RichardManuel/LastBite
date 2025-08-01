@@ -7,7 +7,7 @@
     <style>
         body {
             font-family: 'Instrument Sans', sans-serif;
-            background-color: #FBF5EC;
+            background-color: #ffffffff;
             /* custom-beige */
             color: #374151;
             /* custom-dark-text */

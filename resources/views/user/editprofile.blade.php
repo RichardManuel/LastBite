@@ -5,7 +5,7 @@
     <style>
         body {
             font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
-            background-color: #FBF5EC;
+            background-color: #ffffffff;
             /* custom-beige */
             color: #374151;
             /* custom-dark-text */

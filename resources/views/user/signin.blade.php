@@ -16,7 +16,8 @@
     <link
         href="https://fonts.googleapis.com/css2?family=Instrument+Sans:ital,wght@0,400..700;1,400..700&family=Instrument+Serif:ital@0;1&display=swap"
         rel="stylesheet">
-
+        <link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:ital,wght@0,400..700;1,400..700&display=swap"
+        rel="stylesheet">
     <style>
         :root {
             --brand-green: #3A6B50;
@@ -89,21 +90,21 @@
         .register-form-wrapper h1 {
             font-family: var(--font-serif);
             color: var(--brand-orange);
-            font-size: 2.2rem;
+            font-size: 4rem;
             /* Sedikit disesuaikan */
             font-weight: 500;
             margin-bottom: 0.5rem;
         }
 
         .register-form-wrapper .sub-heading {
-            font-size: 0.875rem;
-            /* Sedikit disesuaikan */
+            font-family: 'Instrument Sans', sans-serif;
+            font-size: 1rem;
             color: var(--text-light);
             margin-bottom: 1.8rem;
-            /* Sedikit disesuaikan */
         }
 
         .register-form-wrapper .sub-heading a {
+            font-family: 'Instrument Sans', sans-serif;
             color: var(--brand-orange);
             font-weight: 600;
             text-decoration: none;
@@ -121,6 +122,7 @@
             padding: 0.7rem 1rem;
             /* Sedikit disesuaikan */
             font-size: 0.9rem;
+            font-family: 'Instrument Sans', sans-serif;
         }
 
         .form-control:focus {
@@ -131,6 +133,7 @@
 
         .form-control::placeholder {
             color: #9CA3AF;
+
             /* Placeholder sedikit lebih gelap */
         }
 
@@ -146,6 +149,7 @@
 
         .form-check-label {
             font-size: 0.85rem;
+            font-family: 'Instrument Sans', sans-serif;
             /* Sedikit disesuaikan */
             color: var(--text-light);
             padding-left: 0.25rem;
@@ -163,6 +167,7 @@
 
         .btn-submit-custom {
             background-color: var(--brand-green);
+            font-family: 'Instrument Sans', sans-serif;
             color: white;
             font-weight: 600;
             padding: 0.7rem 0;
@@ -200,6 +205,10 @@
 
         .social-divider:not(:empty)::after {
             margin-left: .5em;
+        }
+
+        .alert{
+            font-family: 'Instrument Sans', sans-serif;
         }
 
         .btn-social {

@@ -6,7 +6,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>My Eatery - Sign Up</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Instrument+Sans:ital,wght@0,400..700;1,400..700&family=Instrument+Serif:ital@0;1&display=swap"
+        rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:ital,wght@0,400..700;1,400..700&display=swap"
+        rel="stylesheet">
     <style>
         :root {
             --brand-orange-accent: #F9A826;
@@ -18,8 +22,9 @@
 
         html, body {
             height: 100%;
+            width: 100%;
             margin: 0;
-            font-family: 'Instrument Serif', serif;
+            font-family: 'Instrument Sans', sans-serif;
             background-color: #FFFFFF;
             display: flex;
             align-items: center;
@@ -33,17 +38,17 @@
         }
 
         .signup-container .eatery-title {
-            font-family: var(--font-serif-display);
+            font-family: 'Instrument Serif', serif;
             color: var(--brand-text-dark);
-            font-size: 3rem;
-            font-weight: 600;
+            font-size: 4.2rem;
             margin-bottom: 0.25rem;
+            margin-bottom: 5rem;
         }
 
         .signup-container .signup-title {
-            font-family: var(--font-serif-display);
+            font-family: 'Instrument Serif', serif;
             color: var(--brand-orange-accent);
-            font-size: 2.25rem;
+            font-size: 3rem;
             font-weight: 500;
             margin-bottom: 0.75rem;
         }
@@ -51,7 +56,7 @@
         .signup-container .sub-heading {
             font-size: 0.95rem;
             color: var(--brand-text-muted);
-            margin-bottom: 2.5rem;
+            margin-bottom: 1rem;
         }
 
         .form-control-custom {

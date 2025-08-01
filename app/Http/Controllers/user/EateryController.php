@@ -14,6 +14,11 @@ class EateryController extends Controller
     public function showPage(Request $request)
     {
         $query = Restaurant::query();
+        
+        // ===========================================
+        // MODIFIKASI: Filter hanya restoran dengan status 'Accepted'
+        // ===========================================
+        $query->where('status', 'Accepted');
 
         // ===========================================
         // LANGKAH 1: TERAPKAN SEMUA FILTER (WHERE clauses)
@@ -25,7 +30,7 @@ class EateryController extends Controller
 
             $query->where(function ($q) use ($searchQuery) {
                 $q->where(DB::raw('LOWER(name)'), 'LIKE', "%{$searchQuery}%")
-                  ->orWhere(DB::raw('LOWER(food_type)'), 'LIKE', "%{$searchQuery}%");
+                    ->orWhere(DB::raw('LOWER(food_type)'), 'LIKE', "%{$searchQuery}%");
             });
         }
 

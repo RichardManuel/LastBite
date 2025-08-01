@@ -13,6 +13,14 @@
         .nav-button.active .nav-button-main-area {
             background-color: #e0e0e0;
         }
+
+        .rating-score {
+            font-size: 1.5rem;
+        }
+
+        .rating-count {
+            font-size: 1.3rem;
+        }
     </style>
 @endpush
 
@@ -20,13 +28,13 @@
     {{-- Bagian Header (Kode ini sudah benar dan tetap sama) --}}
     <header>
         <div class="banner-image-container">
-            <img src="{{ asset('storage/' . $eatery->picture_of_restaurant) }}" alt="{{ $eatery->name }} Banner"
+            <img src="{{ asset('storage/' . $eatery->restaurant_picture_path) }}" alt="{{ $eatery->name }} Banner"
                 class="img-fluid banner-image">
         </div>
         <div class="container-xl restaurant-info-card-container">
             <div class="restaurant-info-card">
                 <div class="d-flex align-items-center flex-grow-1">
-                    <img src="{{ asset('storage/' . $eatery->picture_of_products) }}" alt="{{ $eatery->name }}"
+                    <img src="{{ asset('storage/' . $eatery->product_sold_picture_path) }}" alt="{{ $eatery->name }}"
                         class="restaurant-logo me-3">
                     <div class="namecat">
                         <h2>{{ $eatery->name }}</h2>
@@ -34,8 +42,8 @@
                     </div>
                 </div>
                 <div class="rating-badge-custom">
-                    <div class="rating-score">{{ $eatery->rating }}★</div>
-                    <div class="rating-count">{{ $eatery->reviews_count }} ratings</div>
+                    <div class="rating-score">{{ $eatery->avg_rating }}★</div>
+                    <div class="rating-count">{{ $eatery->ratings_count }} ratings</div>
                 </div>
             </div>
         </div>
@@ -112,15 +120,23 @@
                             <p class="description">A Surprise Bag is a mystery bundle of unsold but perfectly good food
                                 offered at a much lower price, ideal for food lovers who enjoy surprises and want to fight
                                 food waste!</p>
-                            <form action="{{ route('checkout.reserved.show') }}" method="POST">
-                                @csrf
-                                <input type="hidden" name="customer_name" value="{{ auth()->user()->name }}">
-                                <input type="hidden" name="pickup_time" value="1"> {{-- ganti 1 = Lunch, 2 = Dinner --}}
-                                <input type="hidden" name="restaurant_id" value="{{ $eatery->restaurant_id }}">
-                                <input type="hidden" name="item_name" value="Surprise Bag">
-                                <input type="hidden" name="item_price" value="{{ $eatery->pricing_tier }}">
-                                <button type="submit" class="btn order-now-btn">Order Now</button>
-                            </form>
+                            @auth
+                                {{-- SHOW FORM IF LOGGED IN --}}
+                                <form action="{{ route('checkout.reserved.show') }}" method="POST">
+                                    @csrf
+                                    <input type="hidden" name="customer_name" value="{{ auth()->user()->name }}">
+                                    <input type="hidden" name="pickup_time" value="1">
+                                    <input type="hidden" name="restaurant_id" value="{{ $eatery->restaurant_id }}">
+                                    <input type="hidden" name="item_name" value="Surprise Bag">
+                                    <input type="hidden" name="item_price" value="{{ $eatery->pricing_tier }}">
+                                    <button type="submit" class="btn order-now-btn">Order Now</button>
+                                </form>
+                            @else
+                                {{-- SHOW ALERT IF NOT LOGGED IN --}}
+                                <button onclick="alert('If you want to order, please login first.')" class="btn order-now-btn">
+                                    Order Now
+                                </button>
+                            @endauth
                         </div>
                     </div>
                 </div>
@@ -155,8 +171,8 @@
                 <div class="row mt-2 align-items-start">
                     <div class="col-lg-8 col-md-7 mb-4 mb-md-0">
                         <div class="d-flex align-items-start">
-                            <img src="{{ asset('storage/' . $eatery->picture_of_products) }}"
-                                alt="{{ $eatery->name }} Logo" class="eatery-logo-main">
+                            <img src="{{ asset('storage/' . $eatery->product_sold_picture_path) }}" alt="{{ $eatery->name }} Logo"
+                                class="eatery-logo-main">
                             <div class="eatery-text-details">
                                 <h4 class="eatery-name">{{ $eatery->name }}</h4>
                                 <p class="eatery-address mb-3">{{ $eatery->location }}</p>

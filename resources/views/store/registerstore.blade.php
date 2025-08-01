@@ -9,7 +9,9 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
     <link
-        href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Roboto:wght@300;400;500;700&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Instrument+Sans:ital,wght@0,400..700;1,400..700&family=Instrument+Serif:ital@0;1&display=swap"
+        rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:ital,wght@0,400..700;1,400..700&display=swap"
         rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
 
@@ -19,8 +21,8 @@
             --brand-text-dark: #3A2E39;
             --brand-text-muted: #6c757d;
             --input-bg: #F0F0F0;
-            --font-serif-display: 'Playfair Display', serif;
-            --font-sans-body: 'Roboto', sans-serif;
+            --font-serif-display: 'Instrument Serif', serif;
+            --font-sans-body: 'Instrument Sans', sans-serif;
             --upload-area-bg: #F0F0F0;
             --upload-area-border: #E0E0E0;
         }
@@ -29,7 +31,7 @@
         body {
             height: 100%;
             margin: 0;
-            font-family: 'Instrument Serif', serif;
+            font-family: 'Instrument Sans', sans-serif;
             background-color: #FFFFFF;
             display: flex;
             flex-direction: column;
@@ -51,15 +53,15 @@
         .register-store-container .eatery-title {
             font-family: var(--font-serif-display);
             color: var(--brand-text-dark);
-            font-size: 2.8rem;
-            font-weight: 600;
-            margin-bottom: 0.1rem;
+            font-size: 4.2rem;
+            font-weight: 500;
+            margin-bottom: 1.4rem;
         }
 
         .register-store-container .register-title {
             font-family: var(--font-serif-display);
             color: var(--brand-orange-accent);
-            font-size: 1.8rem;
+            font-size: 3rem;
             font-weight: 500;
             margin-bottom: 0.5rem;
         }

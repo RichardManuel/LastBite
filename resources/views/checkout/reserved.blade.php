@@ -5,6 +5,12 @@
 
 @push('styles')
     <link rel="stylesheet" href="{{ asset('css/reserved.css') }}">
+    <style>
+        /* Gaya tambahan untuk pesan error */
+        .alert-container {
+            margin-bottom: 1.5rem;
+        }
+    </style>
 @endpush
 
 @section('content')
@@ -34,17 +40,24 @@
                 </div>
             </div>
 
-            {{-- Error Message --}}
+            {{-- Server-side Error Message --}}
             @if (session('error'))
-                <div class="alert alert-danger" role="alert">
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
                     {{ session('error') }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                 </div>
             @endif
+
+            {{-- Client-side Error Message Container --}}
+            <div id="pickup-time-error-alert" class="alert alert-danger alert-dismissible fade d-none" role="alert">
+                <strong>Error:</strong> Please select a pickup time before proceeding.
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
 
             <h2 class="reserved-info-title">Reserved Information</h2>
 
             {{-- Form --}}
-            <form action="{{ route('checkout.pickup.update') }}" method="POST">
+            <form action="{{ route('checkout.pickup.update') }}" method="POST" id="checkoutForm">
                 @csrf
                 <input type="hidden" name="customer_name" value="{{ auth()->user()->name }}">
                 <input type="hidden" name="pickup_id" id="pickup_id_input">
@@ -108,8 +121,9 @@
                             <div class="info-item">
                                 <strong class="custom-text d-block mb-2">Select pick up time</strong>
                                 <div class="d-flex gap-2">
-                                    <input type="radio" class="btn-check" name="pickup_time" id="lunch" value="Lunch"
-                                        checked>
+                                    {{-- Hapus 'checked' di sini agar tidak ada pilihan default --}}
+                                    <input type="radio" class="btn-check" name="pickup_time" id="lunch"
+                                        value="Lunch">
                                     <label class="btn btn-pickup" for="lunch">Lunch</label>
 
                                     <input type="radio" class="btn-check" name="pickup_time" id="dinner"
@@ -139,6 +153,26 @@
 @push('scripts')
     <script>
         const pickupData = @json($pickups);
+        const form = document.getElementById('checkoutForm');
+        const pickupIdInput = document.getElementById('pickup_id_input');
+        const errorAlert = document.getElementById('pickup-time-error-alert');
+
+        // Menambahkan event listener untuk form submit
+        form.addEventListener('submit', function(event) {
+            // Memeriksa apakah pickup_id_input memiliki nilai
+            if (!pickupIdInput.value) {
+                // Jika tidak ada nilai, cegah form untuk terkirim
+                event.preventDefault();
+                // Tampilkan pesan error
+                errorAlert.classList.remove('d-none');
+                errorAlert.classList.add('show');
+                // Gulir ke atas agar pesan error terlihat
+                window.scrollTo({
+                    top: 0,
+                    behavior: 'smooth'
+                });
+            }
+        });
 
         document.querySelectorAll('input[name="pickup_time"]').forEach((radio) => {
             radio.addEventListener('change', function() {
@@ -160,9 +194,19 @@
                 }
 
                 // Assign pickup ID langsung
-                document.getElementById('pickup_id_input').value = pickupId;
-            });
+                pickupIdInput.value = pickupId;
 
+                // Sembunyikan pesan error jika pengguna sudah memilih
+                if (pickupIdInput.value) {
+                    errorAlert.classList.add('d-none');
+                    errorAlert.classList.remove('show');
+                }
+            });
+        });
+
+        // Hapus nilai pickup_id saat halaman pertama kali dimuat
+        document.addEventListener('DOMContentLoaded', function() {
+            pickupIdInput.value = '';
         });
 
         function formatTime(timeStr) {

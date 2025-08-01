@@ -87,6 +87,7 @@ class RestaurantProfileController extends Controller
             'bank_account_name' => $request->account_name,
             'pricing_tier' => $request->pricing,
             'status' => 'pending_approval',
+            
         ];
 
         if ($request->best_before) {

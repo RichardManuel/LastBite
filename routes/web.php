@@ -168,5 +168,5 @@ Route::post('/logout', function (Request $request) {
     Auth::logout();
     $request->session()->invalidate();
     $request->session()->regenerateToken();
-    return redirect()->route('login');
+    return redirect()->route('home.index');
 })->name('logout');
