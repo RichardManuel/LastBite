@@ -1,31 +1,36 @@
 ﻿#!/bin/bash
-
-# Exit immediately if a command exits with a non-zero status.
 set -e
 
-echo "Starting deployment process..."
+echo "🚀 Starting Laravel application deployment..."
 
-# Check if Composer dependencies exist, otherwise install them
-if [ ! -d "vendor" ]; then
-    echo "Installing Composer dependencies..."
-    composer install --no-dev --optimize-autoloader
-else
-    echo "Composer dependencies already installed."
-fi
+# Set essential environment variables
+export APP_ENV=${APP_ENV:-production}
+export APP_DEBUG=${APP_DEBUG:-false}
+export LOG_CHANNEL=${LOG_CHANNEL:-stderr}
 
-# Run database migrations
-echo "Running database migrations..."
+# Generate application key
+echo "🔑 Generating application key..."
+php artisan key:generate --force
+
+# Clear caches
+echo "🧹 Clearing caches..."
+php artisan config:clear
+php artisan cache:clear
+php artisan route:clear
+php artisan view:clear
+
+# Run migrations
+echo "📊 Running database migrations..."
 php artisan migrate --force
 
-# Clear and cache application configuration
-echo "Clearing and caching configuration..."
-php artisan config:clear
-php artisan config:cache
+# Seed database (if needed)
+echo "🌱 Seeding database..."
+php artisan db:seed --force
 
-# Optimize the application
-echo "Optimizing application..."
-php artisan optimize
+# Create storage symlink
+echo "🔗 Creating storage symlink..."
+php artisan storage:link
 
-# Start the Laravel application server
-echo "Starting Laravel application..."
-php artisan serve --host=0.0.0.0 --port=$PORT
+# Start server
+echo "🌐 Starting web server..."
+php -S 0.0.0.0:$PORT -t public
