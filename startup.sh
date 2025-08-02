@@ -3,9 +3,6 @@ set -e
 
 echo "🚀 Starting Laravel application deployment..."
 
-# Navigate to Laravel directory
-cd Whisper-of-Hope
-
 # Set essential environment variables if missing
 export APP_ENV=${APP_ENV:-production}
 export APP_DEBUG=${APP_DEBUG:-true}
