@@ -1,1 +1,1 @@
-﻿web: bash -c 'composer dump-autoload --no-dev --optimize && php artisan key:generate --force --no-interaction && php artisan config:clear && php artisan cache:clear && php artisan route:clear && php artisan view:clear && php artisan migrate:fresh --force && php artisan db:seed --force && php artisan config:cache && php artisan route:cache && php artisan view:cache && php -S 0.0.0.0:$PORT -t public'
+﻿web: bash startup.sh
