@@ -30,7 +30,7 @@ fi
 
 # Run database migrations with the --force flag
 echo "Running database migrations..."
-php artisan migrate:fresh --seed --force
+php artisan migrate --force
 
 # Clear and cache application configuration
 echo "Clearing and caching configuration..."
