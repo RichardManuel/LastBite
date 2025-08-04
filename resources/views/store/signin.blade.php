@@ -210,7 +210,7 @@
                         <input type="password" class="form-control" name="password" id="password"
                             placeholder="Password" required>
                     </div>
-                    <a href="#" class="forgot-password-link">Forgot password?</a>
+                    <a href="{{route('resto.forgot.password')}}" class="forgot-password-link">Forgot password?</a>
 
                     <button type="submit" class="btn btn-submit-custom w-100">Let's start!</button>
                 </form>

@@ -27,6 +27,7 @@ use App\Http\Controllers\store\AuthController;
 use App\Http\Controllers\store\StockController;
 use App\Http\Controllers\store\RestaurantProfileController;
 use App\Http\Controllers\store\RegisterRestaurantController;
+use App\Http\Controllers\store\RestoForgotPasswordController;
 use App\Http\Controllers\store\OrderController as storeOrderController;
 use App\Http\Controllers\Auth\LoginController as storeLoginController;
 
@@ -77,6 +78,8 @@ Route::get('/store/signup', [RegisterRestaurantController::class, 'showRegistrat
 Route::post('/store/signup', [RegisterRestaurantController::class, 'processRestoSignup'])->name('resto.signup.submit');
 
 Route::get('/store/signin', [storeLoginController::class, 'showRestoLoginForm'])->name('resto.login.form');
+Route::get('/store/forgot-password', [RestoForgotPasswordController::class, 'showLinkRequestForm'])->name('resto.forgot.password');
+Route::post('/forgot-password', [RestoForgotPasswordController::class, 'sendResetLinkEmail'])->name('resto.password.email');
 Route::post('/store/signin', [storeLoginController::class, 'restoLogin'])->name('resto.login.submit');
 Route::post('/store/logout', [storeLoginController::class, 'restoLogout'])->name('resto.logout');
 
