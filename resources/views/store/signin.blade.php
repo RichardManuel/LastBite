@@ -14,7 +14,7 @@
     <style>
         :root {
             --brand-green: #3A6B50;
-            --brand-orange-text: #F59E0B;
+            --brand-orange-text: #F3C148;
             --input-bg: #F3F4F6;
             --form-column-bg: #FFFFFF;
             --text-dark: #374151;
@@ -28,6 +28,8 @@
             margin: 0;
             font-family: 'Instrument Sans', sans-serif;
             display: flex;
+            justify-content: center;
+            align-items: center;
         }
 
         .register-full-page-layout {
@@ -38,22 +40,23 @@
         }
 
         .register-image-column {
-            flex: 0 0 50%;
+            flex: 1 1 50%; /* Mengisi setengah ruang */
             background-color: #f0f0f0;
             display: flex;
-            align-items: center;
-            justify-content: center;
+            align-items: left;
+            justify-content: left;
             overflow: hidden;
+            padding: 0;
         }
 
         .register-image-column img.illustration {
-            width: 100%;
-            height: 100%;
+            width: 80vw;
+            height: 100vh;
             object-fit: cover;
         }
 
         .register-form-column {
-            flex: 1 1 auto;
+            flex: 1 1 50%; /* Mengisi setengah ruang */
             background-color: var(--form-column-bg);
             display: flex;
             justify-content: center;
@@ -114,7 +117,7 @@
         .form-control:focus {
             background-color: var(--input-bg);
             border-color: var(--brand-orange-text);
-            box-shadow: 0 0 0 0.2rem rgba(245, 158, 11, 0.25);
+            box-shadow: 0 0 0 0.2rem rgba(243, 193, 72, 0.25);
         }
 
         .forgot-password-link {
@@ -166,31 +169,12 @@
         @media (max-width: 991.98px) {
             .register-image-column {
                 display: none;
-                /* Hide image on tablet/mobile */
+                /* Sembunyikan gambar di tablet/mobile */
             }
 
             .register-form-column {
+                flex: 1 1 auto; /* Gunakan seluruh ruang */
                 padding: 2rem 1.5rem;
-            }
-        }
-
-        @media (max-width: 575.98px) {
-            .register-form-wrapper .eatery-title {
-                font-size: 2rem;
-            }
-
-            .register-form-wrapper h1 {
-                font-size: 1.75rem;
-            }
-
-            .form-control {
-                padding: 0.6rem 0.9rem;
-                font-size: 0.85rem;
-            }
-
-            .btn-submit-custom {
-                padding: 0.6rem 0;
-                font-size: 0.9rem;
             }
         }
     </style>

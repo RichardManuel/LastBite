@@ -80,44 +80,42 @@ Route::get('/store/signin', [storeLoginController::class, 'showRestoLoginForm'])
 Route::post('/store/signin', [storeLoginController::class, 'restoLogin'])->name('resto.login.submit');
 Route::post('/store/logout', [storeLoginController::class, 'restoLogout'])->name('resto.logout');
 
-// =======================
+// =========================================================================
 // 🍽 RESTAURANT PROTECTED ROUTES
-// =======================
-
-// Tahap 1: Belum aktif (Pending, Rejected, Suspended)
-Route::prefix('store')
-    ->name('resto.')
-    ->middleware(['auth:resto'])
-    ->group(function () {
-        Route::get('/register-details', [RegisterRestaurantController::class, 'showEateryDetailsForm'])->name('register.details.form');
-        Route::post('/register-details', [RestaurantProfileController::class, 'storeOrUpdateDetails'])->name('register.details.submit');
-
-        Route::get('/pending', fn() => view('store.application_pending'))->name('pending');
-        Route::get('/rejected', fn() => view('store.application_rejected'))->name('rejected');
-        Route::get('/suspended', fn() => view('store.resto_suspended'))->name('suspended');
-    });
-
-// Tahap 2: Restoran aktif (verified)
-// Tahap 2: Restoran aktif (verified)
+// Middleware 'auth:resto' dan 'resto.status' diterapkan pada semua rute ini
+// Ini memastikan middleware 'RedirectRestoByStatus' akan berjalan untuk
+// setiap permintaan dan mengarahkan pengguna ke halaman yang benar
+// berdasarkan status mereka (pending, declined, accepted, dll.).
+// =========================================================================
 Route::prefix('store')
     ->name('resto.')
     ->middleware(['auth:resto', 'resto.status'])
     ->group(function () {
-        // Profile
+        // Form Pendaftaran Detail (Hanya untuk status 'pending_details')
+        Route::get('/register-details', [RegisterRestaurantController::class, 'showEateryDetailsForm'])->name('register.details.form');
+        Route::post('/register-details', [RestaurantProfileController::class, 'storeOrUpdateDetails'])->name('register.details.submit');
+
+        // Halaman Informasi Status (Hanya untuk status 'pending_approval', 'declined', 'suspended')
+        Route::get('/pending', fn() => view('store.application_pending'))->name('pending');
+        Route::get('/rejected', fn() => view('store.application_rejected'))->name('rejected');
+        Route::get('/suspended', fn() => view('store.resto_suspended'))->name('suspended');
+
+        // Rute untuk Restoran yang sudah 'accepted'
         Route::get('/profile', [RestaurantProfileController::class, 'show'])->name('profile.show');
         Route::get('/restaurant/profile/edit', [RestaurantProfileController::class, 'edit'])->name('profile.edit');
         Route::put('/restaurant/profile/update', [RestaurantProfileController::class, 'update'])->name('profile.update');
 
-        // Stock
+        // Stock Management
         Route::get('/stock/manage', [StockController::class, 'manageStock'])->name('stock.manage');
         Route::get('/stock/fetch', [StockController::class, 'fetchStock'])->name('stock.fetch');
         Route::post('/stock/update', [StockController::class, 'updateStock'])->name('stock.update');
 
-        // ✅ Tambahkan Order Management di sini juga
+        // Order Management
         Route::get('/orders', [StoreOrderController::class, 'index'])->name('orders.index');
         Route::put('/orders/{order_id}', [StoreOrderController::class, 'update'])->name('orders.update');
         Route::put('/orders/{order}/status', [StoreOrderController::class, 'updateStatus'])->name('orders.updateStatus');
     });
+
 Route::post('/api/ratings', [RatingController::class, 'store']);
 
 

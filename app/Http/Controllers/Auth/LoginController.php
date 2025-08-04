@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Auth;
 class LoginController extends Controller
 {
     /**
-     * Menampilkan form login untuk Resto.
+     * Tampilkan formulir login untuk Resto.
      */
     public function showRestoLoginForm()
     {
@@ -17,7 +17,7 @@ class LoginController extends Controller
     }
 
     /**
-     * Menangani permintaan login untuk Resto.
+     * Tangani permintaan login untuk Resto.
      */
     public function restoLogin(Request $request)
     {
@@ -30,23 +30,11 @@ class LoginController extends Controller
         // Coba login menggunakan guard 'resto'
         if (Auth::guard('resto')->attempt($credentials, $request->boolean('remember'))) {
             $request->session()->regenerate();
-
-            $restaurant = Auth::guard('resto')->user(); // Ambil objek restoran yang sedang login
-
-            // Cek status restoran setelah login
-            if ($restaurant->status === 'accepted') {
-                return redirect()->route('resto.profile.show')
-                    ->with('success', 'Login successful! Welcome back.');
-            } elseif ($restaurant->status === 'pending_details') {
-                return redirect()->route('resto.register.details.form')
-                    ->with('info', 'Please complete your eatery registration details.');
-            } elseif ($restaurant->status === 'pending_review') {
-                return back()->withErrors(['email' => 'Your eatery account is pending admin approval.'])->onlyInput('email');
-            } elseif ($restaurant->status === 'rejected' || $restaurant->status === 'inactive') {
-                return back()->withErrors(['email' => 'Your eatery account was rejected or is inactive.'])->onlyInput('email');
-            } else {
-                return back()->withErrors(['email' => 'Invalid account status.'])->onlyInput('email');
-            }
+            
+            // PENTING: Hapus semua logika pengalihan di sini.
+            // Biarkan middleware 'RedirectRestoByStatus' menangani pengalihan berdasarkan status.
+            return redirect()->route('resto.profile.show')
+                ->with('success', 'Login successful! Welcome back.');
         }
 
         // Jika login gagal

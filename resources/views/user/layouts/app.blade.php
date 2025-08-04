@@ -9,14 +9,12 @@
     {{-- Judul halaman akan dinamis --}}
     <title>@yield('title') | Last Bite</title>
 
-    <!-- Bootstrap CSS CDN -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <link
         href="https://fonts.googleapis.com/css2?family=Instrument+Sans:ital,wght@0,400..700;1,400..700&family=Instrument+Serif:ital@0;1&display=swap"
         rel="stylesheet">
 
-    <!-- Google Fonts (tetap sama) -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:ital,wght@0,400..700;1,400..700&display=swap"
@@ -27,7 +25,6 @@
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 
-    <!-- Custom Styles (menggunakan helper asset()) -->
     <link rel="stylesheet" href="{{ asset('css/style.css') }}">
     <link rel="stylesheet" href="{{ asset('css/styledetail.css') }}">
 
@@ -37,7 +34,6 @@
 
 <body>
 
-    <!-- Header / Navbar -->
     <nav
         class="navbar navbar-expand-lg navbar-dark shadow-sm py-3 navbar-custom
         @if (Route::is('home.index')) navbar-transparent
@@ -45,21 +41,18 @@
             bg-custom-green @endif
     ">
         <div class="container">
-            <!-- Left Nav Items -->
             <div class="navbar-nav me-auto">
                 {{-- Gunakan helper url() atau route() untuk link --}}
-                <a class="nav-link" href="{{ route('home.index') }}">Home</a>
-                <a class="nav-link mx-lg-3 mx-2" href="{{ route('user.eatery') }}">Eatery</a>
-                <a class="nav-link" href="{{ route('order') }}">Order</a>
+                <a class="nav-link @if(request()->routeIs('home.index')) active @endif" href="{{ route('home.index') }}">Home</a>
+                <a class="nav-link mx-lg-3 mx-2 @if(request()->routeIs('user.eatery')) active @endif" href="{{ route('user.eatery') }}">Eatery</a>
+                <a class="nav-link @if(request()->routeIs('order')) active @endif" href="{{ route('order') }}">Order</a>
             </div>
 
-            <!-- Center Section: Logo -->
             <a class="navbar-brand mx-auto" href="{{ route('home.index') }}">
                 {{-- Gunakan helper asset() untuk gambar --}}
                 <img src="{{ asset('img/LastBite.png') }}" alt="LastBite Logo">
             </a>
 
-            <!-- Right Section: Auth Links -->
             <div class="navbar-nav ms-auto">
                 @auth
                     {{-- Jika sudah login --}}
@@ -94,7 +87,6 @@
         @yield('content')
     </main>
 
-    <!-- Footer -->
     <footer class="footer-section text-white pt-5 pb-4">
         <div class="container">
             <div class="row align-items-center mb-4">
@@ -146,16 +138,13 @@
     {{-- ========================================================= --}}
 
 
-    <!-- Bootstrap JS Bundle (only one, correct version) -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
-    <!-- Custom Script (menggunakan helper asset()) -->
     <script src="{{ asset('js/script.js') }}"></script>
 
     {{-- Untuk script spesifik per halaman (opsional) --}}
     @stack('scripts')
 
-    <!-- Clear Search Button Script -->
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const clearSearchButton = document.getElementById('clearSearchButton');

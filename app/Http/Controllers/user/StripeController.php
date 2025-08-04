@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers\user;
+
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
@@ -10,10 +11,13 @@ use App\Models\User;
 use App\Models\Restaurant;
 use App\Models\Pickup;
 use App\Models\Order;
+use App\Models\RestaurantStock; // Import model RestaurantStock
 
 class StripeController extends Controller
 {
-
+    /**
+     * Tampilkan halaman reserved.
+     */
     public function showReservedPage()
     {
         if (!session()->has('checkout_data')) {
@@ -26,14 +30,15 @@ class StripeController extends Controller
             'user' => User::find($data['user_id']),
             'restaurant' => Restaurant::find($data['restaurant_id']),
             'pickup' => Pickup::find($data['pickup_id']),
-            'pickups' => Pickup::all(), // ✅ ini dia yang ditambahkan
+            'pickups' => Pickup::all(),
         ]);
     }
 
-
+    /**
+     * Tangani informasi reservasi.
+     */
     public function processReservedInfo(Request $request)
     {
-
         $userId = auth()->id();
 
         if (!$userId) {
@@ -43,7 +48,6 @@ class StripeController extends Controller
         // Ambil dari request atau session sebagai fallback
         $restaurantId = $request->input('restaurant_id') ?? session('checkout_restaurant_id');
         $pickupId = $request->input('pickup_id') ?? session('checkout_pickup_id');
-
 
         if (!$restaurantId) {
             return back()->with('error', 'Restaurant ID tidak ditemukan.');
@@ -66,16 +70,18 @@ class StripeController extends Controller
         $order->order_id = Order::generateNewId();
         $order->user_id = auth()->id();
         $order->restaurant_id = $restaurantId;
-        $order->item_name = $request->input('item_name');      // ✅ pastikan ini
-        $order->item_price = $request->input('item_price');    // ✅ pastikan ini
+        $order->item_name = $request->input('item_name');
+        $order->item_price = $request->input('item_price');
         $order->status = 'Ongoing';
         $order->pickup_id = $pickupId; // Simpan pickup_id
         $order->save();
 
-
         return redirect()->route('checkout.reserved.show');
     }
 
+    /**
+     * Perbarui waktu penjemputan.
+     */
     public function updatePickup(Request $request)
     {
         $request->validate([
@@ -99,12 +105,12 @@ class StripeController extends Controller
         return redirect()->route('checkout.review.show');
     }
 
-
-
+    /**
+     * Tampilkan halaman review.
+     */
     public function review()
     {
         $userId = session('checkout_user_id');
-
 
         if (!$userId) {
             return redirect()->route('checkout.reserved.store')->with('error', 'Session tidak ditemukan');
@@ -137,9 +143,9 @@ class StripeController extends Controller
         return view('checkout.review', compact('order', 'summary'));
     }
 
-
-
-
+    /**
+     * Tangani proses checkout.
+     */
     public function checkout(Request $request)
     {
         try {
@@ -224,7 +230,9 @@ class StripeController extends Controller
         }
     }
 
-
+    /**
+     * Tangani pembayaran yang berhasil.
+     */
     public function success(Request $request)
     {
         $stripeSessionId = $request->query('session_id');
@@ -243,6 +251,29 @@ class StripeController extends Controller
                     $order_id_from_stripe = $order->order_id ?? $order_id_from_stripe;
 
                     if ($order) {
+                        // Perbarui status order menjadi 'Ongoing' jika belum
+                        if ($order->status !== 'Ongoing') {
+                             $order->status = 'Ongoing';
+                             $order->save();
+                        }
+                        
+                        // --- LOGIKA PENGURANGAN STOK BARU DI SINI ---
+                        $pickupTime = $order->pickup->time_type ?? null;
+                        $restaurantId = $order->restaurant_id ?? null;
+
+                        if ($pickupTime && $restaurantId) {
+                            $stock = RestaurantStock::where('restaurant_id', $restaurantId)
+                                ->where('pickup_time', $pickupTime)
+                                ->first();
+
+                            if ($stock && $stock->stock > 0) {
+                                $stock->stock -= 1;
+                                $stock->save();
+                            } else {
+                                Log::warning('Gagal mengurangi stok untuk pesanan ' . $order->id . '. Stok kosong atau tidak ditemukan.');
+                            }
+                        }
+
                         // Ambil pickup langsung dari relasi order
                         if ($order->pickup_id) {
                             $pickup = Pickup::find($order->pickup_id);
@@ -260,8 +291,6 @@ class StripeController extends Controller
                         $restaurant_name = $restaurant->name ?? 'Unknown';
                     }
                 }
-
-
             } catch (\Exception $e) {
                 Log::error('Stripe success error: ' . $e->getMessage());
             }
@@ -275,4 +304,3 @@ class StripeController extends Controller
         ]);
     }
 }
-
