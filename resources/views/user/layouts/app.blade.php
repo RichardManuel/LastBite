@@ -7,6 +7,7 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     {{-- Judul halaman akan dinamis --}}
+    <link rel="icon" href="{{ asset('img/logo-icon.png') }}" type="image/png">
     <title>@yield('title') | Last Bite</title>
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">

@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-
+    <link rel="icon" href="{{ asset('img/logo-icon.png') }}" type="image/png">
     {{-- Judul halaman akan dinamis --}}
     <title>@yield('title') | Last Bite</title>
 
@@ -111,8 +111,9 @@
                 <img src="{{ asset('img/LastBite.png') }}" alt="LastBite Logo">
             </a>
 
-            <button class="navbar-toggler ms-auto" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavMain"
-                aria-controls="navbarNavMain" aria-expanded="false" aria-label="Toggle navigation">
+            <button class="navbar-toggler ms-auto" type="button" data-bs-toggle="collapse"
+                data-bs-target="#navbarNavMain" aria-controls="navbarNavMain" aria-expanded="false"
+                aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
 
