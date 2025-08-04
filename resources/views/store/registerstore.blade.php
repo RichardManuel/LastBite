@@ -5,13 +5,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="{{ asset('img/logo-icon.png') }}" type="image/png">
     <title>My Eatery - Register Your Eatery</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+        xintegrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
     <link
         href="https://fonts.googleapis.com/css2?family=Instrument+Sans:ital,wght@0,400..700;1,400..700&family=Instrument+Serif:ital@0;1&display=swap"
         rel="stylesheet">
-        <link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:ital,wght@0,400..700;1,400..700&display=swap"
+    <link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:ital,wght@0,400..700;1,400..700&display=swap"
         rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
 
@@ -124,11 +125,6 @@
             background-color: #e9e9e9;
         }
 
-        .image-upload-area i {
-            font-size: 2rem;
-            margin-bottom: 0.5rem;
-        }
-
         .image-upload-area.small-upload {
             height: 100px;
             font-size: 0.75rem;
@@ -200,6 +196,7 @@
                     {{ session('success') }}
                 </div>
             @endif
+            {{-- Blok ini akan menampilkan semua kesalahan validasi --}}
             @if ($errors->any())
                 <div class="alert alert-danger alert-custom mb-3">
                     <ul>
@@ -210,10 +207,10 @@
                 </div>
             @endif
 
-            {{-- FORM REGISTRASI (TIDAK BERUBAH) --}}
+            {{-- FORM REGISTRASI --}}
             <form method="POST" action="{{ route('resto.register.details.submit') }}" enctype="multipart/form-data">
                 @csrf
-               <div class="form-section">
+                <div class="form-section">
                     <div class="mb-3">
                         <label for="application_name" class="form-label-custom">Application Name<span
                                 class="required-asterisk">*</span></label>
@@ -265,7 +262,7 @@
 
                 <div class="form-section row">
                     <div class="col-md-6 mb-3">
-                        <label for="food_type" class="form-label-custom">food_type<span
+                        <label for="food_type" class="form-label-custom">Food Type<span
                                 class="required-asterisk">*</span></label>
                         <input id="food_type" type="text"
                             class="form-control form-control-custom @error('food_type') is-invalid @enderror"
@@ -304,11 +301,10 @@
                     </div>
                     <div class="col-md-6 mb-3">
                         <label for="best_before" class="form-label-custom">Best Before</label>
-                        <input id="best_before" type="text"
+                        <input id="best_before" type="date"
                             class="form-control form-control-custom @error('best_before') is-invalid @enderror"
                             name="best_before"
                             value="{{ old('best_before', isset($restaurant->best_before) ? \Carbon\Carbon::parse($restaurant->best_before)->format('Y-m-d') : '') }}">
-
                         @error('best_before')
                             <span
                                 class="invalid-feedback d-block text-start"><small><strong>{{ $message }}</strong></small></span>
@@ -318,19 +314,20 @@
 
                 <div class="form-section mb-3">
                     <label for="description" class="form-label-custom">Description<span
-                            class="required-asterisk">*</span></label>
+                                class="required-asterisk">*</span></label>
                     <textarea id="description" class="form-control form-control-custom @error('description') is-invalid @enderror"
                         name="description" rows="4" required
                         placeholder="Tell us about your eatery and what kind of items might be in a surprise bag.">{{ old('description') }}</textarea>
                     @error('description')
                         <span
                             class="invalid-feedback d-block text-start"><small><strong>{{ $message }}</strong></small></span>
-                    @enderror
+                        @enderror
                 </div>
 
                 <div class="form-section row mb-3">
                     <div class="col-md-6 mb-3 mb-md-0">
-                        <label for="restaurant_picture" class="form-label-custom">Restaurant Picture</label>
+                        <label for="restaurant_picture" class="form-label-custom">Restaurant Picture<span
+                                class="required-asterisk">*</span></label>
                         <label for="restaurant_picture_input" class="image-upload-area" tabindex="0"
                             role="button" aria-describedby="restaurantPictureHelp">
                             <i class="bi bi-camera"></i>
@@ -348,7 +345,8 @@
                             of your storefront or ambiance.</small>
                     </div>
                     <div class="col-md-6">
-                        <label for="product_sold_picture" class="form-label-custom">Product Sold Picture</label>
+                        <label for="product_sold_picture" class="form-label-custom">Product Sold Picture<span
+                                class="required-asterisk">*</span></label>
                         <label for="product_sold_picture_input" class="image-upload-area" tabindex="0"
                             role="button" aria-describedby="productPictureHelp">
                             <i class="bi bi-camera"></i>
@@ -453,7 +451,8 @@
     <!-- Tanpa Footer -->
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
+        xintegrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous">
+    </script>
     <script>
         // Script preview upload gambar tetap dipertahankan
         document.querySelectorAll('.image-upload-area').forEach(uploadArea => {
