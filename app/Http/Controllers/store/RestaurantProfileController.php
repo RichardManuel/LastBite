@@ -14,29 +14,16 @@ class RestaurantProfileController extends Controller
 {
     /**
      * Show profile page.
+     * Logika pengalihan telah dipindahkan ke middleware 'RedirectRestoByStatus'.
+     * Controller ini hanya akan berjalan jika status restoran sudah 'accepted'.
      */
     public function show()
     {
+        // PENTING: Metode ini hanya akan dipanggil jika middleware 'RedirectRestoByStatus'
+        // telah memastikan status restoran adalah 'accepted'.
         $restaurant = Auth::guard('resto')->user();
-
-        if ($restaurant->status === 'pending_approval') {
-            return redirect()->route('resto.pending');
-        }
-
-        if ($restaurant->status === 'declined') {
-            return redirect()->route('resto.rejected');
-        }
-
-        if ($restaurant->status === 'accepted') {
-            return view('store.profilestore', compact('restaurant'));
-        }
-        if ($restaurant->status === 'suspended') {
-            return redirect()->route('resto.suspended');
-        }
-
-        return redirect()->route('resto.register.details.form');
+        return view('store.profilestore', compact('restaurant'));
     }
-
 
     /**
      * Store or update detail info.

@@ -193,9 +193,9 @@
                     <p class="detail-label">Location</p>
                     <p class="detail-value">{{ $restaurant->location }}</p>
                 </div>
-                <div class="col-md-1 col-3">
+                <div class="col-md-1 col-3">    
                     <p class="detail-label">Rating</p>
-                    <p class="detail-value">{{ $restaurant->rating }}</p>
+                    <p class="detail-value">{{ $restaurant->avg_rating }}</p>
                 </div>
                 <div class="col-md-2 col-6 text-md-end mt-2 mt-md-0 action-buttons-container">
                     <button class="btn btn-manage toggle-actions-btn" data-id="{{ $restaurant->restaurant_id }}">

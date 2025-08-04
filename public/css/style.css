@@ -287,11 +287,18 @@ main.container-fluid{
     color: white;
     font-size: 0.875rem; /* text-sm */
 }
+
+.nav-link.active {
+  text-decoration: underline;
+  text-underline-offset: 6px; /* Untuk memberi sedikit jarak */
+}
+
 @media (min-width: 768px) { /* md breakpoint */
     .navbar-custom .nav-link {
         font-size: 1rem; /* text-base */
     }
 }
+
 .navbar-custom .nav-link:hover {
     color: #D1D5DB; /* hover:text-gray-300 */
 }
