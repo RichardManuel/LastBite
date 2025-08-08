@@ -5,6 +5,7 @@ namespace App\Http\Middleware;
 use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 
 class RedirectRestoByStatus
 {
@@ -18,12 +19,12 @@ class RedirectRestoByStatus
     public function handle(Request $request, Closure $next)
     {
         $restaurant = Auth::guard('resto')->user();
-
+        
         // Jika tidak ada user resto yang terautentikasi, alihkan ke halaman login
         if (!$restaurant) {
             return redirect()->route('resto.login.form');
         }
-
+        
         // Tentukan rute tujuan berdasarkan status
         $intendedRouteName = null;
         switch ($restaurant->status) {
@@ -49,13 +50,15 @@ class RedirectRestoByStatus
 
         // Kunci untuk mencegah looping!
         // Periksa apakah rute saat ini BUKAN rute yang seharusnya dituju.
-        // Hanya lakukan pengalihan jika pengguna berada di halaman yang salah.
-        if ($intendedRouteName && !$request->routeIs($intendedRouteName)) {
+        // HANYA lakukan pengalihan jika metodenya BUKAN POST.
+        if ($intendedRouteName && !$request->routeIs($intendedRouteName) && $request->method() !== 'POST') {
             return redirect()->route($intendedRouteName);
         }
 
         // Jika pengguna sudah berada di halaman yang benar (contoh: di resto.pending),
         // atau jika statusnya 'accepted', maka lanjutkan permintaan.
+        // Jika metodenya POST, biarkan controller yang menangani pengalihan
+        // untuk mencegah loop.
         return $next($request);
     }
 }

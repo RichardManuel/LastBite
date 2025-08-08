@@ -51,11 +51,12 @@ class RestaurantProfileController extends Controller
             'best_before' => ['nullable', 'date'],
             'bank_account' => ['required', 'string'],
             'account_name' => ['required', 'string'],
-            'restaurant_picture' => ['nullable', 'image', 'max:2048'],
-            'product_sold_picture' => ['nullable', 'image', 'max:2048'], // <<-- Tambah validasi ini
-            'proof_of_identification_picture' => ['nullable', 'image', 'max:2048'],
-            'npwp_picture' => ['nullable', 'image', 'max:2048'],
-            'letter_of_authorization_picture' => ['nullable', 'image', 'max:2048'],
+            // Semua bidang gambar sekarang wajib diisi
+            'restaurant_picture' => ['required', 'image', 'max:2048'],
+            'product_sold_picture' => ['required', 'image', 'max:2048'],
+            'proof_of_identification_picture' => ['required', 'image', 'max:2048'],
+            'npwp_picture' => ['required', 'image', 'max:2048'],
+            'letter_of_authorization_picture' => ['required', 'image', 'max:2048'],
         ]);
 
         if ($validator->fails()) {
@@ -114,6 +115,7 @@ class RestaurantProfileController extends Controller
             return redirect()->back()->with('error', 'Failed to submit details.');
         }
 
+        // PERBAIKAN: Arahkan langsung ke halaman profil. Middleware akan menangani pengalihan status.
         return redirect()->route('resto.profile.show')
             ->with('success', 'Your details have been submitted and are pending approval.');
     }
@@ -145,7 +147,7 @@ class RestaurantProfileController extends Controller
             'best_before' => 'nullable|date',
             'account_bank' => 'nullable|string',
             'bank_account_name' => 'nullable|string',
-            'restaurant_picture' => 'nullable|image|max:2048',
+            'restaurant_picture' => ['required', 'image', 'max:2048'],
         ]);
 
         if ($request->best_before) {

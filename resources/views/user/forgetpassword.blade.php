@@ -126,7 +126,7 @@
                 </div>
             @endif
 
-            <form action="{{ route('password.email') }}" method="POST">
+            <form action="{{ route('resto.password.email') }}" method="POST">
                 @csrf
                 <div class="mb-3">
                     <input type="email" class="form-control" name="email" id="email" placeholder="Email Address" required value="{{ old('email') }}">
