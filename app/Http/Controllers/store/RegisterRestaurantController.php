@@ -26,8 +26,23 @@ class RegisterRestaurantController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'email' => ['required', 'email', 'unique:restaurants,email'],
-            'password' => ['required', 'min:6', 'confirmed'],
+            'password' => [
+                'required',
+                'string',
+                'min:8',
+                'regex:/^(?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z0-9]).+$/'
+            ],
+        ], [
+            'email.required' => 'Email is required.',
+            'email.email' => 'Please enter a valid email address.',
+            'email.unique' => 'Email already exists.', // 🔹 custom message untuk unique
+
+            'password.required' => 'Password is required.',
+            'password.min' => 'Password must be at least 8 characters long.',
+            'password.regex' => 'Password must contain at least one uppercase letter, one number, and one special character.',
         ]);
+
+
 
         if ($validator->fails()) {
             return redirect()->back()->withErrors($validator)->withInput();
