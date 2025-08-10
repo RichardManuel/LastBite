@@ -30,6 +30,7 @@ use App\Http\Controllers\store\RegisterRestaurantController;
 use App\Http\Controllers\store\RestoForgotPasswordController;
 use App\Http\Controllers\store\OrderController as storeOrderController;
 use App\Http\Controllers\Auth\LoginController as storeLoginController;
+use App\Http\Controllers\store\RestoResetPasswordController; 
 
 
 // Admin Controllers
@@ -77,12 +78,12 @@ Route::prefix('user')->middleware(['auth', 'role:user'])->group(function () {
 Route::get('/store/signup', [RegisterRestaurantController::class, 'showRegistrationForm'])->name('resto.signup.form');
 Route::post('/store/signup', [RegisterRestaurantController::class, 'processRestoSignup'])->name('resto.signup.submit');
 
+Route::get('/store/forgot-password', [RestoForgotPasswordController::class, 'showLinkRequestForm'])->name('resto.forgot.password');
+Route::post('/store/forgot-password', [RestoForgotPasswordController::class, 'sendResetLinkEmail'])->name('resto.password.email');
+Route::get('/store/reset-password/{token}', [RestoResetPasswordController::class, 'showRestoResetForm'])->name('resto.password.reset');
+Route::post('/store/reset-password', [RestoResetPasswordController::class, 'resetResto'])->name('resto.password.update');
+
 Route::get('/store/signin', [storeLoginController::class, 'showRestoLoginForm'])->name('resto.login.form');
-Route::get('/store/forgot-password', [RestoForgotPasswordController::class, 'showLinkRequestForm'])->name('resto.forgot.password');
-Route::get('/store/forgot-password', [RestoForgotPasswordController::class, 'showLinkRequestForm'])->name('resto.forgot.password');
-Route::post('/forgot-password', [RestoForgotPasswordController::class, 'sendResetLinkEmail'])->name('resto.password.email');
-Route::get('/store/forgot-password', [RestoForgotPasswordController::class, 'showLinkRequestForm'])->name('resto.forgot.password');
-Route::post('/forgot-password', [RestoForgotPasswordController::class, 'sendResetLinkEmail'])->name('resto.password.email');
 Route::post('/store/signin', [storeLoginController::class, 'restoLogin'])->name('resto.login.submit');
 Route::post('/store/logout', [storeLoginController::class, 'restoLogout'])->name('resto.logout');
 

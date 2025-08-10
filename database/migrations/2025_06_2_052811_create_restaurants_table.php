@@ -38,6 +38,8 @@ return new class extends Migration {
             // Status: tambahkan 'suspended'
             $table->enum('status', ['pending_details', 'pending_approval', 'accepted', 'declined', 'suspended'])->default('pending_details');
 
+            $table->rememberToken();
+
             $table->timestamps();
 
             // Index untuk pencarian cepat

@@ -1,25 +1,25 @@
 <?php
 
-namespace App\Http\Controllers\user;
+namespace App\Http\Controllers\store;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\User;
+use App\Models\store;
 
 
-class ResetPasswordController extends Controller
+class RestoResetPasswordController extends Controller
 {
-    public function showResetForm(Request $request, $token)
+    public function showRestoResetForm(Request $request, $token)
     {
-        return view('user.resetpassword', [
+        return view('store.resetpassword', [
             'token' => $token,
             'email' => $request->query('email'),
         ]);
         
     }
-    public function reset(Request $request)
+    public function resetResto(Request $request)
     {
         $request->validate([
             'token' => 'required',
@@ -29,9 +29,9 @@ class ResetPasswordController extends Controller
 
         $status = Password::reset(
             $request->only('email', 'password', 'password_confirmation', 'token'),
-            function ($user, $password) {
-                // dd('reset works',$user->email,$password);
-                $user->forceFill([
+            function ($restaurant, $password) {
+                // dd('reset works',$store->email,$password);
+                $restaurant->forceFill([
                     'password' => Hash::make($password),
                     'remember_token' => Str::random(60),
                 ])->save();
@@ -39,7 +39,7 @@ class ResetPasswordController extends Controller
         );
 
         return $status === Password::PASSWORD_RESET
-            ? redirect()->route('login')->with('success', 'Password has been reset!')
+            ? redirect()->route('resto.login.form')->with('success', 'Password has been reset!')
             : back()->withErrors(['email' => __($status)]);
     }
 }
