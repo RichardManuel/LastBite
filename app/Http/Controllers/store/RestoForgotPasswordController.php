@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Password;
 use App\Models\Restaurant;
-use App\Notifications\CustomResetPassword;
+use App\Notifications\CustomResetRestoPassword;
 
 class RestoForgotPasswordController extends Controller
 {
@@ -18,17 +18,17 @@ class RestoForgotPasswordController extends Controller
     public function sendResetLinkEmail(Request $request)
     {
         $request->validate([
-            'email' => 'required|email|exists:users,email',
+            'email' => 'required|email|exists:restaurants,email',
         ]);
 
-        $restaurant = Restaurant::where('email', $request->email)->first();
+        $restaurants = Restaurant::where('email', $request->email)->first();
 
-        if (!$restaurant) {
+        if (!$restaurants) {
             return back()->withErrors(['email' => 'Email not found.']);
         }
 
-        $token = Password::createToken($restaurant); // manually generate token
-        $restaurant->notify(new CustomResetPassword($token)); // send custom email
+        $token = Password::createToken($restaurants); // manually generate token
+        $restaurants->notify(new CustomResetRestoPassword($token)); // send custom email
 
         return back()->with('status', 'Reset link sent!');
     }

@@ -27,7 +27,7 @@ class RestoResetPasswordController extends Controller
             'password' => 'required|confirmed|min:6',
         ]);
 
-        $status = Password::reset(
+        $status = Password::broker('restaurants')->reset(
             $request->only('email', 'password', 'password_confirmation', 'token'),
             function ($restaurant, $password) {
                 // dd('reset works',$store->email,$password);

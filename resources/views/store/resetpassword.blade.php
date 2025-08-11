@@ -109,9 +109,21 @@
             <p class="sub-heading">
                 Please kindly set your new password.
             </p>
+            @if ($errors->any())
+                <div class="alert alert-danger">
+                    <ul class="mb-0">
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
 
             <!-- Form Reset Password (UI saja) -->
-            <form action="#" method="POST">
+            <form action="{{ route('resto.password.update') }}" method="POST">
+                @csrf
+                <input type="hidden" name="token" value="{{ $token }}">
+                <input type="hidden" name="email" value="{{ $email }}">
                 <div class="mb-3">
                     <input type="password" class="form-control" name="password" placeholder="New Password" required>
                 </div>
